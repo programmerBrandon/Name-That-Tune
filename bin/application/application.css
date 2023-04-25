@@ -1,0 +1,66 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+/* Start Global Objects CSS Code */
+
+.headerButtons {
+-fx-background-color: transparent;
+}
+
+
+/* End Global Objects CSS Code */
+
+
+/*  Start of HomeScene CSS Code! */
+
+/* CSS for Main menu buttons */
+
+.start-button {
+/*-fx-background-color: #009933;	*/
+-fx-background-color: #03ad3c;
+-fx-font-weight: normal;
+-fx-font-size: 24px;
+-fx-min-height: 75.0;	
+}
+
+.start-button:hover {
+	 
+-fx-background-color: #00b33c;
+/*-fx-text-fill: #000;*/
+-fx-font-weight: bold;
+}
+
+/* The below class will be used for the following main menu buttons: Game Information, Program Instructions, Release Information and Credits. */
+
+.blue-menu-buttons {
+-fx-background-color:  #3333ff;
+-fx-font-family: arial;
+-fx-font-size: 24px;	
+-fx-min-height: 45.0;	
+}
+
+.blue-menu-buttons:hover {
+-fx-background-color:  #3b3bff;
+-fx-font-weight: bold;
+}
+
+/* End Of Main menu buttons */
+
+/* End Of HomeScene CSS Code */
+
+
+/* Game Setup/configuration pages CSS */
+
+.textBox-Error {
+-fx-text-box-border: #ff0000;
+-fx-text-fill: #ff0000;	
+}
+
+/*
+.tieBreakerSlider .track {
+-fx-text-fill: #fff;
+-fx-background-color: #32CD32;
+-fx-tick-label-fill: #FFF;
+}
+*/
+
+/* End Of Game Setup/configuration pages CSS */
