@@ -59,34 +59,32 @@ public class ResultsController {
 
 		@FXML
 		public void initialize()  {
-		headerIcon.setImage(globalValues.programIcon);
-		homeIcon.setImage(globalValues.homeIcon);
-		infoIcon.setImage(globalValues.infoIcon);
-		//Setting text values for header and footer text using values from 'GlobalValues'.
-		programName.setText(globalValues.programNameText);
-		copyrightText.setText(globalValues.copyrightText);
-		versionText.setText(globalValues.versionNumberText);
-		
-		//Calling the headerButtonsController class (which handles button functionality) when a user presses or clicks on the home or info button.
-		homeButtonHeader.setOnAction(headerButtonsController);
-		infoButtonHeader.setOnAction(headerButtonsController);
-		returnHomeButton.setOnAction(e -> {
-			try {
-				Parent parent = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
-				Scene scene = new Scene(parent, globalValues.programWidth, globalValues.programHeight);
-				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-				Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-			    stage.setScene(scene);
-			    stage.show();
-			    System.out.println("MainScene.fxml loaded successfully!");
-			} catch (IOException e1) {
-				e1.printStackTrace();
-				System.out.println("Failed to load MainScene.fxml!");
-			}
-		});
-		
-		initializeSongList();
-		sortScores();
+			headerIcon.setImage(globalValues.getProgramIcon());
+			homeIcon.setImage(globalValues.getHomeIcon());
+			infoIcon.setImage(globalValues.getInfoIcon());
+			programName.setText(globalValues.getProgramName());
+			copyrightText.setText(globalValues.getCopyright());
+			versionText.setText(globalValues.getVersionNumber());
+			homeButtonHeader.setOnAction(headerButtonsController);
+			infoButtonHeader.setOnAction(headerButtonsController);
+			
+			returnHomeButton.setOnAction(e -> {
+				try {
+					Parent parent = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
+					Scene scene = new Scene(parent, globalValues.getProgramWidth(), globalValues.getProgramHeight());
+					scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+					Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+					stage.setScene(scene);
+					stage.show();
+					System.out.println("MainScene.fxml loaded successfully!");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+					System.out.println("Failed to load MainScene.fxml!");
+				}
+			});
+
+			initializeSongList();
+			sortScores();
 		}
 		
 		

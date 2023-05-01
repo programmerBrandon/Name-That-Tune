@@ -23,9 +23,10 @@ public class HeaderButtonsController implements EventHandler<ActionEvent> {
 	@Override
 	public void handle(ActionEvent event) {
 		//System.out.println("Home Button Pressed!");
-		String name = ((Button) event.getTarget()).getText();
+		String name = ((Button) event.getTarget()).getText(); //Used to check if home or info button is pressed
 		//System.out.println(name); //FIXME
-		// TODO Auto-generated method stub
+		
+		//Event handler for Home Button
 		if(name.equals("Home")) {
 			System.out.println("Home Button Pressed!");
 		   /*	
@@ -37,7 +38,7 @@ public class HeaderButtonsController implements EventHandler<ActionEvent> {
 			
 			try {
 				Parent mainScreen = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
-				Scene mainScene = new Scene(mainScreen, globalValues.programWidth, globalValues.programHeight);
+				Scene mainScene = new Scene(mainScreen, globalValues.getProgramWidth(), globalValues.getProgramHeight());
 				mainScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				Stage mainStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			    mainStage.setScene(mainScene);
@@ -45,19 +46,19 @@ public class HeaderButtonsController implements EventHandler<ActionEvent> {
 			    System.out.println("MainScene.fxml successfully loaded!");
 			    
 				} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 				System.out.println("Failed to load MainScene.fxml!");
 				}
 
 		}
 		
+		//Event handler for info button.
 		if(name.equals("Info")) {
 			System.out.println("Info Button Pressed!");
 			
 			try {
 				Parent gameInfo = FXMLLoader.load(getClass().getResource("GameInfo.fxml"));
-				Scene gameInfoScene = new Scene(gameInfo, globalValues.programWidth, globalValues.programHeight);
+				Scene gameInfoScene = new Scene(gameInfo, globalValues.getProgramWidth(), globalValues.getProgramHeight());
 				gameInfoScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				Stage gameInfoStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			    gameInfoStage.setScene(gameInfoScene);
@@ -65,7 +66,6 @@ public class HeaderButtonsController implements EventHandler<ActionEvent> {
 			    System.out.println("GameInfo.fxml loaded successfully!");
 			    
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 				System.out.println("Failed to load GameInfo.fxml!");
 			}

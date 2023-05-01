@@ -1,6 +1,7 @@
 package application;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +25,11 @@ public class PlayerInfoSetupController {
 	Main mainClass = new Main();
 	GameData gameData = new GameData();
 	private int numPlayersAdded = 0; //Keeps track of how many players were added to the list (To compare to how many players are in the game).
-	String[] playerNameList = new String[gameData.getNumOfPlayers()];
+	String[] playerNameList = new String[gameData.getNumOfPlayers()]; //Stores the player names (WILL SOON  BE DEPRECIATED).
+	ArrayList<Player> tempPlayerList = new ArrayList<>(); //This does the job of the array above using the Player class. 
+	
+	//IDEA FOR CODE RESTRUCTURE: STORE NAMES IN A HASHMAP WITH POINTS INTIALIZED TO ZERO, THEN AFTER ALL POINTS ARE ADDED, MAKE AN ARRAYLIST OF
+	//TYPE 'Player' for sorting the results and checking for ties.
 	
 	// Begin 'Global' FXML objects. //
 	@FXML private AnchorPane programBody; //Main AnchorPane
@@ -52,10 +57,10 @@ public class PlayerInfoSetupController {
 	
 	// PlayerInfoSetup.fxml specific FXML objects //
 	
-	@FXML private ListView playerList;
+	@FXML private ListView<String> playerList;
 	@FXML private Label instructionsLabel; //Used to give user instructions on what data to provide, etc.
 	@FXML private TextField playerNameField; //Textbox for user to enter player's name/username.
-	@FXML private Button addButton; //Button to add song to 'playerList' listview and playerList[] (GamaData class).
+	@FXML private Button addButton; //Button to add song to 'playerListView' listview and playerListView[] (GamaData class).
 	@FXML private Label messageLabel;
 	@FXML private Button continueButton;
 	
@@ -64,38 +69,39 @@ public class PlayerInfoSetupController {
 	//Set text values for header and footer text using values from 'GlobalValues'.
 	@FXML
 	public void initialize()  {
-	globalValues.currentFXML = "MainScene.fxml";
-	headerIcon.setImage(globalValues.programIcon);
-	homeIcon.setImage(globalValues.homeIcon);
-	infoIcon.setImage(globalValues.infoIcon);
-	programName.setText(globalValues.programNameText);
-	copyrightText.setText(globalValues.copyrightText);
-	versionText.setText(globalValues.versionNumberText);
-	homeButtonHeader.setOnAction(headerButtonsController);
-	infoButtonHeader.setOnAction(headerButtonsController);
-	instructionsLabel.setText("Using the textbox below, please enter the name or username for each player. After typing in the "
-			+ "information, double check that it was typed in correctly (i.e no typos) and then hit enter on your keyboard or press the "
-			+ "'Add' button. The player's name/username will then appear in the list above. Repeat this step until all players are added. ");
-	playerList.setPlaceholder(new Label("No players to display"));
-	playerNameField.focusedProperty().addListener((observable, oldValue, newValue) ->
-	handleTextBox() );
-	addButton.setOnAction((event) -> {
-		addButtonHandler();
-	});
-	continueButton.setOnAction(e -> {
-		try {
-			Parent setPlayerScores = FXMLLoader.load(getClass().getResource("SetPlayerScores.fxml"));
-			Scene setPlayerScoresScene = new Scene(setPlayerScores, globalValues.programWidth, globalValues.programHeight);
-			setPlayerScoresScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			Stage setPlayerScoresStage = (Stage)((Node)e.getSource()).getScene().getWindow();
-		    setPlayerScoresStage.setScene(setPlayerScoresScene);
-		    setPlayerScoresStage.show();
-		    System.out.println("SetPlayerScores.fxml loaded successfully!");
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			System.out.println("Failed to load SetPlayerScores.fxml!");
-		}
-	});
+		headerIcon.setImage(globalValues.getProgramIcon());
+		homeIcon.setImage(globalValues.getHomeIcon());
+		infoIcon.setImage(globalValues.getInfoIcon());
+		programName.setText(globalValues.getProgramName());
+		copyrightText.setText(globalValues.getCopyright());
+		versionText.setText(globalValues.getVersionNumber());
+		homeButtonHeader.setOnAction(headerButtonsController);
+		infoButtonHeader.setOnAction(headerButtonsController);
+		instructionsLabel.setText("Using the textbox below, please enter the name or username for each player. After typing in the "
+				+ "information, double check that it was typed in correctly (i.e no typos) and then hit enter on your keyboard or press the "
+				+ "'Add' button. The player's name/username will then appear in the list above. Repeat this step until all players are added. ");
+		playerList.setPlaceholder(new Label("No players to display"));
+		playerNameField.focusedProperty().addListener((observable, oldValue, newValue) ->
+		handleTextBox() );
+		addButton.setOnAction((event) -> {
+			addButtonHandler();
+		});
+		continueButton.setOnAction(e -> {
+			try {
+				Parent setPlayerScores = FXMLLoader.load(getClass().getResource("SetPlayerScores.fxml"));
+				//Parent setPlayerScores = FXMLLoader.load(getClass().getResource("SetPlayerScores.fxml")); //FIXME - USED TO TEST THAT ERROR HANDLING IS PERFORMED
+				Scene setPlayerScoresScene = new Scene(setPlayerScores, globalValues.getProgramWidth(), globalValues.getProgramHeight());
+				setPlayerScoresScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				Stage setPlayerScoresStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+				setPlayerScoresStage.setScene(setPlayerScoresScene);
+				setPlayerScoresStage.show();
+				System.out.println("SetPlayerScores.fxml loaded successfully!");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				messageLabel.setText("Error: Failed to load SetPlayerScores.fxml. If this error persists, please notify the developer.");
+				System.out.println("Failed to load SetPlayerScores.fxml!");
+			}
+		});
 	}
 	
 	//Method to check that the textbox is not blank (i.e user didn't type anything), and if textbox isn't blank it will enable add button
@@ -132,36 +138,119 @@ public class PlayerInfoSetupController {
 	}
 	
 	public void addButtonHandler() { 
+		Player player = new Player();
+		
 		System.out.println("FIXME: addButtonHandler() method called!"); //FIXME
 		
 		if ((numPlayersAdded < gameData.getNumOfPlayers())) {
-			numPlayersAdded += 1;
+			numPlayersAdded++;
 			System.out.println("Fixme: numPlayersAdded: " + numPlayersAdded); //FIXME
 			playerNameList[numPlayersAdded - 1] = playerNameField.getText();
 			System.out.println("FIXME: playerNameList[" + (numPlayersAdded - 1) + "] (Local): " + playerNameList[numPlayersAdded - 1]);
-			gameData.setPlayerScores(playerNameField.getText(), 0); //Adds player name as key in playerList Hashmap, with value of 0 (points).
-			playerList.getItems().add(playerNameField.getText());
 			
-			messageLabel.setText("Player " + numPlayersAdded + " of " + gameData.getNumOfPlayers() + " added!");
+			//playerList.getItems().add(playerNameField.getText());
+			player.setName(playerNameField.getText());
+			player.setPoints(0);
+			
+			if(duplicateChecker(tempPlayerList, player)) {
+				//messageLabel.setText("Error: " + song.getName() + " By: " + song.getArtist() + " is already in the list. "
+				//		+ "Please enter a different song!");
+				messageLabel.setText("Error: Player is already in the list. Please enter a different name!");
+				messageLabel.setVisible(true);
+				addButton.setDisable(true);
+				numPlayersAdded--;
+				playerNameField.clear();
+				playerNameField.requestFocus();
+			}
+			
+			else {
+				tempPlayerList.add(player);
+				gameData.setPlayerScores(playerNameField.getText(), 0); //Adds player name as key in playerListView Hashmap, with value of 0 (points).	
+				
+				playerList.getItems().add(player.toStringNoPoints());
+					//songList.getItems().add(songNameField.getText());
+				  
+				
+				messageLabel.setText("Players " + numPlayersAdded + " of " + gameData.getNumOfPlayers() + " added!");
+				messageLabel.setVisible(true);
+
+				
+				if (numPlayersAdded == gameData.getNumOfPlayers()) {
+					gameData.setPlayerNameList(playerNameList);
+					gameData.setPlayerList(tempPlayerList);
+					messageLabel.setText("Players " + numPlayersAdded + " of " + gameData.getNumOfPlayers() + " added! Click 'Continue' below to proceed!");
+					continueButton.setDisable(false);
+					continueButton.setVisible(true);
+					continueButton.setDisable(false);
+					continueButton.setVisible(true);
+					playerNameField.setDisable(true); 
+					addButton.setDisable(true);
+					continueButton.requestFocus();
+					
+				
+				}
+				
+				playerNameField.clear();
+				playerNameField.requestFocus();
+			
+			/*messageLabel.setText("Player " + numPlayersAdded + " of " + gameData.getNumOfPlayers() + " added!");
 			messageLabel.setVisible(true);
 			playerNameField.clear();
-			playerNameField.requestFocus();
+			playerNameField.requestFocus();*/
+			}
 		}
 		
 		if (numPlayersAdded == gameData.getNumOfPlayers()) {
-			gameData.setPlayerNameList(playerNameList);
+			/*gameData.setPlayerNameList(playerNameList);
+			gameData.setPlayerList(tempPlayerList);
 			messageLabel.setText("Players " + numPlayersAdded + " of " + gameData.getNumOfPlayers() + " added! Click 'Continue' below to proceed!");
 			continueButton.setDisable(false);
 			continueButton.setVisible(true);
 			playerNameField.setDisable(true); 
-			addButton.setDisable(true);
+			addButton.setDisable(true);*/
 			
 			String[] playerNameList1 = gameData.getPlayerNameList();
+			
+			for(int i = 0; i < tempPlayerList.size(); i++) {
+				System.out.println("FIXME: tempPlayerList[" + i + "] " + tempPlayerList.get(i)); //FIXME
+			}
 			
 			for(int i = 0; i < gameData.getNumOfPlayers(); i++ ) {
 				System.out.println("FIXME: playerNameList[" + i + "] " + playerNameList1[i]); //FIXME
 				System.out.println("FIXME: Player points from PlayersList: " + gameData.getPlayerScores(playerNameList1[i])); //FIXME
 			}
 		}
+	}
+	
+	/**
+	 * Accepts an ArrayList of type Player and a Player object as arguments.
+	 * Iterates through the argument ArrayList and checks to see if the list contains
+	 * a player matching the argument Player object (compared by name).
+	 * @param tempList
+	 * @param player
+	 * @return true is a duplicate player (case insensitive) is found, false otherwise.
+	 */
+	public boolean duplicateChecker(ArrayList<Player> tempList, Player player) {
+		tempList = tempPlayerList;
+		
+			for(int i = 0; i < tempList.size(); i++) {
+				if(tempList.get(i).equals(player)) {
+					/*messageLabel.setText("Error: " + song.getName() + " " + song.getArtist() + " has already been added. Duplicates are "
+						+ "not permitted. Please enter a different song!");
+					messageLabel.setVisible(true);*/
+					System.out.println("FIXME: Duplicate entry detected!");
+					return true;
+				}
+		
+				/*else if(i == tempList.size() - 1) {
+					return false;
+				}*/
+				
+				else {
+					continue;
+				}
+		}
+		
+			return false;
 	}
 }
