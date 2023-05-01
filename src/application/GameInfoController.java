@@ -53,15 +53,13 @@ public class GameInfoController {
 	
 	@FXML
 	public void initialize()  {
-	globalValues.currentFXML = "MainScene.fxml";
-	headerIcon.setImage(globalValues.programIcon);
-	homeIcon.setImage(globalValues.homeIcon);
-	infoIcon.setImage(globalValues.infoIcon);
-	programName.setText(globalValues.programNameText); 
-	copyrightText.setText(globalValues.copyrightText); 
-	versionText.setText(globalValues.versionNumberText); 
-	homeButtonHeader.setOnAction(headerButtonsController);
-	infoButtonHeader.setOnAction(headerButtonsController);
-
+		headerIcon.setImage(globalValues.getProgramIcon());
+		homeIcon.setImage(globalValues.getHomeIcon());
+		infoIcon.setImage(globalValues.getInfoIcon());
+		programName.setText(globalValues.getProgramName());
+		copyrightText.setText(globalValues.getCopyright());
+		versionText.setText(globalValues.getVersionNumber());
+		homeButtonHeader.setOnAction(headerButtonsController);
+		infoButtonHeader.setOnAction(headerButtonsController);
 	}
 }

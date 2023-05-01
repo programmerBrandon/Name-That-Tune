@@ -90,8 +90,8 @@
             <Font name="Arial Bold" size="28.0" />
          </font>
       </Label>
-      <ListView fx:id="songList" layoutX="15.0" layoutY="77.0" prefHeight="157.0" prefWidth="258.0" />
-      <ListView fx:id="playerList" editable="true" layoutX="288.0" layoutY="77.0" prefHeight="157.0" prefWidth="250.0" />
+      <ListView fx:id="songListView" layoutX="15.0" layoutY="77.0" prefHeight="157.0" prefWidth="258.0" />
+      <ListView fx:id="playerListView" editable="true" layoutX="288.0" layoutY="77.0" prefHeight="157.0" prefWidth="250.0" />
       <Label layoutX="105.0" layoutY="56.0" prefHeight="13.0" prefWidth="77.0" text="Song List:" textFill="WHITE">
          <font>
             <Font name="Arial" size="14.0" />

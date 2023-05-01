@@ -63,30 +63,28 @@ public class MainScreenController {
 	//Set text values for header and footer text using values from 'GlobalValues'.
 	@FXML
 	public void initialize()  {
-	globalValues.currentFXML = "MainScene.fxml";
-	headerIcon.setImage(globalValues.programIcon);
-	homeIcon.setImage(globalValues.homeIcon);
-	infoIcon.setImage(globalValues.infoIcon);
-	programName.setText(globalValues.programNameText);
-	copyrightText.setText(globalValues.copyrightText);
-	versionText.setText(globalValues.versionNumberText);
-	welcomeText.setText("Welcome to the Name That Tune Scoreboard generation tool. The purpose of this tool is to assist you with scoring a game of Name That Tune."
+		headerIcon.setImage(globalValues.getProgramIcon());
+		homeIcon.setImage(globalValues.getHomeIcon());
+		infoIcon.setImage(globalValues.getInfoIcon());
+		programName.setText(globalValues.getProgramName());
+		copyrightText.setText(globalValues.getCopyright());
+		versionText.setText(globalValues.getVersionNumber());
+		welcomeText.setText("Welcome to the Name That Tune Scoreboard generation tool. The purpose of this tool is to assist you with scoring a game of Name That Tune."
 			+ "To learn how to use the program please click the 'Program Instructions' button below. Once you have become familiar with how the "
 			+ "program works, press the 'Start' button to begin.");
-	//homeButtonHeader.setOnAction(headerButtonsController);
-	infoButtonHeader.setOnAction(headerButtonsController);
+		//homeButtonHeader.setOnAction(headerButtonsController);
+		infoButtonHeader.setOnAction(headerButtonsController);
 	
-	startButton.setOnAction(e -> {
+		startButton.setOnAction(e -> {
 		try {
 			Parent gameSetup = FXMLLoader.load(getClass().getResource("GameSetup.fxml"));
-			Scene gameSetupScene = new Scene(gameSetup, globalValues.programWidth, globalValues.programHeight);
+			Scene gameSetupScene = new Scene(gameSetup, globalValues.getProgramWidth(), globalValues.getProgramHeight());
 			gameSetupScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			Stage gameSetupStage = (Stage)((Node)e.getSource()).getScene().getWindow();
 			gameSetupStage.setScene(gameSetupScene);
 			gameSetupStage.show();
 		    System.out.println("Game Setup Scene loaded!");
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			System.out.println("Failed to load GameSetup.fxml!");
 		}
@@ -95,15 +93,15 @@ public class MainScreenController {
 	gameInfoButton.setOnAction(e -> {
 		try {
 			Parent gameInfo = FXMLLoader.load(getClass().getResource("GameInfo.fxml"));
-			Scene gameInfoScene = new Scene(gameInfo, globalValues.programWidth, globalValues.programHeight);
+			Scene gameInfoScene = new Scene(gameInfo, globalValues.getProgramWidth(), globalValues.getProgramHeight());
 			gameInfoScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			Stage gameInfoStage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		    gameInfoStage.setScene(gameInfoScene);
 		    gameInfoStage.show();
 		    System.out.println("Game Info Scene loaded!");
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			//messageLabel.setText("Error: Failed to load Results.fxml. If this error persists, please notify the developer.");
 			System.out.println("Failed to load GameInfo.fxml!");
 		}
 		
@@ -112,7 +110,7 @@ public class MainScreenController {
 	programInstructionsButton.setOnAction(e -> {
 		try {
 			Parent programInstructions = FXMLLoader.load(getClass().getResource("Instructions.fxml"));
-			Scene instructionsScene = new Scene(programInstructions, globalValues.programWidth, globalValues.programHeight);
+			Scene instructionsScene = new Scene(programInstructions, globalValues.getProgramWidth(), globalValues.getProgramHeight());
 			instructionsScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			Stage instructionsStage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		    instructionsStage.setScene(instructionsScene);
@@ -129,14 +127,13 @@ public class MainScreenController {
 	releaseInfoButton.setOnAction(e -> {
 		try {
 			Parent releaseInfo = FXMLLoader.load(getClass().getResource("ReleaseInfo.fxml"));
-			Scene releaseInfoScene = new Scene(releaseInfo, globalValues.programWidth, globalValues.programHeight);
+			Scene releaseInfoScene = new Scene(releaseInfo, globalValues.getProgramWidth(), globalValues.getProgramHeight());
 			releaseInfoScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			Stage releaseInfoStage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		    releaseInfoStage.setScene(releaseInfoScene);
 		    releaseInfoStage.show();
 		    System.out.println("Program Release Information Scene loaded!");
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			System.out.println("Failed to load ReleaseInfo.fxml!");
 		}
@@ -146,14 +143,13 @@ public class MainScreenController {
 	creditsButton.setOnAction(e -> {
 		try {
 			Parent credits = FXMLLoader.load(getClass().getResource("Credits.fxml"));
-			Scene creditsScene = new Scene(credits, globalValues.programWidth, globalValues.programHeight);
+			Scene creditsScene = new Scene(credits, globalValues.getProgramWidth(), globalValues.getProgramHeight());
 			creditsScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			Stage creditsStage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		    creditsStage.setScene(creditsScene);
 		    creditsStage.show();
 		    System.out.println("Program Credits Scene loaded!");
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			System.out.println("Failed to load Credits.fxml!");
 		}

@@ -56,24 +56,24 @@ public class ReleaseInfoController {
 	
 	@FXML
 	public void initialize()  {
-	globalValues.currentFXML = "MainScene.fxml";
-	headerIcon.setImage(globalValues.programIcon);
-	homeIcon.setImage(globalValues.homeIcon);
-	infoIcon.setImage(globalValues.infoIcon);
-	programName.setText(globalValues.programNameText); 
-	copyrightText.setText(globalValues.copyrightText); 
-	versionText.setText(globalValues.versionNumberText); 
-	homeButtonHeader.setOnAction(headerButtonsController);
-	infoButtonHeader.setOnAction(headerButtonsController);
-	currentRelease.setText(globalValues.versionNumberText + " [UNSTABLE]");
-	releaseDate.setText("Release Date: 11/10/2022");
-	improvementsList.setText("-Initial Prototype with the basic/fundamental features working.\n"
-			+ "-All functions needed to generate the song list and 'results' work.\n"
-			+ "-Initial design layout complete.");
-	issuesList.setText("-This is an early stage prototype. There WILL be bugs and not all functions work.\n"
-			+ "-'Tiebreaker Mode' and 'Save Results' features are still in development and do not work. 'Tiebreaker Mode' is expected "
-			+ "to be ready by Pre-Alpha 1.1.\n"
-			+ "-Any other bugs, issues, feedback or suggestions should be reported directly to Brandon. FEATURES & LAYOUT SUBJECT TO "
-			+ "CHANGE UNTIL BETA PHASE.");
+		headerIcon.setImage(globalValues.getProgramIcon());
+		homeIcon.setImage(globalValues.getHomeIcon());
+		infoIcon.setImage(globalValues.getInfoIcon());
+		programName.setText(globalValues.getProgramName());
+		copyrightText.setText(globalValues.getCopyright());
+		versionText.setText(globalValues.getVersionNumber());
+		homeButtonHeader.setOnAction(headerButtonsController);
+		infoButtonHeader.setOnAction(headerButtonsController);
+	//currentRelease.setText(globalValues.versionNumberText + " [UNSTABLE]");
+		currentRelease.setText(globalValues.getVersionNumber() + " - [UNSTABLE]");
+		releaseDate.setText("Release Date: 4/30/2023");
+		improvementsList.setText("-New version number system (Pre-Alpha changed to Alpha). \n"
+				+ "-Bug fixes: See 'Release Notes.txt' file for full details \n"
+				+ "-Minor improvement: Song numbers are now displayed in all song \n lists before the song name. ");
+		issuesList.setText("-This is still an early stage prototype, as such many features still don't work.\n"
+				+ "-'Tiebreaker Mode' & 'Save Results' features are still in development and do not work. 'Tiebreaker Mode' is expected "
+				+ "to be ready in Alpha 2.0. \n"
+				+ "-Any other bugs, issues, feedback or suggestions should be reported directly to Brandon. FEATURES & LAYOUT SUBJECT TO "
+				+ "CHANGE UNTIL BETA PHASE.");
 	}
 }
