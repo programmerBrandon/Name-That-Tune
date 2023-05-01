@@ -2,9 +2,6 @@ package application;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import org.ietf.jgss.Oid;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -133,6 +130,14 @@ public class SongInfoSetupController {
 				  artistNameField.requestFocus();
 				  //addButtonHandler();
 			  }*/
+		
+		if(!songNameField.getText().trim().isEmpty()) { 
+			addButton.setDisable(false);
+		}
+		
+		else {
+			addButton.setDisable(true);
+		}
 		
 		songNameField.setOnKeyPressed( event -> {
 			  if(event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.TAB) {
