@@ -30,7 +30,6 @@ public class GameSetupController {
 	GlobalValues globalValues = new GlobalValues(); //Object to GlobalValues class which contents the global values used in all scenes.
 	HeaderButtonsController headerButtonsController = new HeaderButtonsController();
 	GameData gameData = new GameData();
-	Main mainClass = new Main();
 	final int MAX_PLAYERS = 25; //Maximum number of players supported per game.
 	
 	// Begin 'Global' FXML objects. //
@@ -113,6 +112,9 @@ public class GameSetupController {
 	
 	/*textBoxNumOfPlayers.focusedProperty().addListener((observable, oldValue, newValue) ->
 	handleTextBoxText() );*/
+		
+		tieBreakerSlider.setValue(tieBreakerSlider.getMax());
+		tieBreakerModeToggle();
 	
 		tieBreakerSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
@@ -157,9 +159,6 @@ public class GameSetupController {
 		continueButton.setDisable(true);
 		String textBoxInput; // Variable to temporarily hold input value so it can be checked for validity
 		
-		
-		System.out.println("FIXME: handlePushTextBoxText() method called!"); //FIXME
-		
 		//Checking the input validation to ensure user enters a valid number.
 		try {
 			textBoxInput = textBoxNumOfPlayers.getText().trim();
@@ -178,7 +177,6 @@ public class GameSetupController {
 			}
 			
 			if(inputToInt < 0) {
-				//System.out.println("Negative Number Check found negative #"); //FIXME
 				textBoxNumOfPlayers.setStyle("-fx-text-box-border: #ff0000; -fx-focus-color: ff0000; -fx-text-fill: #ff0000;");
 				warningLabel.setText("Error: Number entered cannot be negative. Please try again!");
 				warningLabel.setVisible(true);
@@ -187,7 +185,6 @@ public class GameSetupController {
 			}
 			
 			if(inputToInt == 0) {
-				//System.out.println("Zero Number Check found negative #"); //FIXME
 				textBoxNumOfPlayers.setStyle("-fx-text-box-border: #ff0000; -fx-focus-color: ff0000; -fx-text-fill: #ff0000;");
 				warningLabel.setText("Error: Number entered cannot be 0. Please try again!");
 				warningLabel.setVisible(true);
@@ -198,11 +195,11 @@ public class GameSetupController {
 			//If the input is a valid int AND the integer is <= MAX_PLAYERS limit, then continue button is enabled and the warning label
 			//will be hidden if it was visible. The number entered by the user is then saved in the numOfPlayers variable in class GameData.
 			else {
-			textBoxNumOfPlayers.setStyle("-fx-text-box-border: transparent; -fx-focus-color: #039ED3; -fx-text-fill: #000; ");
-			warningLabel.setVisible(false);
-			continueButton.setDisable(false);
-			gameData.setNumOfPlayers(inputToInt);
-			//System.out.println("FIXME: numOfPlayers: " + gameData.getNumOfPlayers());
+				textBoxNumOfPlayers.setStyle("-fx-text-box-border: transparent; -fx-focus-color: #039ED3; -fx-text-fill: #000; ");
+				warningLabel.setVisible(false);
+				continueButton.setDisable(false);
+				gameData.setNumOfPlayers(inputToInt);
+				//System.out.println("FIXME: numOfPlayers: " + gameData.getNumOfPlayers());
 			}
 		} 
 		

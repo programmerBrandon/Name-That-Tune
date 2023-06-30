@@ -22,10 +22,8 @@ import javafx.stage.Stage;
 public class PlayerInfoSetupController {
 	GlobalValues globalValues = new GlobalValues(); //Object to GlobalValues class which contents the global values used in all scenes.
 	HeaderButtonsController headerButtonsController = new HeaderButtonsController();
-	Main mainClass = new Main();
 	GameData gameData = new GameData();
 	private int numPlayersAdded = 0; //Keeps track of how many players were added to the list (To compare to how many players are in the game).
-	String[] playerNameList = new String[gameData.getNumOfPlayers()]; //Stores the player names (WILL SOON  BE DEPRECIATED).
 	ArrayList<Player> tempPlayerList = new ArrayList<>(); //This does the job of the array above using the Player class. 
 	
 	//IDEA FOR CODE RESTRUCTURE: STORE NAMES IN A HASHMAP WITH POINTS INTIALIZED TO ZERO, THEN AFTER ALL POINTS ARE ADDED, MAKE AN ARRAYLIST OF
@@ -89,7 +87,6 @@ public class PlayerInfoSetupController {
 		continueButton.setOnAction(e -> {
 			try {
 				Parent setPlayerScores = FXMLLoader.load(getClass().getResource("SetPlayerScores.fxml"));
-				//Parent setPlayerScores = FXMLLoader.load(getClass().getResource("SetPlayerScores.fxml")); //FIXME - USED TO TEST THAT ERROR HANDLING IS PERFORMED
 				Scene setPlayerScoresScene = new Scene(setPlayerScores, globalValues.getProgramWidth(), globalValues.getProgramHeight());
 				setPlayerScoresScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				Stage setPlayerScoresStage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -133,7 +130,6 @@ public class PlayerInfoSetupController {
 			*/
 			}
 		});
-		
 
 	}
 	
@@ -145,10 +141,9 @@ public class PlayerInfoSetupController {
 		if ((numPlayersAdded < gameData.getNumOfPlayers())) {
 			numPlayersAdded++;
 			System.out.println("Fixme: numPlayersAdded: " + numPlayersAdded); //FIXME
-			playerNameList[numPlayersAdded - 1] = playerNameField.getText();
-			System.out.println("FIXME: playerNameList[" + (numPlayersAdded - 1) + "] (Local): " + playerNameList[numPlayersAdded - 1]);
+			//playerNameList[numPlayersAdded - 1] = playerNameField.getText();
+			//System.out.println("FIXME: playerNameList[" + (numPlayersAdded - 1) + "] (Local): " + playerNameList[numPlayersAdded - 1]);
 			
-			//playerList.getItems().add(playerNameField.getText());
 			player.setName(playerNameField.getText());
 			player.setPoints(0);
 			
@@ -164,9 +159,7 @@ public class PlayerInfoSetupController {
 			}
 			
 			else {
-				tempPlayerList.add(player);
-				gameData.setPlayerScores(playerNameField.getText(), 0); //Adds player name as key in playerListView Hashmap, with value of 0 (points).	
-				
+				tempPlayerList.add(player);				
 				playerList.getItems().add(player.toStringNoPoints());
 					//songList.getItems().add(songNameField.getText());
 				  
@@ -176,7 +169,6 @@ public class PlayerInfoSetupController {
 
 				
 				if (numPlayersAdded == gameData.getNumOfPlayers()) {
-					gameData.setPlayerNameList(playerNameList);
 					gameData.setPlayerList(tempPlayerList);
 					messageLabel.setText("Players " + numPlayersAdded + " of " + gameData.getNumOfPlayers() + " added! Click 'Continue' below to proceed!");
 					continueButton.setDisable(false);
@@ -191,6 +183,7 @@ public class PlayerInfoSetupController {
 				}
 				
 				playerNameField.clear();
+				addButton.setDisable(true);
 				playerNameField.requestFocus();
 			
 			/*messageLabel.setText("Player " + numPlayersAdded + " of " + gameData.getNumOfPlayers() + " added!");
@@ -201,23 +194,9 @@ public class PlayerInfoSetupController {
 		}
 		
 		if (numPlayersAdded == gameData.getNumOfPlayers()) {
-			/*gameData.setPlayerNameList(playerNameList);
-			gameData.setPlayerList(tempPlayerList);
-			messageLabel.setText("Players " + numPlayersAdded + " of " + gameData.getNumOfPlayers() + " added! Click 'Continue' below to proceed!");
-			continueButton.setDisable(false);
-			continueButton.setVisible(true);
-			playerNameField.setDisable(true); 
-			addButton.setDisable(true);*/
-			
-			String[] playerNameList1 = gameData.getPlayerNameList();
 			
 			for(int i = 0; i < tempPlayerList.size(); i++) {
-				System.out.println("FIXME: tempPlayerList[" + i + "] " + tempPlayerList.get(i)); //FIXME
-			}
-			
-			for(int i = 0; i < gameData.getNumOfPlayers(); i++ ) {
-				System.out.println("FIXME: playerNameList[" + i + "] " + playerNameList1[i]); //FIXME
-				System.out.println("FIXME: Player points from PlayersList: " + gameData.getPlayerScores(playerNameList1[i])); //FIXME
+				System.out.println("FIXME: tempPlayerList.get(" + i + ") " + tempPlayerList.get(i)); //FIXME
 			}
 		}
 	}

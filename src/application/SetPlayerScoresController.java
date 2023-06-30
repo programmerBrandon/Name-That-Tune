@@ -1,8 +1,7 @@
 package application;
 
-import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.Collections;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -23,12 +22,14 @@ import javafx.stage.Stage;
 public class SetPlayerScoresController {
 	GlobalValues globalValues = new GlobalValues(); //Object to GlobalValues class which contents the global values used in all scenes.
 	HeaderButtonsController headerButtonsController = new HeaderButtonsController();
-	Main mainClass = new Main();
 	GameData gameData = new GameData();
 	private ObservableList<String> observablePlayerList = FXCollections.observableArrayList();
+	ArrayList<Song> songList = gameData.getSongList();
+	ArrayList<Player> playerList = gameData.getPlayerList();
 	String playerSelected = "";
 	String playerSelectedParsed = "";
 	String songSelected = "";
+	int playerIndex = 0;
 	
 	
 	// Begin 'Global' FXML objects. //
@@ -121,18 +122,22 @@ public class SetPlayerScoresController {
 		});
 
 		finishButton.setOnAction(e -> {
-			try {
-				Parent resultsPage = FXMLLoader.load(getClass().getResource("Results.fxml"));
-				Scene resultsPageScene = new Scene(resultsPage, globalValues.getProgramWidth(), globalValues.getProgramHeight());
-				resultsPageScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-				Stage resultsStage = (Stage)((Node)e.getSource()).getScene().getWindow();
-				resultsStage.setScene(resultsPageScene);
-				resultsStage.show();
-				System.out.println("Results.fxml loaded successfully!");
-			} catch (IOException e1) {
-				e1.printStackTrace();
-				messageLabel.setText("Error: Failed to load Results.fxml. If this error persists, please notify the developer.");
-				System.out.println("Failed to load Results.fxml!");
+			if(gameData.getTieBreakerMode() == 1 && playerList.size() > 1) {
+				Collections.sort(playerList, Collections.reverseOrder());
+				TieBreakerMode tieBreakerMode = new TieBreakerMode();
+				
+				if(tieBreakerMode.checkForTies(playerList)) {
+					System.out.println("FIXME: TIES FOUND!");
+					loadTieDetectedScene(e);
+				}
+				
+				else {
+					loadResultsScene(e);
+				}
+			}
+			
+			else {
+				loadResultsScene(e);
 			}
 		});
 	
@@ -142,28 +147,15 @@ public class SetPlayerScoresController {
 	//adds the data to 2 lists, song and artist data is added to songList and player data added to the playerList along with their current
 	//points. Player data is also added to an observable Arraylist called observablePlayerList so that the playerList listview box will
 	//automatically update when the score is updated.
-	public void initializeListData() {
-		String[] songNameList = gameData.getSongNameList(); //Used to read elements of songNameList in GameData class.
-		String[] playerNameList = gameData.getPlayerNameList(); //Used to read elements of playerNameList in GameData class.
-		ArrayList<Song> songList = gameData.getSongList2();
-		ArrayList<Player> playerList = gameData.getPlayerList();
+	public void initializeListData() {		
 		
 		for(int i = 0; i < gameData.getNumOfSongs(); i++) {
-			//songListView.getItems().add(songList.get(i).getName());
 			songListView.getItems().add(songList.get(i).toString());
-			
-			/*if(gameData.getSongList(songNameList[i]) != "") {
-				songList.getItems().add(songNameList[i] + " By: " + gameData.getSongList(songNameList[i]));
-				
-			}
-			else {
-				songList.getItems().add(songNameList[i]);
-			}*/
 			
 		}
 		
 		for(int i = 0; i < gameData.getNumOfPlayers(); i++) {
-			observablePlayerList.add(playerNameList[i] + " - Points: " + gameData.getPlayerScores(playerNameList[i]));
+			observablePlayerList.add(playerList.get(i).toString());
 			playerListView.getItems().add(observablePlayerList.get(i));
 		}
 		
@@ -173,14 +165,22 @@ public class SetPlayerScoresController {
 	public void listSelectionHandler() {
 		if (songListView.getSelectionModel().getSelectedItem() != null) {
 			songSelected = (String) songListView.getSelectionModel().getSelectedItem();
+			/*for(int i = 0; i < observablePlayerList.size(); i++) {
+				observablePlayerList.set(i, playerList.get(i).toString());
+			}
+			
+			playerListView.getItems().setAll(observablePlayerList);*/
 		}
 		
 		if(playerListView.getSelectionModel().getSelectedItem() != null) {
 			playerSelected = (String) playerListView.getSelectionModel().getSelectedItem();
+			playerIndex = playerListView.getSelectionModel().getSelectedIndex();
 			messageLabel.setVisible(false);
+			
 		
 			System.out.println("FIXME: songSelected: " + songSelected); //FIXME
 			System.out.println("FIXME: playerSelected: " + playerSelected); //FIXME
+			System.out.println("FIXME: playerIndex: " + playerIndex); //FIXME
 		}
 		
 		else {
@@ -197,7 +197,7 @@ public class SetPlayerScoresController {
 		if(!songSelected.isEmpty() && songSelected.contains("By:")) {
 			if(songSelected.indexOf("By:") != -1) {
 				int indexOfBy = songSelected.indexOf(" By:");
-				System.out.println("FIXME: Index of ' By:': " + indexOfBy); //FIXME"
+				System.out.println("FIXME: Index of ' By:': " + indexOfBy); //FIXME
 				String songSelectedParsed = songSelected.substring(0, indexOfBy);
 				System.out.println("FIXME: songSelectedParsed: " + songSelectedParsed); //FIXME
 				
@@ -232,16 +232,12 @@ public class SetPlayerScoresController {
 	//and updates the points in the Hashmap playerList using the setPlayersList method in the GameData class. It will then update the 
 	//observable list in order to update the current points in the ListView 'playerList'.
 	private void onePointButtonHandler() {
-		System.out.println("FIXME: " + playerSelectedParsed + "'s score: " + gameData.getPlayerScores(playerSelectedParsed)); //FIXME
-		
-		int newScore = gameData.getPlayerScores(playerSelectedParsed) + 1;
-		gameData.setPlayerScores(playerSelectedParsed, newScore);
-		
-		System.out.println("FIXME: " + playerSelectedParsed + "'s new score: " + gameData.getPlayerScores(playerSelectedParsed)); //FIXME
+		playerList.get(playerIndex).setPoints(playerList.get(playerIndex).getPoints() + 1);
+		System.out.println("FIXME: " + playerList.get(playerIndex).toString()); //FIXME
 		
 		int index = observablePlayerList.indexOf(playerSelected);
 		System.out.println("FIXME: index of player selected: " + index); //FIXME
-		observablePlayerList.set(index, playerSelectedParsed + " - Points: " + gameData.getPlayerScores(playerSelectedParsed));
+		observablePlayerList.set(playerIndex, playerList.get(playerIndex).toString());
 		playerListView.getItems().setAll(observablePlayerList);
 		//songOnlyButton.requestFocus();
 		songOnlyButton.setDisable(true);
@@ -258,16 +254,13 @@ public class SetPlayerScoresController {
 	//and updates the points in the Hashmap playerList using the setPlayersList method in the GameData class. It will then update the 
 	//observable list in order to update the current points in the ListView 'playerList'.
 	private void twoPointButtonHandler() {
-		System.out.println("FIXME: " + playerSelectedParsed + "'s score: " + gameData.getPlayerScores(playerSelectedParsed)); //FIXME
 		
-		int newScore = gameData.getPlayerScores(playerSelectedParsed) + 2;
-		gameData.setPlayerScores(playerSelectedParsed, newScore);
-		
-		System.out.println("FIXME: " + playerSelectedParsed + "'s new score: " + gameData.getPlayerScores(playerSelectedParsed)); //FIXME
+		playerList.get(playerIndex).setPoints(playerList.get(playerIndex).getPoints() + 2);
+		System.out.println("FIXME: " + playerList.get(playerIndex).toString()); //FIXME
 		
 		int index = observablePlayerList.indexOf(playerSelected);
 		System.out.println("FIXME: index of player selected: " + index); //FIXME
-		observablePlayerList.set(index, playerSelectedParsed + " - Points: " + gameData.getPlayerScores(playerSelectedParsed));
+		observablePlayerList.set(playerIndex, playerList.get(playerIndex).toString());
 		playerListView.getItems().setAll(observablePlayerList);
 		songOnlyButton.setDisable(true);
 		artistOnlyButton.setDisable(true);
@@ -280,5 +273,36 @@ public class SetPlayerScoresController {
 		
 	}
 	
+	private void loadResultsScene(javafx.event.ActionEvent e) {
+		try {
+			Parent resultsPage = FXMLLoader.load(getClass().getResource("Results.fxml"));
+			Scene resultsPageScene = new Scene(resultsPage, globalValues.getProgramWidth(), globalValues.getProgramHeight());
+			resultsPageScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Stage resultsStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+			resultsStage.setScene(resultsPageScene);
+			resultsStage.show();
+			System.out.println("Results.fxml loaded successfully!");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			messageLabel.setText("Error: Failed to load Results.fxml. If this error persists, please notify the developer.");
+			System.out.println("Failed to load Results.fxml!");
+		}
+	}
+	
+	private void loadTieDetectedScene(javafx.event.ActionEvent e) {
+		try {
+			Parent tieDetectedPage = FXMLLoader.load(getClass().getResource("TieDetected.fxml"));
+			Scene tieDetectedScene = new Scene(tieDetectedPage, globalValues.getProgramWidth(), globalValues.getProgramHeight());
+			tieDetectedScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Stage tieDetectedStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+			tieDetectedStage.setScene(tieDetectedScene);
+			tieDetectedStage.show();
+			System.out.println("TieDetected.fxml loaded successfully!");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			messageLabel.setText("Error: Failed to load TieDetected.fxml. If this error persists, please notify the developer.");
+			System.out.println("Failed to load TieDetected.fxml!");
+		}
+	}
 
 }
