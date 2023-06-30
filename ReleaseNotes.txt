@@ -1,0 +1,113 @@
+Release Notes - Version: 0.2.0-alpha (Alpha 2.0)
+Date Written/Updated: 6/30/2023
+Written By: Brandon Green (Software Developer)
+
+New Features:
+
+MAJOR FEATURE(S):
+-Tiebreaker Mode is now fully functional. It has been enabled by default and will need to be
+switched off manually by the user during the setup of each game. It is recommended to keep it 
+enabled, as it can be bypassed via the new 'Tie Detected' screen by pressing the 'No' button. 
+
+MINOR FEATURE(S):
+-Release Info Screen has been redesigned and a couple minor features were added. There are 3 
+notable new features:
+1. A button was added that will open the release notes text file in the Github Repo. This is a
+temporary solution until I can fix a last minute bug that was causing the text file to not open
+locally from the jar file (though it did work in my working dev build in Eclipse IDE). This will
+take some time to figure out how to resolve, but was not worth delaying this release over. So this
+workaround should suffice for now. *
+2. A hyperlink was added that when clicked will open the Github Repository for this project in the
+user's default web browser.*
+3. A 'Report A Bug' hyperlink was added that will open the 'Issues' page of the Github Repo in the
+user's default web browser.* This will allow the user to easily view any reported bugs/issues with
+the software and also allow them to report a new issue or bug that hasn't been reported so that I
+can work on fixing them in a future version.
+
+*It is worth noting the above features have a limitation that may result in them not working in all
+systems. Notably any system that doesn't support the 'Desktop' API of Java (in some cases Linux
+may not support it). If your system is not compatible with the feature an error message will be 
+displayed on the screen and the above 3 features will not work.*
+
+-Credits screen has been partially completed to add Software Developer name and the name(s) of any
+Alpha testers who have been providing user end testing and feedback. Will finish fine tuning layout
+and adding things to it in the next pre-release. 
+
+
+Improvements:
+
+MINOR IMPROVEMENTS:
+-The results list on the results page has been improved to show 1 of 3 possible labels next to 
+winning or tied player(s):
+1. (Winner) - Added next to a winning player if a player wins the game outright without needing
+to break a tie. 
+2. (Winner Via Tiebreaker) - Added next to a winning player if the results of the main round ended
+in a tie and the player won the tiebreaker round. 
+3. (Tied) - Added next to any players who are tied for 1st place and tiebreaker mode was either
+disabled or bypassed. This label has existed since the 1st ever pre-release version of
+the software and isn't really new.
+
+-The song ListView on the results screen has been resized to fit 6 songs in the list without
+needing to scroll. This was done to accomodate a tiebreaker song in a game where 5 songs were
+used in the main game. Additionally the label (Tiebreaker) will be added to the song played in 
+the tiebreaker round. This will allow the tiebreaker song to be differentiated from those in the
+main round of the game.
+
+-The 'Save Results' (disabled) and 'Return To Main Menu' buttons on the results screen have been
+properly centered with page now. They were slightly off centered to the left in previous versions.
+
+
+Bug Fixes:
+-Fixed a bug that only existed in version 0.1.1-alpha (Alpha 1.0) where it was possible to add a
+blank/empty song to the song list if the user added a song to the list and did not type in any
+input to the song name and/or artist box before clicking the add button again. This bug ironically 
+was caused by a bug fix that was done in the previous version to prevent this very thing. 
+The bug was caused by the 'Add' button not disabling after a song was added the 1st time. The fix
+for the issue was simple: just disable the button after it is pressed and only have it enabled when
+there is valid input in the song name textfield (aka not empty).
+
+
+Code Changes/Improvements (for folks with coding knowledge):
+-Finished data structure changes that were started in the previous version (0.1.1-alpha), these
+changes overhauled the complicated and confusing mess of arrays, hashmaps and arraylists used
+to keep track of the song name/artist and player names and scores. The data structure has been
+optimized to now use proper OOP principles by replacing all data structures used in version 
+0.1.0-alpha with 3 ArrayLists: 1 Arraylist containing 'Song' objects, 1 ArrayList containing 
+'Player' objects and a 3rd ArrayList containing Strings that is used by the results page to add
+the (Winner) or (Tied) labels to players. These changes have greatly improved code readibility and
+maintainablility and should make it easier to add new features as development continues. All code 
+that called or used the old data structures have been removed or modified to use the new
+structures instead. 
+
+-Added Javadoc comments to several methods that were previously missing them. Any methods I missed
+will be fully commented by the next pre-release version, but I think I got them all.
+
+-Reformatted a lot of the code in the ResultsController class to break up what was becoming a 
+confusing, complicated 'monster' method. Now the methods handling the generation of the results
+list have been broken up into 3 methods, 1 main method and 2 helper methods (tho only 1 will be 
+used, which one depends on whether Tiebreaker Mode is enabled or disabled):
+1. resultsGenerator() - Main method (previously was named 'sortScores()'), it checks whether
+Tiebreaker mode is set to on or off and calls the appriorate helper method depending on the result.
+2. tieBreakerOffGenerator(position) - Helper method called if tiebreaker mode is off.
+3. tieBreakerOnGenerator(position) - Helper method called if tiebreaker mode is on. 
+
+-Removed empty classes that I had added previously in preparation for Tiebreaker mode but ended up
+not needing. 
+
+-Cleaned up the code to remove any unneeded/old code that was commented out in a previous version
+and will definitely no longer be needed. Only code that could be useful in the future for either
+troubleshooting of future bugs or during the development of new features still remain. The code is
+much neater and easier to read now. 
+
+-I will be continuing to improve code structure and readibility in any areas that may need it as
+I continue to work on the software. That being said, I am happy with the new code structure and
+readbility improvements, it has come a long way from the 1st pre-release version and even the
+previous version. 
+
+-The next thing on the to do list for the next pre-release version will be patching any new bugs
+that are reported for this version, especially any relating to the new Tiebreaker Mode feature. 
+Additionally I will likely make some minor tweaks and improvements to Tiebreaker Mode based on 
+user end testing and using the software in a live game of Name That Tune where I get the best
+feedback. After Tiebreaker Mode is fully polished up and optimized as best as it can be, I will
+be moving my attention to the 'Save Results' feature which will be the focus of the next major
+pre-release version 0.3.0-alpha (Alpha 3.0).
