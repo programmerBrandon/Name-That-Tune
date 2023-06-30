@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+.slider {
+-fx-tick-label-fill: #FFF;
+-fx-background-color: #008000;
+}
+
+.tieBreakerSlider .track {
+-fx-background-color: #008000;
+}
