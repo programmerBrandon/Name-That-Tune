@@ -16,11 +16,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.getIcons().add(globalValues.getProgramIcon());
-		//primaryStage.getIcons().add(new Image("app/images/programIcon.png"));
-		//primaryStage.getIcons().add(new Image("images/programIcon.ico"));
 		primaryStage.setTitle("Name That Tune");
 		primaryStage.setResizable(false);
-		//stage = primaryStage;
 		try {
 			//Main Scene (MainScene.fxml) - Startup scene for program.
 			Parent root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));

@@ -1,6 +1,6 @@
 package application;
 
-public class Player {
+public class Player implements Comparable<Player> {
 	private String name;
 	private int points;
 	//private String lastSongScored;
@@ -73,11 +73,29 @@ public class Player {
 	}
 	
 	/**
+	 * A variation of the toString() method that returns the player name and points with an alternate format.
+	 * @return Player name  and points as a String formatted as either 'name - 2 Points' or 'name - 1 Points'.
+	 */
+	public String toStringAltFormat() {
+		if(points == 1) {
+			return name + " - " + points + " Point";
+		}
+		
+		else {
+			return name + " - " + points + " Points";
+		}
+	}
+	
+	/**
 	 * Simple toString() method that returns the player name and points as a String.
 	 * @return Player name and points as a String.
 	 */
 	public String toString() {
 		return name + " - Points: " + points;
 	}
+
+	@Override
+	public int compareTo(Player player) {
+		return (this.points - player.points);	}
 
 }

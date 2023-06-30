@@ -83,7 +83,7 @@ public class MainScreenController {
 			Stage gameSetupStage = (Stage)((Node)e.getSource()).getScene().getWindow();
 			gameSetupStage.setScene(gameSetupScene);
 			gameSetupStage.show();
-		    System.out.println("Game Setup Scene loaded!");
+		    System.out.println("GameSetup.fxml loaded successfully!");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			System.out.println("Failed to load GameSetup.fxml!");
@@ -98,7 +98,7 @@ public class MainScreenController {
 			Stage gameInfoStage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		    gameInfoStage.setScene(gameInfoScene);
 		    gameInfoStage.show();
-		    System.out.println("Game Info Scene loaded!");
+		    System.out.println("GameInfo.fxml loaded successfully!");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			//messageLabel.setText("Error: Failed to load Results.fxml. If this error persists, please notify the developer.");
@@ -115,9 +115,8 @@ public class MainScreenController {
 			Stage instructionsStage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		    instructionsStage.setScene(instructionsScene);
 		    instructionsStage.show();
-		    System.out.println("Program Instructions Scene loaded!");
+		    System.out.println("Instructions.fxml loaded successfully!");
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			System.out.println("Failed to load Instructions.fxml!");
 		}
@@ -132,7 +131,7 @@ public class MainScreenController {
 			Stage releaseInfoStage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		    releaseInfoStage.setScene(releaseInfoScene);
 		    releaseInfoStage.show();
-		    System.out.println("Program Release Information Scene loaded!");
+		    System.out.println("ReleaseInfo.fxml loaded successfully!");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			System.out.println("Failed to load ReleaseInfo.fxml!");
@@ -148,7 +147,7 @@ public class MainScreenController {
 			Stage creditsStage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		    creditsStage.setScene(creditsScene);
 		    creditsStage.show();
-		    System.out.println("Program Credits Scene loaded!");
+		    System.out.println("Credits.fxml loaded successfully!");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			System.out.println("Failed to load Credits.fxml!");

@@ -7,31 +7,13 @@ public class GlobalValues {
 	//updated in the variables below if changes are needed.
 	private final int PROGRAM_WIDTH = 550; //Temporary duplicate while converting code to use getter methods
 	private final int PROGRAM_HEIGHT = 500; //Temporary duplicate while converting code to use getter methods
-	private final String VERSION = "Version: Alpha 1.1 [0.1.1-alpha]"; //Temporary duplicate while converting code to use getter methods
+	private final String VERSION = "Version: Alpha 2.0 [0.2.0-alpha]"; //Temporary duplicate while converting code to use getter methods
 	private final String COPYRIGHT = "©2023 Brandon Green"; //Temporary duplicate while converting code to use getter methods
 	private final String PROGRAM_NAME = "Name That Tune"; //Temporary duplicate while converting code to use getter methods
 	private final  Image PROGRAM_ICON = new Image("application/images/programIcon.png");
 	private final Image HOME_ICON = new Image("application/images/homeIcon.png");
 	private final Image INFO_ICON = new Image("application/images/infoIcon.png");
 	
-	//Below are currently used value that will eventually be removed in favor of variables above that allow for proper encapsulation
-	/*public int programWidth = 550;
-	public int programHeight = 500;
-	public String versionNumberText = "Version: Alpha 1.1 [0.1.1-alpha]";
-	public String copyrightText = "©2023 Brandon Green";
-	public String programNameText = "Name That Tune";
-	public Image programIcon = new Image("application/images/programIcon.png");
-	//public Image homeIcon = new Image("file:home-icon.png");
-	//FileInputStream homeIconStream = new FileInputStream("images/home-icon.png");
-	//URL homeIconUrl = getClass().getResource(getClass().getResource("images/home-icon.png"));
-	public Image homeIcon = new Image("application/images/homeIcon.png");
-	public Image infoIcon = new Image("application/images/infoIcon.png");
-	//public String programIcon = "programIcon.png";
-	public String programIconURL = "https://i.imgur.com/w81HTXL.png";
-	public int menuSceneSelector = 0; //0 = Main, 1 = Game Info, 2 = Instructions, 3 = Release Info, 4 = Credits
-	public String sceneSelector = "mainScene";
-	public String currentFXML = "Null";
-	*/
 	public int getProgramWidth() {
 		return PROGRAM_WIDTH;
 	}

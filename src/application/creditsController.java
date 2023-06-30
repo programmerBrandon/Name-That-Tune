@@ -12,10 +12,8 @@ import javafx.stage.Stage;
 
 public class creditsController {
 	//Controller class for Credits.fxml.
-	
 	GlobalValues globalValues = new GlobalValues(); //Object to GlobalValues class which contents the global values used in all scenes.
 	HeaderButtonsController headerButtonsController = new HeaderButtonsController();
-	Main mainClass = new Main();
 	
 	// Begin 'Global' FXML objects. //
 	@FXML private AnchorPane programBody; //Main AnchorPane

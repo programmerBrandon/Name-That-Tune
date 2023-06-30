@@ -20,11 +20,8 @@ import javafx.stage.Stage;
 public class SongInfoSetupController {
 	GlobalValues globalValues = new GlobalValues(); //Object to GlobalValues class which contents the global values used in all scenes.
 	HeaderButtonsController headerButtonsController = new HeaderButtonsController();
-	Main mainClass = new Main();
 	GameData gameData = new GameData();
-	private String artistName; //Stores the text from the artistNameField textbox temporarily for data handling purposes.
 	private int numSongsAdded = 0; //Keeps track of how many songs were added to the list (To compare to how many songs are in the game).
-	String[] songNameList = new String[gameData.getNumOfSongs()];
 	ArrayList<Song> tempSongList = new ArrayList<>();
 	
 	// Begin 'Global' FXML objects. //
@@ -113,23 +110,7 @@ public class SongInfoSetupController {
 		messageLabel.setVisible(false);
 		continueButton.setDisable(true);
 		
-		
 		//System.out.println("FIXME: handleTextBox() method called!"); //FIXME
-		
-		/*if(songNameField.getText().trim().isEmpty()) {
-			  messageLabel.setText("Error: Song name field cannot be left blank!");
-			  songNameField.setStyle("-fx-text-box-border: #ff0000; -fx-focus-color: ff0000; -fx-text-fill: #ff0000;");
-			  messageLabel.setVisible(true);
-			  addButton.requestFocus();
-			  addButton.setDisable(true);
-			  //continueButton.setDisable(true);
-			  } else {
-				  messageLabel.setVisible(false);
-				  addButton.setDisable(false);
-				  songNameField.setStyle("-fx-text-box-border: transparent;");
-				  artistNameField.requestFocus();
-				  //addButtonHandler();
-			  }*/
 		
 		if(!songNameField.getText().trim().isEmpty()) { 
 			addButton.setDisable(false);
@@ -181,8 +162,6 @@ public class SongInfoSetupController {
 		if ((numSongsAdded < gameData.getNumOfSongs())) {
 		numSongsAdded++;
 		//System.out.println("Fixme: numSongsAdded: " + numSongsAdded); //FIXME
-		songNameList[numSongsAdded - 1] = songNameField.getText();
-		//System.out.println("FIXME: songNameList[" + (numSongsAdded - 1) + "] (Local): " + songNameList[numSongsAdded - 1]);
 		
 		song.setNumber(numSongsAdded);
 		song.setName(songNameField.getText());
@@ -204,13 +183,10 @@ public class SongInfoSetupController {
 		}
 		
 		else {
-			tempSongList.add(song);
-			gameData.setSongList(songNameField.getText(), artistNameField.getText());
-			
+			tempSongList.add(song);			
 			
 			if(!(artistNameField.getText().trim().isEmpty()) ) {
 				songList.getItems().add(song.toString());
-				//songList.getItems().add(songNameField.getText() + " By " + artistNameField.getText());
 			  } 
 			
 			else {
@@ -224,8 +200,8 @@ public class SongInfoSetupController {
 
 			
 			if (numSongsAdded == gameData.getNumOfSongs()) {
-				gameData.setSongList2(tempSongList);
-				gameData.setSongNameList(songNameList);
+				gameData.setSongList(tempSongList);
+				//gameData.setSongNameList(songNameList);
 				messageLabel.setText("Song " + numSongsAdded + " of " + gameData.getNumOfSongs() + " added! Click 'Continue' below to proceed!");
 				continueButton.setDisable(false);
 				continueButton.setVisible(true);
@@ -265,27 +241,11 @@ public class SongInfoSetupController {
 		else {
 			tempSongList.add(song);
 		}*/
-		
-		
-		
 
 		}
-		
-		
-			
-			String[] songNameList1 = gameData.getSongNameList();
-			
 			for(int i = 0; i < tempSongList.size(); i++) {
-				System.out.println("FIXME: tempSongList[" + i + "] " + tempSongList.get(i)); //FIXME
-			}
-			
-			/*for(int i = 0; i < gameData.getNumOfSongs(); i++ ) {
-				//System.out.println("FIXME: tempSongList[" + i + "] " + tempSongList.get(i)); //FIXME
-				//System.out.println("FIXME: songNameList[" + i + "] " + songNameList1[i]); //FIXME
-				//System.out.println("FIXME: Artist Name from songList: " + gameData.getSongList(songNameList1[i])); //FIXME
-			}*/
-			
-			
+				System.out.println("FIXME: tempSongList.get(" + i + ") " + tempSongList.get(i)); //FIXME
+			}			
 			//System.out.println("Fixme: numSongsAdded: " + numSongsAdded); //FIXME
 		}
 	}
@@ -299,7 +259,7 @@ public class SongInfoSetupController {
 	 * @return true if a duplicate song (case insensitive) is found in the list, false otherwise.
 	 */
 	public boolean duplicateChecker(ArrayList<Song> tempList, Song song) {
-			tempList = tempSongList;
+			//tempList = tempSongList;
 			System.out.println("FIXME: duplicateChecker() called!");
 		
 			for(int i = 0; i < tempList.size(); i++) {
