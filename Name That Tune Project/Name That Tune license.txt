@@ -1,0 +1,11 @@
+Name That Tune End-User License Agreement - Updated: 4/30/2023
+
+By installing and/or using the Name That Tune application, you acknowledge and agree to the following:
+
+1. That you do not own the software or any of its source-code. The sole ownership and rights to the Name That Tune Software belong to Brandon Green. 
+
+2. That you have the right to use the Name That Tune application, as distributed to you by Brandon Green free of charge.
+
+3. That you may NOT attempt to distribute, reverse-engineer, modify or otherwise attempt to change in any way the software without the express written permission of Brandon Green.
+
+4. That you are installing a software that is currently in the PROTOTYPE stage of development and that therefore the security, stability and usability of the software can not be guaranteed. As a result, Brandon Green provides no warranty of any kind regarding the software and that by installing and using the software, you agree that Brandon Green can not be held liable for any damages or injury that may result from your installation and use of the software. 
