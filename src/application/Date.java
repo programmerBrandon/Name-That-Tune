@@ -1,5 +1,12 @@
 package application;
 
+import java.time.LocalDate;
+
 public class Date {
-//TODO
+	GameData gameData = new GameData();
+	LocalDate date = LocalDate.now();
+
+	Date() {
+		System.out.println("Date: " + date);
+	}
 }
