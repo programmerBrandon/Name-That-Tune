@@ -5,7 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class TieBreakerMode {
-	GameData gameData = new GameData();
+	//GameData gameData = new GameData();
+	private static Song tieBreakerSong = new Song();
 	private static ArrayList<Player> tiedPlayerList = new ArrayList<>();
 	
 	public static ArrayList<Player> getTiedPlayerList() {
@@ -41,7 +42,7 @@ public class TieBreakerMode {
 	 * @param index - index of winning player in the Player list.
 	 */
 	public void setWinner(int index) {
-		ArrayList<Player> playerList = new ArrayList<Player>(gameData.getPlayerList());
+		ArrayList<Player> playerList = new ArrayList<Player>(GameData.getPlayerList());
 		Player player = playerList.get(index);
 		player.setPoints(playerList.get(index).getPoints() + 1);
 		
@@ -49,7 +50,15 @@ public class TieBreakerMode {
 		//System.out.println(gameData.getPlayerList());
 		Collections.sort(playerList, Collections.reverseOrder());
 		//System.out.println(playerList);
-		gameData.setPlayerList(playerList);
+		GameData.setPlayerList(playerList);
 		//System.out.println(gameData.getPlayerList());
+	}
+
+	public static Song getTieBreakerSong() {
+		return tieBreakerSong;
+	}
+
+	public static void setTieBreakerSong(Song tieBreakerSong) {
+		TieBreakerMode.tieBreakerSong = tieBreakerSong;
 	}
 }

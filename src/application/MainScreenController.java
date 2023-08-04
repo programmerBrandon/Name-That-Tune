@@ -47,6 +47,7 @@ public class MainScreenController {
 	// MainScene.fxml specific FXML objects //
 	
 	@FXML private Label welcomeText;
+	@FXML private Label messageLabel;
 	
 	//Main Scene 'Menu' buttons to navigate the program.
 	
@@ -84,8 +85,10 @@ public class MainScreenController {
 			gameSetupStage.setScene(gameSetupScene);
 			gameSetupStage.show();
 		    System.out.println("GameSetup.fxml loaded successfully!");
-		} catch (IOException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
+			messageLabel.setText("Error: Failed to load GameSetup.fxml. If this error persists, please notify the developer.");
+			messageLabel.setVisible(true);
 			System.out.println("Failed to load GameSetup.fxml!");
 		}
 	});
@@ -99,9 +102,10 @@ public class MainScreenController {
 		    gameInfoStage.setScene(gameInfoScene);
 		    gameInfoStage.show();
 		    System.out.println("GameInfo.fxml loaded successfully!");
-		} catch (IOException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
-			//messageLabel.setText("Error: Failed to load Results.fxml. If this error persists, please notify the developer.");
+			messageLabel.setText("Error: Failed to load Results.fxml. If this error persists, please notify the developer.");
+			messageLabel.setVisible(true);
 			System.out.println("Failed to load GameInfo.fxml!");
 		}
 		
@@ -116,8 +120,10 @@ public class MainScreenController {
 		    instructionsStage.setScene(instructionsScene);
 		    instructionsStage.show();
 		    System.out.println("Instructions.fxml loaded successfully!");
-		} catch (IOException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
+			messageLabel.setText("Error: Failed to load Instructions.fxml. If this error persists, please notify the developer.");
+			messageLabel.setVisible(true);
 			System.out.println("Failed to load Instructions.fxml!");
 		}
 		
@@ -132,8 +138,10 @@ public class MainScreenController {
 		    releaseInfoStage.setScene(releaseInfoScene);
 		    releaseInfoStage.show();
 		    System.out.println("ReleaseInfo.fxml loaded successfully!");
-		} catch (IOException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
+			messageLabel.setText("Error: Failed to load ReleaseInfo.fxml. If this error persists, please notify the developer.");
+			messageLabel.setVisible(true);
 			System.out.println("Failed to load ReleaseInfo.fxml!");
 		}
 		
@@ -148,8 +156,10 @@ public class MainScreenController {
 		    creditsStage.setScene(creditsScene);
 		    creditsStage.show();
 		    System.out.println("Credits.fxml loaded successfully!");
-		} catch (IOException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
+			messageLabel.setText("Error: Failed to load Credits.fxml. If this error persists, please notify the developer.");
+			messageLabel.setVisible(true);
 			System.out.println("Failed to load Credits.fxml!");
 		}
 		

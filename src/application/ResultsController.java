@@ -1,8 +1,13 @@
 package application;
 
+import java.io.File;
+//import java.awt.Window;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -14,14 +19,16 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class ResultsController {
 		GlobalValues globalValues = new GlobalValues(); //Object to GlobalValues class which contents the global values used in all scenes.
 		HeaderButtonsController headerButtonsController = new HeaderButtonsController();
-		Main mainClass = new Main();
 		GameData gameData = new GameData();
 		TieBreakerMode tieBreakerMode = new TieBreakerMode();
+		Date date = new Date();
 		//private ObservableList<String> playerList = FXCollections.observableArrayList();
 		ArrayList<Player> playerList = gameData.getPlayerList();
 		
@@ -51,8 +58,10 @@ public class ResultsController {
 		//  End of Global FXML Objects //
 		
 		// Results.fxml specific FXML objects //
+		@FXML private Label gameTitle;
 		@FXML private ListView<String> songList;
 		@FXML private ListView<String> resultsList;
+		@FXML private Button saveResultsButton;
 		@FXML private Button returnHomeButton;
 		
 		// End of Results.fxml specific objects
@@ -67,6 +76,32 @@ public class ResultsController {
 			versionText.setText(globalValues.getVersionNumber());
 			homeButtonHeader.setOnAction(headerButtonsController);
 			infoButtonHeader.setOnAction(headerButtonsController);
+			initializeTitle();
+			
+			saveResultsButton.setOnAction(e -> {
+				FileChooser fileChooser = new FileChooser();
+				FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Text Document (*.txt)", "*.txt");
+				fileChooser.getExtensionFilters().add(filter);
+				//fileChooser.getExtensionFilters(new FileNameExtensionFilter("TXT files (*.txt)", "*.txt"));
+				try {
+					javafx.stage.Window window = saveResultsButton.getScene().getWindow();
+					File file = fileChooser.showSaveDialog(window);
+					Save save = new Save();
+					save.createFile(file);
+					//System.out.println(fileChooser.showSaveDialog(window));
+					//fileChooser.showSaveDialog(window);
+					/*Parent parent = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
+					Scene scene = new Scene(parent, globalValues.getProgramWidth(), globalValues.getProgramHeight());
+					scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+					Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+					stage.setScene(scene);
+					stage.show();*/
+					//System.out.println("MainScene.fxml loaded successfully!");
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					System.out.println("Failed to load MainScene.fxml!");
+				}
+			});
 			
 			returnHomeButton.setOnAction(e -> {
 				try {
@@ -77,7 +112,7 @@ public class ResultsController {
 					stage.setScene(scene);
 					stage.show();
 					System.out.println("MainScene.fxml loaded successfully!");
-				} catch (IOException e1) {
+				} catch (Exception e1) {
 					e1.printStackTrace();
 					System.out.println("Failed to load MainScene.fxml!");
 				}
@@ -85,6 +120,16 @@ public class ResultsController {
 
 			initializeSongList();
 			resultsGenerator();
+		}
+		
+		private void initializeTitle() {
+			if(GameData.getGameTitle().equals("")) {
+				gameTitle.setText("Name That Tune - " + date.getDateUSFormat());
+			}
+			
+			else {
+				gameTitle.setText("Name That Tune - " + GameData.getGameTitle());
+			}
 		}
 		
 		

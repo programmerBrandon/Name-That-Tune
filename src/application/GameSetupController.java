@@ -2,7 +2,6 @@ package application;
 
 import java.io.IOException;
 
-import javax.swing.event.ChangeEvent;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -13,11 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
-import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
@@ -58,6 +54,7 @@ public class GameSetupController {
 	
 	// GameSetup.fxml specific FXML objects //
 	@FXML private Label instructionsLabel;
+	@FXML private TextField titleTextField;
 	@FXML private ChoiceBox<Integer> numOfSongsSelector;
 	@FXML private TextField textBoxNumOfPlayers;
 	@FXML private Slider tieBreakerSlider;
@@ -127,6 +124,7 @@ public class GameSetupController {
 	
 	continueButton.setOnAction(e -> {
 		try {
+			GameData.setGameTitle(titleTextField.getText());
 			Parent songInfoSetup = FXMLLoader.load(getClass().getResource("SongInfoSetup.fxml"));
 			Scene songInfoSetupScene = new Scene(songInfoSetup, globalValues.getProgramWidth(), globalValues.getProgramHeight());
 			songInfoSetupScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

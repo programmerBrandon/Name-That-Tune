@@ -4,14 +4,13 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="programBody" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="550.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InstructionsController">
+<AnchorPane fx:id="programBody" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InstructionsController">
    <children>
       <BorderPane fx:id="header" prefHeight="38.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
          <left>
@@ -45,7 +44,7 @@
                         <Insets top="1.0" />
                      </HBox.margin>
                      <graphic>
-                        <ImageView  fx:id="infoIcon"  fitHeight="35.0" fitWidth="70.0" focusTraversable="true" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="infoIcon" fitHeight="35.0" fitWidth="70.0" focusTraversable="true" pickOnBounds="true" preserveRatio="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -62,7 +61,7 @@
             </HBox>
          </right>
       </BorderPane>
-      <BorderPane layoutY="465.0" prefHeight="35.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
+      <BorderPane layoutY="515.0" prefHeight="35.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
          <left>
             <Label fx:id="copyrightText" text="©2022 Brandon Green" textFill="WHITE" BorderPane.alignment="CENTER">
                <BorderPane.margin>
@@ -84,17 +83,17 @@
             </Label>
          </right></BorderPane>
       <ImageView fitHeight="26.0" fitWidth="53.0" layoutX="474.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
-      <Label alignment="CENTER" layoutY="67.0" prefHeight="47.0" prefWidth="550.0" text="Program Instructions:" textFill="WHITE">
+      <Label alignment="CENTER" layoutY="77.0" prefHeight="47.0" prefWidth="550.0" text="Program Instructions:" textFill="WHITE">
          <font>
             <Font name="Arial Bold" size="40.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="155.0" prefHeight="17.0" prefWidth="550.0" text="Coming Soon!" textFill="RED">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="170.0" prefHeight="17.0" prefWidth="550.0" text="Coming Soon!" textFill="RED">
          <font>
             <Font name="Arial Bold" size="62.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="269.0" prefHeight="176.0" prefWidth="520.0" text="Program instructions and tutorials will be available by the 1st full release.  For questions, or assistance using the program, please contact me directly. &#10;&#10;-Brandon (Lead Developer)" textFill="WHITE" wrapText="true">
+      <Label layoutX="15.0" layoutY="306.0" prefHeight="176.0" prefWidth="520.0" text="Program instructions and tutorials will be available by the 1st full release.  For questions, or assistance using the program, please contact me directly. &#10;&#10;-Brandon (Lead Developer)" textFill="WHITE" wrapText="true">
          <font>
             <Font name="Arial" size="24.0" />
          </font>

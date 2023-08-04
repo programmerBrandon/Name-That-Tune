@@ -54,6 +54,7 @@ public class TieBreakerWinnerSelectionController {
 	// TieBreakerWinner.fxml specific FXML objects //
 
 	@FXML private Label instructionsLabel;
+	@FXML private Label tieBreakerSongLabel;
 	@FXML private ListView<String> selectWinnerListView;
 	@FXML private Button selectWinnerButton;
 	@FXML private Button generateResultsButton;
@@ -97,6 +98,8 @@ public class TieBreakerWinnerSelectionController {
 				
 			}	
 		});
+		
+		tieBreakerSongLabel.setText(TieBreakerMode.getTieBreakerSong().toString());
 		//tieBreakerMode.setWinner(1); //FIXME
 		
 		/*selectWinnerButton.setOnAction((event) -> {
