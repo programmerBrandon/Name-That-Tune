@@ -7,7 +7,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -15,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="programBody" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="550.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.GameSetupController">
+<AnchorPane fx:id="programBody" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.GameSetupController">
    <children>
       <BorderPane fx:id="header" prefHeight="38.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
          <left>
@@ -66,9 +65,9 @@
             </HBox>
          </right>
       </BorderPane>
-      <BorderPane layoutY="465.0" prefHeight="35.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
+      <BorderPane layoutY="515.0" prefHeight="35.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
          <left>
-            <Label fx:id="copyrightText" text="©2022 Brandon Green" textFill="WHITE" BorderPane.alignment="CENTER">
+            <Label fx:id="copyrightText" text="© Brandon Green" textFill="WHITE" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="3.0" />
                </BorderPane.margin>
@@ -98,8 +97,18 @@
             <Font name="Arial Bold" size="62.0" />
          </font>
       </Label>
-      <VBox layoutX="14.0" layoutY="176.0" prefHeight="277.0" prefWidth="527.0" spacing="25.0">
+      <VBox alignment="CENTER" layoutX="12.0" layoutY="197.0" prefHeight="257.0" prefWidth="527.0" spacing="27.0">
          <children>
+            <HBox alignment="CENTER" fillHeight="false" layoutX="10.0" layoutY="60.0" prefHeight="35.0" prefWidth="465.0" spacing="5.0">
+               <children>
+                  <Label fx:id="titleLabel" alignment="BASELINE_LEFT" contentDisplay="CENTER" graphicTextGap="1.0" prefHeight="25.0" prefWidth="39.0" styleClass="gamesetup-title-label" text="Title:" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <TextField id="title-textfield" fx:id="titleTextField" prefHeight="25.0" prefWidth="182.0" promptText="Enter A Game Title (Optional)" />
+               </children>
+            </HBox>
             <HBox alignment="CENTER" fillHeight="false" prefHeight="35.0" prefWidth="465.0" spacing="5.0">
                <children>
                   <Label fx:id="labelNumOfSongs" alignment="TOP_LEFT" contentDisplay="CENTER" graphicTextGap="1.0" prefHeight="26.0" prefWidth="189.0" text="Select the number of songs: " textAlignment="JUSTIFY" textFill="WHITE">
@@ -156,21 +165,14 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </Label>
-            <HBox prefHeight="40.0" prefWidth="85.0">
-               <children>
-                  <Button fx:id="continueButton" alignment="CENTER" disable="true" mnemonicParsing="false" text="Continue" textAlignment="JUSTIFY">
-                     <HBox.margin>
-                        <Insets left="230.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
+            <HBox prefHeight="40.0" prefWidth="85.0" />
          </children>
       </VBox>
-      <Label fx:id="instructionsLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="11.0" layoutY="52.0" prefHeight="120.0" prefWidth="527.0" text="Instruction text goes here!" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
+      <Label fx:id="instructionsLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="64.0" prefHeight="120.0" prefWidth="527.0" text="Instruction text goes here!" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
          <font>
             <Font name="Arial" size="12.0" />
          </font>
       </Label>
+      <Button fx:id="continueButton" alignment="CENTER" disable="true" layoutX="243.0" layoutY="466.0" mnemonicParsing="false" text="Continue" textAlignment="JUSTIFY" />
       </children>
 </AnchorPane>

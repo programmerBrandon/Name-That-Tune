@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="programBody" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="550.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TieBreakerWinnerSelectionController">
+<AnchorPane fx:id="programBody" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TieBreakerWinnerSelectionController">
    <children>
       <BorderPane fx:id="header" prefHeight="38.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
          <left>
@@ -63,9 +63,9 @@
             </HBox>
          </right>
       </BorderPane>
-      <BorderPane layoutY="465.0" prefHeight="35.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
+      <BorderPane layoutY="515.0" prefHeight="35.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
          <left>
-            <Label fx:id="copyrightText" text="©2023 Brandon Green" textFill="WHITE" BorderPane.alignment="CENTER">
+            <Label fx:id="copyrightText" text="© Brandon Green" textFill="WHITE" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="3.0" />
                </BorderPane.margin>
@@ -90,23 +90,33 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="11.0" layoutY="98.0" prefHeight="17.0" prefWidth="529.0" text="Step 2: Select Winner" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="11.0" layoutY="90.0" prefHeight="17.0" prefWidth="529.0" text="Step 2: Select Winner" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label id="tiebreaker-step2-instructions" fx:id="instructionsLabel" alignment="TOP_CENTER" layoutX="8.0" layoutY="136.0" prefHeight="54.0" prefWidth="529.0" text="Label" textFill="WHITE" wrapText="true">
+      <Label id="tiebreaker-step2-instructions" fx:id="instructionsLabel" alignment="TOP_CENTER" layoutX="8.0" layoutY="126.0" prefHeight="54.0" prefWidth="529.0" text="Label" textFill="WHITE" wrapText="true">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <ListView id="select-winner-listview" fx:id="selectWinnerListView" layoutX="176.0" layoutY="196.0" prefHeight="139.0" prefWidth="203.0" />
-      <Button fx:id="selectWinnerButton" disable="true" layoutX="233.0" layoutY="347.0" mnemonicParsing="false" text="Select Winner" />
-      <Label fx:id="messageLabel" alignment="CENTER" layoutX="13.0" layoutY="383.0" prefHeight="41.0" prefWidth="529.0" text="Label" textAlignment="CENTER" textFill="WHITE" visible="false">
+      <ListView id="select-winner-listview" fx:id="selectWinnerListView" layoutX="174.0" layoutY="242.0" prefHeight="139.0" prefWidth="203.0" />
+      <Button fx:id="selectWinnerButton" disable="true" layoutX="228.0" layoutY="395.0" mnemonicParsing="false" text="Select Winner" />
+      <Label fx:id="messageLabel" alignment="CENTER" layoutX="8.0" layoutY="427.0" prefHeight="41.0" prefWidth="537.0" text="Label" textAlignment="CENTER" textFill="WHITE" visible="false">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Button id="generate-results-button" fx:id="generateResultsButton" disable="true" layoutX="223.0" layoutY="432.0" mnemonicParsing="false" text="Generate Results" />
+      <Button id="generate-results-button" fx:id="generateResultsButton" disable="true" layoutX="220.0" layoutY="476.0" mnemonicParsing="false" text="Generate Results" />
+      <Label id="tiebreaker-song-title-label" alignment="CENTER" layoutX="4.0" layoutY="180.0" prefHeight="20.0" prefWidth="544.0" text="Tiebreaker Song:" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label id="tiebreaker-song-label" fx:id="tieBreakerSongLabel" alignment="CENTER" layoutX="5.0" layoutY="206.0" prefHeight="20.0" prefWidth="537.0" text="Song Here" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
       </children>
 </AnchorPane>

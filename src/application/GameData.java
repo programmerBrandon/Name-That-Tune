@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameData {
+	private static String gameTitle = "";
 	private static int numOfSongs = 1;
 	private static int numOfPlayers = 1;
 	private static int tieBreakerMode = 1; // 0 for Off, 1 for On.
@@ -16,28 +17,28 @@ public class GameData {
 	}
 
 	public int getNumOfSongs() {
-		return this.numOfSongs;
+		return numOfSongs;
 	}
 
 	public void setNumOfSongs(int numOfSongs) {
 		//System.out.println("FIXME: setNumOfSongs() called!"); //FIXME
-		this.numOfSongs = numOfSongs;
+		GameData.numOfSongs = numOfSongs;
 	}
 
 	public int getNumOfPlayers() {
-		return this.numOfPlayers;
+		return numOfPlayers;
 	}
 
 	public void setNumOfPlayers(int numOfPlayers) {
-		this.numOfPlayers = numOfPlayers;
+		GameData.numOfPlayers = numOfPlayers;
 	}
 
 	public int getTieBreakerMode() {
-		return this.tieBreakerMode;
+		return tieBreakerMode;
 	}
 
 	public void setTieBreakerMode(int tieBreakerMode) {
-		this.tieBreakerMode = tieBreakerMode;
+		GameData.tieBreakerMode = tieBreakerMode;
 	}
 
 	
@@ -50,8 +51,8 @@ public class GameData {
 	}
 
 
-	public void setSongList(ArrayList<Song> songList2) {
-		this.songList = songList2;
+	public void setSongList(ArrayList<Song> songList) {
+		GameData.songList = songList;
 	}
 
 	public ArrayList<Song> getSongList() {
@@ -64,6 +65,14 @@ public class GameData {
 
 	public static void setPlayerList(ArrayList<Player> playerList) {
 		GameData.playerList = playerList;
+	}
+
+	public static String getGameTitle() {
+		return gameTitle;
+	}
+
+	public static void setGameTitle(String gameTitle) {
+		GameData.gameTitle = gameTitle;
 	}
 
 }

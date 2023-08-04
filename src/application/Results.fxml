@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="programBody" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="550.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ResultsController">
+<AnchorPane fx:id="programBody" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ResultsController">
    <children>
       <BorderPane fx:id="header" prefHeight="38.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
          <left>
@@ -63,9 +63,9 @@
          </right>
       </BorderPane>
       <ImageView fitHeight="26.0" fitWidth="53.0" layoutX="474.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
-      <BorderPane layoutY="465.0" prefHeight="35.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
+      <BorderPane layoutY="515.0" prefHeight="35.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
          <left>
-            <Label fx:id="copyrightText" text="©2022 Brandon Green" textFill="WHITE" BorderPane.alignment="CENTER">
+            <Label fx:id="copyrightText" text="© Brandon Green" textFill="WHITE" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="3.0" />
                </BorderPane.margin>
@@ -84,28 +84,33 @@
                </font>
             </Label>
          </right></BorderPane>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="8.0" layoutY="47.0" prefHeight="21.0" prefWidth="534.0" text="Song List:" textAlignment="JUSTIFY" textFill="WHITE">
-         <font>
-            <Font name="Arial Bold" size="18.0" />
-         </font>
-      </Label>
-      <ListView fx:id="songList" focusTraversable="false" layoutX="112.0" layoutY="71.0" prefHeight="140.0" prefWidth="327.0" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="8.0" layoutY="211.0" prefHeight="21.0" prefWidth="534.0" text="Results:" textAlignment="JUSTIFY" textFill="WHITE">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="8.0" layoutY="80.0" prefHeight="21.0" prefWidth="534.0" text="Song List:" textAlignment="JUSTIFY" textFill="WHITE">
          <font>
             <Font name="Arial Bold" size="21.0" />
          </font>
       </Label>
-      <ListView fx:id="resultsList" focusTraversable="false" layoutX="114.0" layoutY="238.0" prefHeight="185.0" prefWidth="327.0" />
-      <Button fx:id="returnHomeButton" layoutX="298.0" layoutY="428.0" mnemonicParsing="false" text="Return To Main Menu">
+      <ListView fx:id="songList" focusTraversable="false" layoutX="113.0" layoutY="110.0" prefHeight="140.0" prefWidth="327.0" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="250.0" prefHeight="35.0" prefWidth="534.0" text="Results:" textAlignment="JUSTIFY" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="21.0" />
+         </font>
+      </Label>
+      <ListView fx:id="resultsList" focusTraversable="false" layoutX="112.0" layoutY="285.0" prefHeight="185.0" prefWidth="327.0" />
+      <Button fx:id="returnHomeButton" layoutX="261.0" layoutY="478.0" mnemonicParsing="false" text="Return To Main Menu">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="saveResultsButton" disable="true" layoutX="121.0" layoutY="428.0" mnemonicParsing="false" text="Save Results (Coming Soon)">
+      <Button fx:id="saveResultsButton" layoutX="166.0" layoutY="478.0" mnemonicParsing="false" text="Save Results">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
+      <Label id="game-title-label" fx:id="gameTitle" alignment="CENTER" layoutX="3.0" layoutY="47.0" prefHeight="35.0" prefWidth="544.0" text="Title" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
       </children>
 </AnchorPane>

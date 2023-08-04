@@ -158,6 +158,8 @@ public class TieBreakerSongController {
 		
 		else {
 			tempSongList.add(song);
+			TieBreakerMode.setTieBreakerSong(song);
+			System.out.println("FIXME: getTieBreakerSong: " + TieBreakerMode.getTieBreakerSong());
 			gameData.setSongList(tempSongList); //Add song to permanent song list
 			System.out.println("FIXME: Song List: " + gameData.getSongList());
 			addButton.setDisable(true);

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="programBody" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="550.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TieDetectedController">
+<AnchorPane fx:id="programBody" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TieDetectedController">
    <children>
       <BorderPane fx:id="header" prefHeight="38.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
          <left>
@@ -63,9 +63,9 @@
             </HBox>
          </right>
       </BorderPane>
-      <BorderPane layoutY="465.0" prefHeight="35.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
+      <BorderPane layoutY="515.0" prefHeight="35.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
          <left>
-            <Label fx:id="copyrightText" text="©2023 Brandon Green" textFill="WHITE" BorderPane.alignment="CENTER">
+            <Label fx:id="copyrightText" text="© Brandon Green" textFill="WHITE" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="3.0" />
                </BorderPane.margin>
@@ -95,23 +95,23 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <ListView fx:id="tiedPlayersListView" focusTraversable="false" layoutX="170.0" layoutY="172.0" mouseTransparent="true" prefHeight="173.0" prefWidth="217.0" styleClass="tied-players-listview" />
-      <Label id="tie-detected-question-label" fx:id="questionLabel" alignment="TOP_CENTER" layoutX="9.0" layoutY="355.0" prefHeight="35.0" prefWidth="530.0" text="Question Here" textAlignment="CENTER" textFill="WHITE">
+      <ListView fx:id="tiedPlayersListView" focusTraversable="false" layoutX="170.0" layoutY="172.0" mouseTransparent="true" prefHeight="195.0" prefWidth="217.0" styleClass="tied-players-listview" />
+      <Label id="tie-detected-question-label" fx:id="questionLabel" alignment="TOP_CENTER" layoutX="9.0" layoutY="387.0" prefHeight="35.0" prefWidth="530.0" text="Question Here" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Button id="tie-detected-no-button" fx:id="yesButton" layoutX="219.0" layoutY="399.0" mnemonicParsing="false" text="Yes">
+      <Button id="tie-detected-no-button" fx:id="yesButton" layoutX="220.0" layoutY="429.0" mnemonicParsing="false" text="Yes">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button id="tie-detected-no-button" fx:id="noButton" layoutX="275.0" layoutY="399.0" mnemonicParsing="false" text="No">
+      <Button id="tie-detected-no-button" fx:id="noButton" layoutX="279.0" layoutY="429.0" mnemonicParsing="false" text="No">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Label id="tie-detected-message-label" fx:id="messageLabel" alignment="TOP_CENTER" focusTraversable="false" layoutX="12.0" layoutY="439.0" prefHeight="17.0" prefWidth="530.0" text="messageLabel" textFill="WHITE" visible="false">
+      <Label id="tie-detected-message-label" fx:id="messageLabel" alignment="TOP_CENTER" focusTraversable="false" layoutX="9.0" layoutY="471.0" prefHeight="17.0" prefWidth="530.0" text="messageLabel" textFill="WHITE" visible="false">
          <font>
             <Font size="14.0" />
          </font>
