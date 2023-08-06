@@ -1,6 +1,8 @@
 package application;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -81,6 +83,8 @@ public class GameSetupController {
 					+ " entered is valid. If you have entered a valid number, then the 'Continue' button will be outlined. Press "
 					+ "'Continue' to proceed to the next step of the process."
 			);
+		continueButton.setVisible(false);
+		continueButton.setDisable(false);
 	
 		// Code adding the choices to the ChoiceBox numOfSongsSelector 
 		numOfSongsSelector.setValue(1);
@@ -96,6 +100,10 @@ public class GameSetupController {
 		numOfSongsSelector.getItems().add(10);
 	
 		gameData.setNumOfSongs(1); //Sets default value of 1 (will be overwritten by user selected value if choiceBoxNumSongsPush() is called.
+		
+		titleTextField.setOnKeyTyped(event -> {
+			handleTitleTextField();
+		});
 	
 		// Event handler code for when a value is selected from the Choice Box
 		numOfSongsSelector.setOnAction((event) -> {
@@ -104,8 +112,10 @@ public class GameSetupController {
 	
 		//Validate input as the user types by calling handleTextBoxText() method.
 		textBoxNumOfPlayers.setOnKeyTyped(event -> {
-			handleTextBoxText();
+			handlePlayerTextBoxText();
 		});
+		
+		
 	
 	/*textBoxNumOfPlayers.focusedProperty().addListener((observable, oldValue, newValue) ->
 	handleTextBoxText() );*/
@@ -122,21 +132,45 @@ public class GameSetupController {
 			}
 		});
 	
-	continueButton.setOnAction(e -> {
-		try {
-			GameData.setGameTitle(titleTextField.getText());
-			Parent songInfoSetup = FXMLLoader.load(getClass().getResource("SongInfoSetup.fxml"));
-			Scene songInfoSetupScene = new Scene(songInfoSetup, globalValues.getProgramWidth(), globalValues.getProgramHeight());
-			songInfoSetupScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			Stage releaseInfoStage = (Stage)((Node)e.getSource()).getScene().getWindow();
-		    releaseInfoStage.setScene(songInfoSetupScene);
-		    releaseInfoStage.show();
-		    System.out.println("SongInfoSetup.fxml loaded successfully!");
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			System.out.println("Failed to load SongInfoSetup.fxml!");
+		continueButton.setOnAction(e -> {
+
+			try {
+				GameData.setGameTitle(titleTextField.getText());
+				Parent songInfoSetup = FXMLLoader.load(getClass().getResource("SongInfoSetup.fxml"));
+				Scene songInfoSetupScene = new Scene(songInfoSetup, globalValues.getProgramWidth(), globalValues.getProgramHeight());
+				songInfoSetupScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				Stage releaseInfoStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+				releaseInfoStage.setScene(songInfoSetupScene);
+				releaseInfoStage.show();
+				System.out.println("SongInfoSetup.fxml loaded successfully!");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				System.out.println("Failed to load SongInfoSetup.fxml!");
+			}
+		});
+	}
+	
+	private void handleTitleTextField() {
+		titleTextField.setStyle("-fx-text-box-border: transparent; -fx-focus-color: #039ED3; -fx-text-fill: #000; ");
+		warningLabel.setVisible(false);
+		//continueButton.setDisable(false);
+		Pattern invalidCharsPattern = Pattern.compile("[<>:/|?\"\\\\*.]");
+		Matcher matcher = invalidCharsPattern.matcher(titleTextField.getText());
+		
+		if(matcher.find()) {
+			titleTextField.setStyle("-fx-text-box-border: #ff0000; -fx-focus-color: ff0000; -fx-text-fill: #ff0000;");
+			warningLabel.setText("Error: Invalid character entered! Title cannot contain the following characters: < > : \" / \\ . | ? *");
+			warningLabel.setVisible(true);
+			continueButton.setDisable(true);
+			return;
 		}
-	});
+		
+		else {
+			titleTextField.setStyle("-fx-text-box-border: transparent; -fx-focus-color: #039ED3; -fx-text-fill: #000; ");
+			warningLabel.setVisible(false);
+			continueButton.setDisable(false);
+			return;
+		}
 	}
 	
 	public void choiceBoxNumSongsPush() {
@@ -151,15 +185,21 @@ public class GameSetupController {
 	 * will be automatically disabled and an error message displayed. The method is called at every time a key pressed
 	 * while the text box is in focus. 
 	 */
-	public void handleTextBoxText() {
+	public void handlePlayerTextBoxText() {
 		textBoxNumOfPlayers.setStyle("-fx-text-box-border: transparent; -fx-focus-color: #039ED3; -fx-text-fill: #000; ");
 		warningLabel.setVisible(false);
-		continueButton.setDisable(true);
+		continueButton.setVisible(false);
+		//continueButton.setDisable(true);
 		String textBoxInput; // Variable to temporarily hold input value so it can be checked for validity
 		
 		//Checking the input validation to ensure user enters a valid number.
 		try {
 			textBoxInput = textBoxNumOfPlayers.getText().trim();
+			
+			if(textBoxNumOfPlayers.getText().trim().isEmpty()) {
+				continueButton.setVisible(false);
+				return;
+			}
 			
 			int inputToInt = Integer.parseInt(textBoxInput);
 			//System.out.println("FIXME: " + textBoxInput + " successfully converted to an integer!");
@@ -170,7 +210,8 @@ public class GameSetupController {
 				textBoxNumOfPlayers.setStyle("-fx-text-box-border: #ff0000; -fx-focus-color: ff0000; -fx-text-fill: #ff0000;");
 				warningLabel.setText("Error: The maximum number of players allowed is " + MAX_PLAYERS + ". Please try again!");
 				warningLabel.setVisible(true);
-				continueButton.setDisable(true);
+				//continueButton.setDisable(true);
+				continueButton.setVisible(false);
 				return;
 			}
 			
@@ -178,7 +219,8 @@ public class GameSetupController {
 				textBoxNumOfPlayers.setStyle("-fx-text-box-border: #ff0000; -fx-focus-color: ff0000; -fx-text-fill: #ff0000;");
 				warningLabel.setText("Error: Number entered cannot be negative. Please try again!");
 				warningLabel.setVisible(true);
-				continueButton.setDisable(true);
+				//continueButton.setDisable(true);
+				continueButton.setVisible(false);
 				return;
 			}
 			
@@ -186,18 +228,23 @@ public class GameSetupController {
 				textBoxNumOfPlayers.setStyle("-fx-text-box-border: #ff0000; -fx-focus-color: ff0000; -fx-text-fill: #ff0000;");
 				warningLabel.setText("Error: Number entered cannot be 0. Please try again!");
 				warningLabel.setVisible(true);
-				continueButton.setDisable(true);
+				//continueButton.setDisable(true);
+				continueButton.setVisible(false);
 				return;
 			}
+			
 			
 			//If the input is a valid int AND the integer is <= MAX_PLAYERS limit, then continue button is enabled and the warning label
 			//will be hidden if it was visible. The number entered by the user is then saved in the numOfPlayers variable in class GameData.
 			else {
 				textBoxNumOfPlayers.setStyle("-fx-text-box-border: transparent; -fx-focus-color: #039ED3; -fx-text-fill: #000; ");
 				warningLabel.setVisible(false);
-				continueButton.setDisable(false);
+				//continueButton.setDisable(false);
+				continueButton.setVisible(true);
 				gameData.setNumOfPlayers(inputToInt);
 				//System.out.println("FIXME: numOfPlayers: " + gameData.getNumOfPlayers());
+				
+				return;
 			}
 		} 
 		
@@ -207,7 +254,8 @@ public class GameSetupController {
 				textBoxNumOfPlayers.setStyle("-fx-text-box-border: #ff0000; -fx-focus-color: ff0000; -fx-text-fill: #ff0000;");
 				warningLabel.setText("Error: Invalid character entered! Please enter a number!");
 				warningLabel.setVisible(true);
-				continueButton.setDisable(true);
+				//continueButton.setDisable(true);
+				continueButton.setVisible(false);
 		 }
 		}
 		
@@ -225,7 +273,6 @@ public class GameSetupController {
 					  }
 				  }
 				});
-
 	}
 	
 	
