@@ -173,6 +173,6 @@
             <Font name="Arial" size="12.0" />
          </font>
       </Label>
-      <Button fx:id="continueButton" alignment="CENTER" disable="true" layoutX="243.0" layoutY="466.0" mnemonicParsing="false" text="Continue" textAlignment="JUSTIFY" />
+      <Button fx:id="continueButton" alignment="CENTER" layoutX="243.0" layoutY="466.0" mnemonicParsing="false" text="Continue" textAlignment="JUSTIFY" visible="false" />
       </children>
 </AnchorPane>
