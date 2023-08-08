@@ -1,8 +1,12 @@
 package application;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
+/**
+ * Class that stores game data that is needed throughout various parts of the program.
+ * @author Brandon Green
+ *
+ */
 public class GameData {
 	private static String gameTitle = "";
 	private static int numOfSongs = 1;

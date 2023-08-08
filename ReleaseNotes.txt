@@ -1,113 +1,45 @@
-Release Notes - Version: 0.2.0-alpha (Alpha 2.0)
-Date Written/Updated: 6/30/2023
+Release Notes - Version: 0.3.0-alpha
+Date Written/Updated: 8/8/2023
 Written By: Brandon Green (Software Developer)
 
 New Features:
 
 MAJOR FEATURE(S):
--Tiebreaker Mode is now fully functional. It has been enabled by default and will need to be
-switched off manually by the user during the setup of each game. It is recommended to keep it 
-enabled, as it can be bypassed via the new 'Tie Detected' screen by pressing the 'No' button. 
+-Save feature has been added and is fully functional. The feature allows users to save the game title (see minor features section), song list and game results to a text file so they can be viewed later. The feature can be used by pressing the 'Save Results' button on the final results screen. When the button is pushed, a save dialog box will open to the device's default directory, allowing the user to select the directory on their device they wish to save the results to. Additionally a default file name is generated and auto filled in the dialog, but the user doesn't have to use it and can name the file whatever they want. Once the user presses save on the dialog box, the file name and path will checked for errors that could cause file creation to fail, if none are found then the file will be created at the specified directory if it doesn't already exist (or use an existing file if the user allowed an existing one to be overriden). The game data will then be written to the text file.
+
+Note: There is plans to add a 'load results' feature to the program at a later alpha version, this feature would allow previously saved game data to be regenerated and displayed on the results page if the file has not been altered significantly. For this reason a warning will be added to the text file warning the user that any modifications to the file could result in being unable to load results from it.
 
 MINOR FEATURE(S):
--Release Info Screen has been redesigned and a couple minor features were added. There are 3 
-notable new features:
-1. A button was added that will open the release notes text file in the Github Repo. This is a
-temporary solution until I can fix a last minute bug that was causing the text file to not open
-locally from the jar file (though it did work in my working dev build in Eclipse IDE). This will
-take some time to figure out how to resolve, but was not worth delaying this release over. So this
-workaround should suffice for now. *
-2. A hyperlink was added that when clicked will open the Github Repository for this project in the
-user's default web browser.*
-3. A 'Report A Bug' hyperlink was added that will open the 'Issues' page of the Github Repo in the
-user's default web browser.* This will allow the user to easily view any reported bugs/issues with
-the software and also allow them to report a new issue or bug that hasn't been reported so that I
-can work on fixing them in a future version.
+-Added the ability for the user to provide a title for a game. This title will be displayed on the results page, in the text file of any saved game, and used to create a default file name for any saved game. The title can be entered via a textfield on the game setup screen. The title is optional, and if left blank the current date is used wherever the title would normally be displayed. 
 
-*It is worth noting the above features have a limitation that may result in them not working in all
-systems. Notably any system that doesn't support the 'Desktop' API of Java (in some cases Linux
-may not support it). If your system is not compatible with the feature an error message will be 
-displayed on the screen and the above 3 features will not work.*
+Note: Due to the fact that title could be used in the file name for a saved game, certain reserved characters that are not allowed in file names in Windows cannot be used in the game title. If the user attempts to use one these characters in the title, they will be warned on the game setup page and unable to proceed until the character(s) are removed from the title. Characters that cannot be used in the game title are: < > : / | ? \ " \ * and . (to prevent it being confused for file extension). This list could be updated if bugs resulting from the use of any other characters are discovered. 
 
--Credits screen has been partially completed to add Software Developer name and the name(s) of any
-Alpha testers who have been providing user end testing and feedback. Will finish fine tuning layout
-and adding things to it in the next pre-release. 
-
-
-Improvements:
+IMPROVEMENTS:
 
 MINOR IMPROVEMENTS:
--The results list on the results page has been improved to show 1 of 3 possible labels next to 
-winning or tied player(s):
-1. (Winner) - Added next to a winning player if a player wins the game outright without needing
-to break a tie. 
-2. (Winner Via Tiebreaker) - Added next to a winning player if the results of the main round ended
-in a tie and the player won the tiebreaker round. 
-3. (Tied) - Added next to any players who are tied for 1st place and tiebreaker mode was either
-disabled or bypassed. This label has existed since the 1st ever pre-release version of
-the software and isn't really new.
+-Program height was increased from 500px to 550px. This was done to allow room for the game title and overall just allow more room for stuff in future development. Content all screens was adjusted accordingly to compensate for the extra space.
 
--The song ListView on the results screen has been resized to fit 6 songs in the list without
-needing to scroll. This was done to accomodate a tiebreaker song in a game where 5 songs were
-used in the main game. Additionally the label (Tiebreaker) will be added to the song played in 
-the tiebreaker round. This will allow the tiebreaker song to be differentiated from those in the
-main round of the game.
+-Tiebreaker song is now displayed on the 'Select Winner' (Step 2) screen of Tiebreaker Mode. This was done to remind the user what the tiebreaker song is so they can play the correct song.
 
--The 'Save Results' (disabled) and 'Return To Main Menu' buttons on the results screen have been
-properly centered with page now. They were slightly off centered to the left in previous versions.
+-The 'Selected Song' and 'Selected Player' labels on the 'Set Player Scores' screen have been moved to their own lines and bolded to make them stand out more. Additionally the artist of the selected song is now displayed on the label if an artist was provided for the song. This change is experimental and could be reversed depending on user feedback and use of the program. All code for the previous format of the labels have been preserved in code comments.
 
+-The copyright year in the copyright text that is displayed in the footer of the software will now display current year automatically (based on the user's device/system date and time). This will ensure that the copyright year will always remain update regardless of if a recent update/version of the software was released recently. 
 
 Bug Fixes:
--Fixed a bug that only existed in version 0.1.1-alpha (Alpha 1.0) where it was possible to add a
-blank/empty song to the song list if the user added a song to the list and did not type in any
-input to the song name and/or artist box before clicking the add button again. This bug ironically 
-was caused by a bug fix that was done in the previous version to prevent this very thing. 
-The bug was caused by the 'Add' button not disabling after a song was added the 1st time. The fix
-for the issue was simple: just disable the button after it is pressed and only have it enabled when
-there is valid input in the song name textfield (aka not empty).
+-No major bugs were reported (yet) for version 0.2.0-alpha or any of its features, as such there were no bug fixes in this version (outside of those that were discovered and patched during the development of the new title and save features in this version). If there are any bugs reported or discovered with any part of the program (other than cosmetic related ones), they will be patched either in a bug patch release or during the development of 0.4.0-alpha.
 
 
 Code Changes/Improvements (for folks with coding knowledge):
--Finished data structure changes that were started in the previous version (0.1.1-alpha), these
-changes overhauled the complicated and confusing mess of arrays, hashmaps and arraylists used
-to keep track of the song name/artist and player names and scores. The data structure has been
-optimized to now use proper OOP principles by replacing all data structures used in version 
-0.1.0-alpha with 3 ArrayLists: 1 Arraylist containing 'Song' objects, 1 ArrayList containing 
-'Player' objects and a 3rd ArrayList containing Strings that is used by the results page to add
-the (Winner) or (Tied) labels to players. These changes have greatly improved code readibility and
-maintainablility and should make it easier to add new features as development continues. All code 
-that called or used the old data structures have been removed or modified to use the new
-structures instead. 
+-Added the 'Date' and 'Save' Classes. Documentation for both classes are provided in the Javadoc.
 
--Added Javadoc comments to several methods that were previously missing them. Any methods I missed
-will be fully commented by the next pre-release version, but I think I got them all.
+-The 'Date' class gets the current date from the user's system using the java.time API. It also provides methods for displaying the year and current date in US Format.
 
--Reformatted a lot of the code in the ResultsController class to break up what was becoming a 
-confusing, complicated 'monster' method. Now the methods handling the generation of the results
-list have been broken up into 3 methods, 1 main method and 2 helper methods (tho only 1 will be 
-used, which one depends on whether Tiebreaker Mode is enabled or disabled):
-1. resultsGenerator() - Main method (previously was named 'sortScores()'), it checks whether
-Tiebreaker mode is set to on or off and calls the appriorate helper method depending on the result.
-2. tieBreakerOffGenerator(position) - Helper method called if tiebreaker mode is off.
-3. tieBreakerOnGenerator(position) - Helper method called if tiebreaker mode is on. 
+-The 'Save' class provides all the functionality and methods for the 'Save' feature, including creating a FileChooser object and opening the save dialog box, file name error checking, generating a default file name using the game title and/or current date, writing the game data to the text file, and generating/displaying alerts to the user when necessary (if there is an error during the process or the save operation was successful).
 
--Removed empty classes that I had added previously in preparation for Tiebreaker mode but ended up
-not needing. 
+-Added Javadoc comments and descriptions for each new class, plus a few that were missing them. I will be working to make sure every class has appropriate Javadoc comments during the development of future versions.
 
--Cleaned up the code to remove any unneeded/old code that was commented out in a previous version
-and will definitely no longer be needed. Only code that could be useful in the future for either
-troubleshooting of future bugs or during the development of new features still remain. The code is
-much neater and easier to read now. 
+-Fixed some warnings related to 'accessing static methods/variables in a non static way' by changing it so those methods/variables are accessed through the class name directly rather than through an instance variable. Any of these warnings that I might have missed or not fixed yet, will be fixed as I notice them. They should hopefully all be fixed by the next pre-release alpha version.
 
--I will be continuing to improve code structure and readibility in any areas that may need it as
-I continue to work on the software. That being said, I am happy with the new code structure and
-readbility improvements, it has come a long way from the 1st pre-release version and even the
-previous version. 
+-Manually modified the preferred height for each fxml document to 550px to represent the new window height, and also adjusted the Y position of the footer to '515px' as well.
 
--The next thing on the to do list for the next pre-release version will be patching any new bugs
-that are reported for this version, especially any relating to the new Tiebreaker Mode feature. 
-Additionally I will likely make some minor tweaks and improvements to Tiebreaker Mode based on 
-user end testing and using the software in a live game of Name That Tune where I get the best
-feedback. After Tiebreaker Mode is fully polished up and optimized as best as it can be, I will
-be moving my attention to the 'Save Results' feature which will be the focus of the next major
-pre-release version 0.3.0-alpha (Alpha 3.0).
+-Cleaned up unused code, instance variables, and imports where I spotted them. No doubt some remain and will be cleaned up as development continues.

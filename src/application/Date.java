@@ -3,8 +3,12 @@ package application;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Class that will get the current date from the user's system and provide several methods to display it.
+ * @author Brandon Green
+ *
+ */
 public class Date {
-	//GameData gameData = new GameData();
 	LocalDate date;
 
 	Date() {

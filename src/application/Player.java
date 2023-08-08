@@ -1,5 +1,10 @@
 package application;
 
+/**
+ * Represents a Player and provides methods for comparing Player objects for equality.
+ * @author Brandon Green
+ *
+ */
 public class Player implements Comparable<Player> {
 	private String name;
 	private int points;
