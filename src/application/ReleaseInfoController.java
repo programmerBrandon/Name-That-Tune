@@ -1,18 +1,7 @@
 package application;
 
-import javafx.application.Application;
-import javafx.application.HostServices;
 import java.awt.Desktop;
-import java.awt.Desktop.Action;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.invoke.StringConcatFactory;
 import java.net.URI;
-import java.net.URISyntaxException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -21,9 +10,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
+/**
+ * Controller Class for ReleaseInfo.fxml
+ * @author Brandon Green
+ *
+ */
 public class ReleaseInfoController {
-	//Controller class for ReleaseInfo.fxml.
-	
 	GlobalValues globalValues = new GlobalValues(); //Object to GlobalValues class which contents the global values used in all scenes.
 	HeaderButtonsController headerButtonsController = new HeaderButtonsController();
 	Desktop desktop;
@@ -77,22 +69,21 @@ public class ReleaseInfoController {
 		//bugReportLink = new Hyperlink("https://github.com/programmerBrandon/Name-That-Tune/issues");
 	//currentRelease.setText(globalValues.versionNumberText + " [UNSTABLE]");
 		currentRelease.setText(globalValues.getVersionNumber() + " - [UNSTABLE]");
-		releaseDate.setText("Release Date: 6/30/2023");
-		improvementsList.setText("~NEW FEATURE: Tiebreaker mode is now functional. \n"
-				+ "~Tiebreaker mode is now enabled by default. \n"
-				+ "~Results page now adds '(Winner)' or '(Winner Via Tiebreaker)' next to  winning player in results list when game doesn't end in tie. \n"
-				+ "~Redesigned this release page and added some new features. \n"
-				+ "~Credits page is now partially completed. \n"
-				+ "~Minor Bug Fixes");
+		releaseDate.setText("Release Date: 8/8/2023");
+		improvementsList.setText("~NEW FEATURE: Save results feature added. Results can now be saved to a text file by clicking the 'Save Results' button on the results screen. \n\n"
+				+ "~NEW FEATURE: The ability to add a custom game title has been added. The title will be displayed on the results screen and/or any save file. \n\n"
+				+ "~Minor Improvements to the scoring screen. See full release notes for details. \n\n"
+				+ "~Tiebreaker song now displayed on the winner selection screen of tiebreaker mode. \n\n"
+				+ "~Height of the program window has been increased from 500px to 550px.");
 		/*issuesList.setText("-This is still an early stage prototype, as such many features still don't work.\n"
 				+ "-'Tiebreaker Mode' & 'Save Results' features are still in development and do not work. 'Tiebreaker Mode' is expected "
 				+ "to be ready in Alpha 2.0. \n"
 				+ "-Any other bugs, issues, feedback or suggestions should be reported directly to Brandon. FEATURES & LAYOUT SUBJECT TO "
 				+ "CHANGE UNTIL BETA PHASE.");*/
-		System.out.println("Desktop.isDesktopSupported(): " + desktop.isDesktopSupported());
-		System.out.println(System.getProperty("user.dir"));
+		//System.out.println("Desktop.isDesktopSupported(): " + Desktop.isDesktopSupported());
+		//System.out.println(System.getProperty("user.dir"));
 		
-		if(desktop.isDesktopSupported()) {
+		if(Desktop.isDesktopSupported()) {
 			desktop = Desktop.getDesktop();
 		}
 		
@@ -105,7 +96,7 @@ public class ReleaseInfoController {
 		
 		releaseNotesButton.setOnAction(e -> {
 			//File file = new File("");
-			if(desktop.isDesktopSupported()) {
+			if(Desktop.isDesktopSupported()) {
 				
 				/*try {
 					Class cls = Class.forName("ReleaseInfoController");
@@ -147,7 +138,7 @@ public class ReleaseInfoController {
 		});
 		
 		bugReportLink.setOnAction(e -> {
-			if(desktop.isDesktopSupported()) {
+			if(Desktop.isDesktopSupported()) {
 				//desktop = Desktop.getDesktop();
 				try {
 					desktop.browse(new URI("https://github.com/programmerBrandon/Name-That-Tune/issues"));
@@ -168,7 +159,7 @@ public class ReleaseInfoController {
 		});
 		
 		gitHubRepoLink.setOnAction(e -> {
-			if(desktop.isDesktopSupported()) {
+			if(Desktop.isDesktopSupported()) {
 				//desktop = Desktop.getDesktop();
 				try {
 					desktop.browse(new URI("https://github.com/programmerBrandon/Name-That-Tune"));

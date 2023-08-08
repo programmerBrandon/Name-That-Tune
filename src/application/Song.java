@@ -1,5 +1,10 @@
 package application;
 
+/**
+ * Represents a Song.
+ * @author Brandon Green
+ *
+ */
 public class Song {
 	private int number;
 	private String name;
@@ -51,6 +56,20 @@ public class Song {
 	}
 	
 	/**
+	 * A version of the toString method that will show the song name and artist without the song number.
+	 * @return A String containing the name of the song plus the artist (if there is one) without the song number.
+	 */
+	public String toStringNoNumber() {
+		if(artist.strip().isEmpty()) {
+			return name;
+		}
+		
+		else {
+			return name + " By: " + artist;
+		}
+	}
+	
+	/**
 	 * Compares (by song and artist name only - case insensitive) 2 Song objects to see if they are equal.
 	 * @param obj
 	 * @return true if the 2 song objects are equal when compared by song and artist name, false otherwise
@@ -70,6 +89,5 @@ public class Song {
 			return name.equalsIgnoreCase(song.name) && artist.equalsIgnoreCase(song.artist);
 		}
 		
-		//return false;
 	}
 }
