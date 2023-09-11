@@ -12,15 +12,15 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="programBody" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="550.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.creditsController">
+<AnchorPane fx:id="programBody" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.creditsController">
    <children>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
-      <ScrollPane id="scroll-pane" fx:id="creditsScrollPane" layoutX="3.0" layoutY="50.0" prefHeight="387.0" prefWidth="550.0" style="-fx-background-color: transparent;">
+      <ScrollPane id="scroll-pane" fx:id="creditsScrollPane" layoutX="3.0" layoutY="50.0" prefHeight="448.0" prefWidth="550.0" style="-fx-background-color: transparent;">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <content>
-            <Pane prefHeight="385.0" prefWidth="534.0" style="-fx-background-color: #282828;">
+            <Pane prefHeight="446.0" prefWidth="532.0" style="-fx-background-color: #282828;">
                <children>
                   <Label alignment="CENTER" prefHeight="42.0" prefWidth="542.0" text="Credits:" textFill="WHITE">
                      <font>
@@ -37,7 +37,7 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" layoutX="4.0" layoutY="182.0" prefHeight="47.0" prefWidth="527.0" text="Brandon Green&#10;Aaron VanderWaal" textAlignment="CENTER" textFill="WHITE">
+                  <Label alignment="CENTER" layoutX="4.0" layoutY="182.0" prefHeight="47.0" prefWidth="534.0" text="Brandon Green&#10;Aaron VanderWaal" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -94,7 +94,7 @@
             </HBox>
          </right>
       </BorderPane>
-      <BorderPane layoutY="465.0" prefHeight="35.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
+      <BorderPane layoutY="515.0" prefHeight="35.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
          <left>
             <Label fx:id="copyrightText" text="©2022 Brandon Green" textFill="WHITE" BorderPane.alignment="CENTER">
                <BorderPane.margin>
