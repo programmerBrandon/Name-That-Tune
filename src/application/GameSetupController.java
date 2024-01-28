@@ -76,7 +76,7 @@ public class GameSetupController {
 		homeButtonHeader.setOnAction(headerButtonsController);
 		infoButtonHeader.setOnAction(headerButtonsController);
 		instructionsLabel.setText("This program requires some basic information to get started. This information is: the number of songs that "
-			+ "will be played, the number of players participating (Note; the maximum players supported is " + MAX_PLAYERS + "). Using "
+			+ "will be played, the number of players participating (Note: the maximum players supported is " + MAX_PLAYERS + "). Using "
 					+ "the dropdown box provided below, select the number of songs that will be played. "
 					+ "After you have selected the number of songs, click the textbox below and enter (in numerical form)"
 					+ " the number of players. After you have finished typing, press 'Enter' to verify that what you have"
@@ -86,7 +86,7 @@ public class GameSetupController {
 		continueButton.setVisible(false);
 		continueButton.setDisable(false);
 	
-		// Code adding the choices to the ChoiceBox numOfSongsSelector 
+		// Add the choices to the ChoiceBox numOfSongsSelector 
 		numOfSongsSelector.setValue(1);
 		numOfSongsSelector.getItems().add(1);
 		numOfSongsSelector.getItems().add(2);
@@ -101,11 +101,12 @@ public class GameSetupController {
 	
 		gameData.setNumOfSongs(1); //Sets default value of 1 (will be overwritten by user selected value if choiceBoxNumSongsPush() is called.
 		
+		// Event handler for titleTextField.
 		titleTextField.setOnKeyTyped(event -> {
 			handleTitleTextField();
 		});
 	
-		// Event handler code for when a value is selected from the Choice Box
+		// Event handler code for when a value is selected from the Choice Box.
 		numOfSongsSelector.setOnAction((event) -> {
 			choiceBoxNumSongsPush();
 		});
@@ -115,16 +116,12 @@ public class GameSetupController {
 			handlePlayerTextBoxText();
 		});
 		
-		
-	
-	/*textBoxNumOfPlayers.focusedProperty().addListener((observable, oldValue, newValue) ->
-	handleTextBoxText() );*/
-		
+		//Set the tie breaker toggle switch's default value.
 		tieBreakerSlider.setValue(tieBreakerSlider.getMax());
-		tieBreakerModeToggle();
-	
+		tieBreakerModeToggle(); //Initialize tie breaker mode settings.
+		
+		//Listen for changes to the tie breaker toggle switch, call tieBreakerModeToggle() method when a change occurs.
 		tieBreakerSlider.valueProperty().addListener(new ChangeListener<Number>() {
-
 			@Override
 			public void changed(
 					ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) { 
@@ -132,6 +129,7 @@ public class GameSetupController {
 			}
 		});
 	
+		
 		continueButton.setOnAction(e -> {
 
 			try {
@@ -243,7 +241,7 @@ public class GameSetupController {
 				continueButton.setVisible(true);
 				gameData.setNumOfPlayers(inputToInt);
 				//System.out.println("FIXME: numOfPlayers: " + gameData.getNumOfPlayers());
-				
+				continueButton.requestFocus();
 				return;
 			}
 		} 
@@ -275,10 +273,10 @@ public class GameSetupController {
 				});
 	}
 	
-	
+	/**
+	 * Handler for the tiebreaker mode toggle switch. Values: 1 = ON, 0 = OFF.
+	 */
 	public void tieBreakerModeToggle() {
-		System.out.println("FIXME: tieBreakerModeToggle() called!"); //FIXME
-		System.out.println("FIXME: tieBreakerSlider value: " + tieBreakerSlider.getValue()); //FIXME
 		if(tieBreakerSlider.getValue() == 0.0) {
 			tieBreakerStatus.setText("Off");
 		}
@@ -289,8 +287,15 @@ public class GameSetupController {
 		
 		int tieBreakerValue = (int)tieBreakerSlider.getValue();
 		gameData.setTieBreakerMode(tieBreakerValue);
-		int tieBreakerMode = gameData.getTieBreakerMode(); //FIXME
-		System.out.println("FIXME: tieBreakerMode value is: " + tieBreakerMode); //FIXME
+		
+		/*
+		//Debugging print statements.
+		
+		//System.out.println("FIXME: tieBreakerModeToggle() called!"); //FIXME
+		//System.out.println("FIXME: tieBreakerSlider value: " + tieBreakerSlider.getValue()); //FIXME
+		//int tieBreakerMode = gameData.getTieBreakerMode(); //FIXME
+		//System.out.println("FIXME: tieBreakerMode value is: " + tieBreakerMode); //FIXME
+		 */
 	}
 
 }

@@ -2,6 +2,8 @@ package application;
 
 import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -134,14 +136,17 @@ public class TieBreakerSongController {
 				});
 	}
 	
+	//@SuppressWarnings("unchecked")
 	private void addButtonHandler() {
 		Song song = new Song();
 		song.setNumber(gameData.getNumOfSongs() + 1);
 		song.setName(songField.getText());
 		song.setArtist(artistField.getText());
 		System.out.println("FiXME: song: " + song.toString());
+		ArrayList<Song>  tempList =  new ArrayList<Song>(gameData.getSongList());
+		ObservableList<Song> tempSongList = FXCollections.observableArrayList(tempList);
 		
-		ArrayList<Song> tempSongList = gameData.getSongList();
+		//tempSongList = (ObservableList<Song>) gameData.getSongList();
 		System.out.println(tempSongList);
 		System.out.println(songInfoSetupController.duplicateChecker(tempSongList, song));
 		
@@ -160,7 +165,8 @@ public class TieBreakerSongController {
 			tempSongList.add(song);
 			TieBreakerMode.setTieBreakerSong(song);
 			System.out.println("FIXME: getTieBreakerSong: " + TieBreakerMode.getTieBreakerSong());
-			gameData.setSongList(tempSongList); //Add song to permanent song list
+			ArrayList<Song> tempSongListCopy = new ArrayList<>(tempSongList);
+			gameData.setSongList(tempSongListCopy); //Add song to permanent song list
 			System.out.println("FIXME: Song List: " + gameData.getSongList());
 			addButton.setDisable(true);
 			songField.setDisable(true);

@@ -2,6 +2,11 @@ package application;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -13,6 +18,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -22,7 +28,9 @@ public class SongInfoSetupController {
 	HeaderButtonsController headerButtonsController = new HeaderButtonsController();
 	GameData gameData = new GameData();
 	private int numSongsAdded = 0; //Keeps track of how many songs were added to the list (To compare to how many songs are in the game).
-	ArrayList<Song> tempSongList = new ArrayList<>();
+	//ArrayList<Song> tempSongList = new ArrayList<>();
+	private ObservableList<Song> tempSongList = FXCollections.observableArrayList();
+	private boolean editModeEnabled = false;
 	
 	// Begin 'Global' FXML objects. //
 	@FXML private AnchorPane programBody; //Main AnchorPane
@@ -50,13 +58,16 @@ public class SongInfoSetupController {
 	
 	// SongInfoSetup.fxml specific FXML objects //
 	
-	@FXML private ListView<String> songList;
+	@FXML private ListView<Song> songList;
 	@FXML private Label instructionsLabel; //Used to give user instructions on what data to provide, etc.
 	@FXML private TextField songNameField; //Textbox for user to enter song name.
 	@FXML private TextField artistNameField; //Textbox for user to enter artist name.
 	@FXML private Button addButton; //Button to add song to 'songList' listview and songList[] (GamaData class).
+	@FXML private Button saveButton;
 	@FXML private Label messageLabel;
 	@FXML private Button continueButton;
+	@FXML private Button editButton;
+	@FXML private Button cancelButton;
 	
 	// End of SongInfoSetup.fxml specific objects
 	
@@ -75,8 +86,6 @@ public class SongInfoSetupController {
 			+ "information, double check that it was typed in correctly (i.e no typos) and then hit enter on your keyboard or press the "
 			+ "'Add' button. The song and artist will then appear in the list above. Repeat this step until all songs are added. ");
 		songList.setPlaceholder(new Label("No songs to display"));
-	/*songNameField.focusedProperty().addListener((observable, oldValue, newValue) ->
-	handleTextBox() );*/
 	
 		//Validate input as the user types by calling handleTextBox() method.
 		songNameField.setOnKeyTyped(event -> {
@@ -86,9 +95,48 @@ public class SongInfoSetupController {
 		addButton.setOnAction((event) -> {
 			addButtonHandler();
 		});
-	
-	
+		
+		editButton.setOnAction((event) -> {
+			editButtonHandler();
+		});
+		
+		saveButton.setOnAction((event) -> {
+			saveButtonHandler();
+		});
+		
+		cancelButton.setOnAction((event) -> {
+			cancelButtonHandler(false);
+		});
+		
+		
+		tempSongList.addListener((ListChangeListener<? super Song>) new ListChangeListener<Song>() {
+			  public void onChanged(Change<? extends Song> c) {
+				songList.getItems().setAll(tempSongList);
+			  }
+			});
+		
+		
+		songList.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				if(!editModeEnabled) {
+					editButton.setVisible(true);
+					editButton.setDisable(false);
+					continueButton.setVisible(true);
+				}
+				
+				else {
+					editButtonHandler();
+				}
+			}
+			
+		});
+		
+		
 		continueButton.setOnAction(e -> {
+			saveSongList(tempSongList);
+			
 			try {
 				Parent playerInfoSetup = FXMLLoader.load(getClass().getResource("PlayerInfoSetup.fxml"));
 				Scene playerInfoSetupScene = new Scene(playerInfoSetup, globalValues.getProgramWidth(), globalValues.getProgramHeight());
@@ -105,149 +153,280 @@ public class SongInfoSetupController {
 		});
 	}
 	
+	/**
+	 * Handler for the song name and artist textboxes that performs all text validation and displays error messages to the user
+	 * if one or more of the validation checks fail. Also prevents the user for progressing any further until errors are resolved.
+	 */
 	public void handleTextBox() {
 		songNameField.setStyle("-fx-text-box-border: transparent; -fx-focus-color: #039ED3; -fx-text-fill: #000; ");
-		messageLabel.setVisible(false);
+		//messageLabel.setVisible(false);
 		continueButton.setDisable(true);
-		
 		//System.out.println("FIXME: handleTextBox() method called!"); //FIXME
 		
-		if(!songNameField.getText().trim().isEmpty()) { 
-			addButton.setDisable(false);
+		if(songNameField.getText().trim().isEmpty()) {
+			  messageLabel.setText("Error: Song name field cannot be left blank!");
+			  songNameField.setStyle("-fx-text-box-border: #ff0000;");
+			  messageLabel.setVisible(false);
+			  
+			  if(!editModeEnabled) { 
+					addButton.setDisable(true);
+				}
+				
+				else {
+			  		saveButton.setDisable(true);
+			  	}
 		}
 		
 		else {
-			addButton.setDisable(true);
+			if(!editModeEnabled) { 
+				addButton.setDisable(false);
+			}
+			
+			else {
+		  		saveButton.setDisable(false);
+		  	}
 		}
 		
 		songNameField.setOnKeyPressed( event -> {
 			  if(event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.TAB) {
-				  
-				  if(songNameField.getText().trim().isEmpty()) {
-					  messageLabel.setText("Error: Song name field cannot be left blank!");
-					  songNameField.setStyle("-fx-text-box-border: #ff0000;");
-					  messageLabel.setVisible(true);
-					  addButton.requestFocus();
-					  addButton.setDisable(true);
-					  //continueButton.setDisable(true);
-					  } else {
-						  messageLabel.setVisible(false);
-						  addButton.setDisable(false);
-						  songNameField.setStyle("-fx-text-box-border: transparent;");
-						  artistNameField.requestFocus();
-						  //addButtonHandler();
-					  }
-			  }			  
+					  	songNameField.setStyle("-fx-text-box-border: transparent;");
+				  		artistNameField.requestFocus();
+					}				  
 				});
 		
 		artistNameField.setOnKeyPressed( event -> {
-			  if(event.getCode() == KeyCode.ENTER) {
-				  //if(!(songNameField.getText().trim().isEmpty())) {
-				  addButton.requestFocus();
-				  //}
+			if(event.getCode() == KeyCode.ENTER) {
 				  
-				  if(!(artistNameField.getText().trim().isEmpty()) ) {
-						  //addButtonHandler();
-					  }
+				  if(!editModeEnabled) {
+					  addButton.requestFocus();
+				  } 
+				  
+				  else {
+					  saveButton.requestFocus();
 				  }
-			  
-			  
-				});
+			}
+		});
 	}
 	
-	public void addButtonHandler() {
-		//System.out.println("FIXME: addButtonHandler() method called!"); //FIXME
+	/** 
+	 * Create and initialize a new Song object using data from the textfields.
+	 * @return A Song object
+	 */
+	private Song createSong() {
 		Song song = new Song();
-		
-		if ((numSongsAdded < gameData.getNumOfSongs())) {
-		numSongsAdded++;
-		//System.out.println("Fixme: numSongsAdded: " + numSongsAdded); //FIXME
 		
 		song.setNumber(numSongsAdded);
 		song.setName(songNameField.getText());
 		song.setArtist(artistNameField.getText());
-		System.out.println("FiXME: song: " + song.toString());
 		
-		//duplicateChecker(tempSongList, song);
+		//System.out.println("FIXME: song: " + song.toString());
 		
-		if(duplicateChecker(tempSongList, song)) {
-			//messageLabel.setText("Error: " + song.getName() + " By: " + song.getArtist() + " is already in the list. "
-			//		+ "Please enter a different song!");
-			messageLabel.setText("Error: Song is already in the list. Please enter a different song!");
-			messageLabel.setVisible(true);
-			addButton.setDisable(true);
-			numSongsAdded--;
-			songNameField.clear();
-			artistNameField.clear();
-			songNameField.requestFocus();
-		}
+		return song;
+	}
+	
+	/**
+	 * Converts the temporary song list into a normal ArrayList and then saves it as the global song list.
+	 * @param tempList An ObservableList containing Song objects.
+	 */
+	private void saveSongList(ObservableList<Song> tempList) {
+		ArrayList<Song> tempSongListCopy = new ArrayList<>(tempList);
 		
-		else {
-			tempSongList.add(song);			
-			
-			if(!(artistNameField.getText().trim().isEmpty()) ) {
-				songList.getItems().add(song.toString());
-			  } 
-			
-			else {
-				
-				songList.getItems().add(song.toString());
-				//songList.getItems().add(songNameField.getText());
-			  }
-			
-			messageLabel.setText("Song " + numSongsAdded + " of " + gameData.getNumOfSongs() + " added!");
-			messageLabel.setVisible(true);
+		gameData.setSongList(tempSongListCopy);
+		
+		/*
+		 //DEBUGGING STATEMENTS!
+		 tempSongListCopy = gameData.getSongList();
+		
+		//FIXME FOR LOOP
+		for(int i = 0; i < tempSongListCopy.size(); i++) {
+			System.out.println("FIXME: songList(" + i + "): " + tempSongListCopy.get(i)); //FIXME
+		}*/
+	}
+	
+	/**
+	 * Handler method for the add button. It handles all logic required to add a new song to the temporary song list. 
+	 */
+	private void addButtonHandler() {
+		//System.out.println("FIXME: addButtonHandler() method called!"); //FIXME
+		//Song song = new Song();
+		Song song;
 
-			
-			if (numSongsAdded == gameData.getNumOfSongs()) {
-				gameData.setSongList(tempSongList);
-				//gameData.setSongNameList(songNameList);
-				messageLabel.setText("Song " + numSongsAdded + " of " + gameData.getNumOfSongs() + " added! Click 'Continue' below to proceed!");
-				continueButton.setDisable(false);
-				continueButton.setVisible(true);
-				songNameField.setDisable(true);
-				artistNameField.setDisable(true);
-				addButton.setDisable(true);
-				continueButton.requestFocus();
-				
-			
-		}
-			
-			songNameField.clear();
-			artistNameField.clear();
-			songNameField.requestFocus();
-		
-		
-		/*for(int i = 0; i < tempSongList.size(); i++) {
-			if(tempSongList.get(i).equals(song)) {
-				messageLabel.setText("Error: " + song.getName() + " " + song.getArtist() + " has already been added. Duplicates are "
-						+ "not permitted. Please enter a different song!");
+		if ((numSongsAdded < gameData.getNumOfSongs())) {
+			numSongsAdded++;
+			song = createSong();
+			//song.setNumber(numSongsAdded);
+			//song.setName(songNameField.getText());
+			//song.setArtist(artistNameField.getText());
+			//System.out.println("FIXME: song: " + song.toString());
+			//duplicateChecker(tempSongList, song);
+
+			if(duplicateChecker(tempSongList, song)) {
+				//messageLabel.setText("Error: " + song.getName() + " By: " + song.getArtist() + " is already in the list. "
+				//		+ "Please enter a different song!");
+				messageLabel.setText("Error: Song is already in the list. Please enter a different song!");
 				messageLabel.setVisible(true);
-				System.out.println("FIXME: Duplicate entry detected!");
+				addButton.setDisable(true);
+				numSongsAdded--;
+				songNameField.clear();
+				artistNameField.clear();
+				songNameField.requestFocus();
 			}
-			
-			else {
-				tempSongList.add(song);
-			}
-		}*/
-		/*if(tempSongList.contains(song)) {
-			messageLabel.setText("Error: " + song.getName() + " " + song.getArtist() + " has already been added. Duplicates are "
-					+ "not permitted. Please enter a different song!");
-			messageLabel.setVisible(true);
-			System.out.println("FIXME: tempSong contains " + song);
-		
-		}
-		
-		else {
-			tempSongList.add(song);
-		}*/
 
-		}
-			for(int i = 0; i < tempSongList.size(); i++) {
+			else {
+				tempSongList.add(song);			
+				messageLabel.setText("Song " + numSongsAdded + " of " + gameData.getNumOfSongs() + " added!");
+				messageLabel.setVisible(true);
+
+
+				if (numSongsAdded == gameData.getNumOfSongs()) {
+					messageLabel.setText("Song " + numSongsAdded + " of " + gameData.getNumOfSongs() + " added! Click 'Continue' below to proceed!");
+					continueButton.setDisable(false);
+					continueButton.setVisible(true);
+					songNameField.setDisable(true);
+					artistNameField.setDisable(true);
+					addButton.setDisable(true);
+					continueButton.requestFocus();
+
+
+				}
+
+				songNameField.clear();
+				artistNameField.clear();
+				songNameField.requestFocus();
+
+			}
+			/*
+			 //DEBUGGING STATEMENNTS 
+			 for(int i = 0; i < tempSongList.size(); i++) {
 				System.out.println("FIXME: tempSongList.get(" + i + ") " + tempSongList.get(i)); //FIXME
 			}			
 			//System.out.println("Fixme: numSongsAdded: " + numSongsAdded); //FIXME
+			 */
 		}
+	}
+	
+	/**
+	 * Handler for the edit button. It is responsible for putting the program in edit mode.
+	 */
+	private void editButtonHandler() {
+		if(songList.getSelectionModel().getSelectedItem() == null) {
+			editModeEnabled = false;
+			editButton.setDisable(true);
+		}
+		
+		else {
+			editModeEnabled = true;
+			addButton.setVisible(false);
+			
+			songNameField.setDisable(false);
+			artistNameField.setDisable(false);
+			songNameField.setText(songList.getSelectionModel().getSelectedItem().getName());
+			artistNameField.setText(songList.getSelectionModel().getSelectedItem().getArtist());
+			
+			saveButton.setDisable(false);
+			saveButton.setVisible(true);
+			editButton.setDisable(true);
+			editButton.setVisible(false);
+			continueButton.setVisible(false);
+			cancelButton.setDisable(false);
+			cancelButton.setVisible(true);
+			
+			songNameField.requestFocus();
+			messageLabel.setText("*Now editing song " + songList.getSelectionModel().getSelectedItem().getNumber() + " *");
+		}
+	}
+	
+	/**
+	 * Cancels edit mode and returns the program back to the normal song adding process.
+	 * @param editSaved A boolean value - True if a successful edit was done. False in all other cases.
+	 */
+	private void cancelButtonHandler(boolean editSaved) {
+		editModeEnabled = false;
+		songNameField.clear();
+		artistNameField.clear();
+		saveButton.setVisible(false);
+		saveButton.setDisable(true);
+		cancelButton.setVisible(false);
+		cancelButton.setDisable(true);
+		addButton.setVisible(true);
+		
+		if(numSongsAdded < gameData.getNumOfSongs()) {
+			if(editSaved) {
+				messageLabel.setText("*Edit saved successfully! Please continue where you left off.*");
+			}
+			
+			else {
+				messageLabel.setText("*Edit cancelled. Please continue where you left off.*");
+			}
+			
+			messageLabel.setVisible(true);
+			songNameField.requestFocus();
+		}
+		
+		else {
+			if(editSaved) {
+				messageLabel.setText("*Edit saved successfully! Please click 'Continue' below to proceed to the next step.*");
+			}
+			
+			else {
+				messageLabel.setText("*Edit cancelled. Please click 'Continue' below to proceed to the next step.*");
+			}
+			
+			messageLabel.setVisible(true);
+			songNameField.setDisable(true);
+			artistNameField.setDisable(true);
+			continueButton.setVisible(true);
+			continueButton.setDisable(false);
+			continueButton.requestFocus();
+		}
+		
+	}
+	
+	/**
+	 * Handler for the save button that is responsible for getting the new song information, validating it and then saving the 
+	 * new song data to the temporary song list. 
+	 */
+	private void saveButtonHandler() {
+		//Song selectedSong = songList.getSelectionModel().getSelectedItem();
+		Song tempSong = createSong();
+		String editedSongName = songNameField.getText();
+		String editedArtistName = artistNameField.getText();
+		int index = songList.getSelectionModel().getSelectedIndex();
+		
+		
+		//tempSongList.set(index, editSong(selectedSong, editedSongName, editedArtistName));
+		Song editedSong = editSong(tempSong, editedSongName, editedArtistName);
+		//System.out.println("FIXME: editedSong.getName(): " + editedSong.getName()); //FIXME
+		//System.out.println("FIXME: editedSong.getArtist(): " + editedSong.getArtist()); //FIXME
+		//System.out.println("FIXME: editedSong: " + editedSong.toString()); //FIXME
+		
+		if(!duplicateChecker(tempSongList, editedSong)) {
+			tempSongList.set(index, editedSong);
+			songList.getSelectionModel().clearSelection();
+			cancelButtonHandler(true);
+		}
+		else {
+			messageLabel.setText("Error: Duplicate song detected! The edit failed because a song with the same name and artist "
+					+ "is already in the list. Please try again!");
+			messageLabel.setVisible(true);
+			songNameField.requestFocus();
+			
+		}
+		//return;
+	}
+	
+	/**
+	 * Helper method that edits a song object with the data that is passed to it via its parameters.
+	 * @param song Song object to be edited.
+	 * @param songName String to be used as the new song name.
+	 * @param artistName String to be used as the new artist name.
+	 * @return A Song object with the modified data properties.
+	 */
+	private Song editSong(Song song, String songName, String artistName) {
+		song.setName(songName);
+		song.setArtist(artistName);
+		
+		return song;
 	}
 	
 	/**
@@ -258,23 +437,16 @@ public class SongInfoSetupController {
 	 * @param song
 	 * @return true if a duplicate song (case insensitive) is found in the list, false otherwise.
 	 */
-	public boolean duplicateChecker(ArrayList<Song> tempList, Song song) {
-			//tempList = tempSongList;
-			System.out.println("FIXME: duplicateChecker() called!");
+	public boolean duplicateChecker(ObservableList<Song> tempList, Song song) {
+			//System.out.println("FIXME: duplicateChecker() called!");
 		
 			for(int i = 0; i < tempList.size(); i++) {
+				//System.out.println("FIXME: tempList.get(" + i + "): " + tempList.get(i).toString());
 				if(tempList.get(i).equals(song)) {
-					/*messageLabel.setText("Error: " + song.getName() + " " + song.getArtist() + " has already been added. Duplicates are "
-						+ "not permitted. Please enter a different song!");
-					messageLabel.setVisible(true);*/
+					
 					System.out.println("FIXME: Duplicate entry detected!");
 					return true;
 				}
-		
-				/*else if(i == tempList.size() - 1) {
-					return false;
-				}*/
-				
 				else {
 					continue;
 				}
