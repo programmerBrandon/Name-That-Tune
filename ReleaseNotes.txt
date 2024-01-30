@@ -1,45 +1,33 @@
-Release Notes - Version: 0.3.0-alpha
-Date Written/Updated: 8/8/2023
-Written By: Brandon Green (Software Developer)
+Release Notes - Version: 0.3.1-alpha
 
 New Features:
 
 MAJOR FEATURE(S):
--Save feature has been added and is fully functional. The feature allows users to save the game title (see minor features section), song list and game results to a text file so they can be viewed later. The feature can be used by pressing the 'Save Results' button on the final results screen. When the button is pushed, a save dialog box will open to the device's default directory, allowing the user to select the directory on their device they wish to save the results to. Additionally a default file name is generated and auto filled in the dialog, but the user doesn't have to use it and can name the file whatever they want. Once the user presses save on the dialog box, the file name and path will checked for errors that could cause file creation to fail, if none are found then the file will be created at the specified directory if it doesn't already exist (or use an existing file if the user allowed an existing one to be overriden). The game data will then be written to the text file.
-
-Note: There is plans to add a 'load results' feature to the program at a later alpha version, this feature would allow previously saved game data to be regenerated and displayed on the results page if the file has not been altered significantly. For this reason a warning will be added to the text file warning the user that any modifications to the file could result in being unable to load results from it.
+-No major features added during this release.
 
 MINOR FEATURE(S):
--Added the ability for the user to provide a title for a game. This title will be displayed on the results page, in the text file of any saved game, and used to create a default file name for any saved game. The title can be entered via a textfield on the game setup screen. The title is optional, and if left blank the current date is used wherever the title would normally be displayed. 
+-Added the ability to edit song and player info while on either song setup screen or player setup screen. After a song or player is added to the list, the user can select a song or player on the list to display an edit button.
 
-Note: Due to the fact that title could be used in the file name for a saved game, certain reserved characters that are not allowed in file names in Windows cannot be used in the game title. If the user attempts to use one these characters in the title, they will be warned on the game setup page and unable to proceed until the character(s) are removed from the title. Characters that cannot be used in the game title are: < > : / | ? \ " \ * and . (to prevent it being confused for file extension). This list could be updated if bugs resulting from the use of any other characters are discovered. 
+-Added a scoring history on the scoring screen that allows the user to see a complete history of scoring actions. It will show the user the number of points added, the player it was added to and for what song it was added for. This solves a major flaw of the program where it was easy to lose track of what points were applied to which player for which songs. 
 
-IMPROVEMENTS:
+-In addition to the scoring history feature described above, I have also added an undo feature that allows the user to undo any scoring action that was previously done by selecting the action from the scoring history list and then pressing the undo button. When a scoring action is undone, the points that were added during that action will be removed from the appriopriate player and that action will be removed from the scoring history. By default the most recent scoring action performed will be auto selected on the history list so that a scoring mistake that gets caught immediately can be quickly undo by simply pressing the undo button. 
+
+Improvements:
 
 MINOR IMPROVEMENTS:
--Program height was increased from 500px to 550px. This was done to allow room for the game title and overall just allow more room for stuff in future development. Content all screens was adjusted accordingly to compensate for the extra space.
+-Added a tabbed layout for instructions on song setup, player setup and scoring screens. This allows for instructions to be broken up into categories for different features on the screen. On the scoring screen the tabbed layout allows for the user to toggle between the instructions and the new scoring history feature.
 
--Tiebreaker song is now displayed on the 'Select Winner' (Step 2) screen of Tiebreaker Mode. This was done to remind the user what the tiebreaker song is so they can play the correct song.
+-Rewrote the instructions for the song and player setup screens to make them simpler and easier to read. Simple instructions on using the new edit feature on both screens have also been added.
 
--The 'Selected Song' and 'Selected Player' labels on the 'Set Player Scores' screen have been moved to their own lines and bolded to make them stand out more. Additionally the artist of the selected song is now displayed on the label if an artist was provided for the song. This change is experimental and could be reversed depending on user feedback and use of the program. All code for the previous format of the labels have been preserved in code comments.
-
--The copyright year in the copyright text that is displayed in the footer of the software will now display current year automatically (based on the user's device/system date and time). This will ensure that the copyright year will always remain update regardless of if a recent update/version of the software was released recently. 
 
 Bug Fixes:
--No major bugs were reported (yet) for version 0.2.0-alpha or any of its features, as such there were no bug fixes in this version (outside of those that were discovered and patched during the development of the new title and save features in this version). If there are any bugs reported or discovered with any part of the program (other than cosmetic related ones), they will be patched either in a bug patch release or during the development of 0.4.0-alpha.
+-Fixed a bug that made it so you couldn't simply press enter to move to the next screen after entering the number of songs on the first game setup screen.
 
+Code Changes/Improvements (for technical users):
+-Refactored the code in the SetPlayerScoresController, SongInfoSetupController and PlayerInfoSetupController java files. As part of this process some old code that was commented out from previous versions were removed. Additionally I rewrote some code into helper functions in order to reduce the number of 'monster functions' and improve code maintainibility longterm.
 
-Code Changes/Improvements (for folks with coding knowledge):
--Added the 'Date' and 'Save' Classes. Documentation for both classes are provided in the Javadoc.
+-Added javadoc comments to various functions were missing them and also rewrote some outdated comments to reflect recent code changes.
 
--The 'Date' class gets the current date from the user's system using the java.time API. It also provides methods for displaying the year and current date in US Format.
+-Added new event listeners to temporary Observable lists used throughout the program so that any changes made to them will automatically update the ListViews that show the data to the user. This has greatly reduced redunant code in several places and also allowed for easier implementation of the new edit and undo features.
 
--The 'Save' class provides all the functionality and methods for the 'Save' feature, including creating a FileChooser object and opening the save dialog box, file name error checking, generating a default file name using the game title and/or current date, writing the game data to the text file, and generating/displaying alerts to the user when necessary (if there is an error during the process or the save operation was successful).
-
--Added Javadoc comments and descriptions for each new class, plus a few that were missing them. I will be working to make sure every class has appropriate Javadoc comments during the development of future versions.
-
--Fixed some warnings related to 'accessing static methods/variables in a non static way' by changing it so those methods/variables are accessed through the class name directly rather than through an instance variable. Any of these warnings that I might have missed or not fixed yet, will be fixed as I notice them. They should hopefully all be fixed by the next pre-release alpha version.
-
--Manually modified the preferred height for each fxml document to 550px to represent the new window height, and also adjusted the Y position of the footer to '515px' as well.
-
--Cleaned up unused code, instance variables, and imports where I spotted them. No doubt some remain and will be cleaned up as development continues.
+While making this version I was able to clean up and refactor code in several files that really needed it. The source code is now much cleaner and structured significantly better than in the first couple pre-release versions. I am hoping to have it completely refactored by the first Beta version.
