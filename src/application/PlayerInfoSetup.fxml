@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -65,7 +67,7 @@
       </BorderPane>
       <BorderPane layoutY="515.0" prefHeight="35.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
          <left>
-            <Label fx:id="copyrightText" text="©2022 Brandon Green" textFill="WHITE" BorderPane.alignment="CENTER">
+            <Label fx:id="copyrightText" text="© Brandon Green" textFill="WHITE" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="3.0" />
                </BorderPane.margin>
@@ -85,13 +87,8 @@
             </Label>
          </right></BorderPane>
       <ImageView fitHeight="26.0" fitWidth="53.0" layoutX="474.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
-      <ListView fx:id="playerList" layoutX="162.0" layoutY="56.0" prefHeight="224.0" prefWidth="241.0" />
-      <Label fx:id="instructionsLabel" layoutX="10.0" layoutY="289.0" prefHeight="77.0" prefWidth="531.0" text="Instructions here" textFill="WHITE" wrapText="true">
-         <font>
-            <Font name="Arial" size="12.0" />
-         </font>
-      </Label>
-      <HBox layoutX="70.0" layoutY="366.0" prefHeight="56.0" prefWidth="409.0" spacing="10.0">
+      <ListView fx:id="playerList" layoutX="140.0" layoutY="56.0" prefHeight="161.0" prefWidth="269.0" />
+      <HBox layoutX="70.0" layoutY="366.0" prefHeight="56.0" prefWidth="349.0" spacing="10.0">
          <children>
             <Label prefHeight="17.0" prefWidth="111.0" text="Enter player name: " textFill="WHITE">
                <font>
@@ -109,14 +106,9 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </TextField>
-            <Button fx:id="addButton" disable="true" mnemonicParsing="false" text="Add">
-               <HBox.margin>
-                  <Insets left="7.0" top="18.0" />
-               </HBox.margin>
-            </Button>
          </children>
       </HBox>
-      <Label fx:id="messageLabel" alignment="CENTER" layoutX="10.0" layoutY="447.0" prefHeight="17.0" prefWidth="531.0" text="Label" textFill="WHITE" visible="false">
+      <Label fx:id="messageLabel" alignment="CENTER" layoutX="9.0" layoutY="439.0" prefHeight="35.0" prefWidth="531.0" text="Label" textFill="WHITE" visible="false" wrapText="true">
          <font>
             <Font name="Arial" size="12.0" />
          </font>
@@ -126,5 +118,47 @@
             <Font name="Arial" size="12.0" />
          </font>
       </Button>
+      <Button fx:id="addButton" disable="true" layoutX="419.0" layoutY="382.0" mnemonicParsing="false" text="Add" />
+      <Button fx:id="saveButton" disable="true" layoutX="420.0" layoutY="382.0" mnemonicParsing="false" text="Save" visible="false" />
+      <Button fx:id="editButton" disable="true" layoutX="321.0" layoutY="480.0" mnemonicParsing="false" text="Edit" visible="false">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="cancelButton" disable="true" layoutX="248.0" layoutY="480.0" mnemonicParsing="false" text="Cancel" visible="false">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Button>
+      <TabPane layoutX="10.0" layoutY="224.0" prefHeight="146.0" prefWidth="531.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Adding Players">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="playerInstructions" alignment="TOP_CENTER" layoutY="1.0" prefHeight="115.0" prefWidth="531.0" text="playerInstructions" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="Arial" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Editing Players">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="editingInstructions" alignment="TOP_CENTER" prefHeight="102.0" prefWidth="531.0" text="editingInstructions" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="Arial" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
       </children>
 </AnchorPane>

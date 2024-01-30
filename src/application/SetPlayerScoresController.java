@@ -196,7 +196,7 @@ public class SetPlayerScoresController {
 				TieBreakerMode tieBreakerMode = new TieBreakerMode();
 				
 				if(tieBreakerMode.checkForTies(playerList)) {
-					System.out.println("FIXME: TIES FOUND!");
+					//System.out.println("FIXME: TIES FOUND!");
 					loadTieDetectedScene(e);
 				}
 				
@@ -265,7 +265,7 @@ public class SetPlayerScoresController {
 		//Code works by searching for ' - Points:' in the playerList selection text and storing the index for it in variable 'index'.
 		if(!playerSelected.isEmpty()) {
 			int index = playerSelected.indexOf(" - Points:");
-			System.out.println("FIXME: Index of ' - Points:': " + index); //FIXME
+			//System.out.println("FIXME: Index of ' - Points:': " + index); //FIXME
 			playerSelectedParsed = playerSelected.substring(0, index);
 			playerSelectedLabel.setText("Player Selected: " + playerSelectedParsed);
 		}
