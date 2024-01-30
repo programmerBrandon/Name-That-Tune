@@ -69,12 +69,12 @@ public class ReleaseInfoController {
 		//bugReportLink = new Hyperlink("https://github.com/programmerBrandon/Name-That-Tune/issues");
 	//currentRelease.setText(globalValues.versionNumberText + " [UNSTABLE]");
 		currentRelease.setText(globalValues.getVersionNumber() + " - [UNSTABLE]");
-		releaseDate.setText("Release Date: 8/8/2023");
-		improvementsList.setText("~NEW FEATURE: Save results feature added. Results can now be saved to a text file by clicking the 'Save Results' button on the results screen. \n\n"
-				+ "~NEW FEATURE: The ability to add a custom game title has been added. The title will be displayed on the results screen and/or any save file. \n\n"
-				+ "~Minor Improvements to the scoring screen. See full release notes for details. \n\n"
-				+ "~Tiebreaker song now displayed on the winner selection screen of tiebreaker mode. \n\n"
-				+ "~Height of the program window has been increased from 500px to 550px.");
+		releaseDate.setText("Release Date: 1/29/2023");
+		improvementsList.setText("~NEW FEATURE: Edit mode added that allows the user to edit songs and players on setup screens. \n\n"
+				+ "~NEW FEATURE: Added a scoring history on the scoring screen to allow user to keep track of all points added. \n\n"
+				+ "~NEW FEATURE: Added an undo feature that allows users to undo any scoring action.\n\n"
+				+ "~Minor Improvements: Added tabs on the player, song and scoring setup screens to allow for better navigation of instructions. \n\n"
+				+ "~Simplified the instructions for player, song and scoring setup screens.");
 		/*issuesList.setText("-This is still an early stage prototype, as such many features still don't work.\n"
 				+ "-'Tiebreaker Mode' & 'Save Results' features are still in development and do not work. 'Tiebreaker Mode' is expected "
 				+ "to be ready in Alpha 2.0. \n"

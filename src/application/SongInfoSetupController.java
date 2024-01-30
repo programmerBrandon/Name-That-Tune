@@ -59,7 +59,8 @@ public class SongInfoSetupController {
 	// SongInfoSetup.fxml specific FXML objects //
 	
 	@FXML private ListView<Song> songList;
-	@FXML private Label instructionsLabel; //Used to give user instructions on what data to provide, etc.
+	@FXML private Label songInstructions;
+	@FXML private Label editingInstructions;
 	@FXML private TextField songNameField; //Textbox for user to enter song name.
 	@FXML private TextField artistNameField; //Textbox for user to enter artist name.
 	@FXML private Button addButton; //Button to add song to 'songList' listview and songList[] (GamaData class).
@@ -82,9 +83,20 @@ public class SongInfoSetupController {
 		versionText.setText(globalValues.getVersionNumber());
 		homeButtonHeader.setOnAction(headerButtonsController);
 		infoButtonHeader.setOnAction(headerButtonsController);
-		instructionsLabel.setText("Using the textboxes below, please enter the song name and artist name for each song. After typing in the "
+		/*songInstructions.setText("Using the textboxes below, please enter the song name and artist name for each song. After typing in the "
 			+ "information, double check that it was typed in correctly (i.e no typos) and then hit enter on your keyboard or press the "
-			+ "'Add' button. The song and artist will then appear in the list above. Repeat this step until all songs are added. ");
+			+ "'Add' button. The song and artist will then appear in the list above. Repeat this step until all songs are added. ");*/
+		songInstructions.setText("You add songs to the game by following these simple steps:\n"
+				+ "1. Enter the song name and if desired song artist into the textboxes below.\n"
+				+ "2. Click the 'Add' button.\n"
+				+ "3. Repeat the steps until all songs are added.\n\n"
+				+ "Note: Songs cannot be edited after leaving this screen so be sure to check for typos before proceeding to the next screen.");
+		
+		editingInstructions.setText("You can edit a song that has already been added to the list using these simple steps:\n"
+				+ "1. Select the song you want to edit from the list.\n"
+				+ "2. Press the edit button at the bottom of the screen.\n"
+				+ "3. Make the changes you want and then press save.\n\n"
+				+ "If you change your mind about editing a song, just click cancel to abort.");
 		songList.setPlaceholder(new Label("No songs to display"));
 	
 		//Validate input as the user types by calling handleTextBox() method.
@@ -120,6 +132,10 @@ public class SongInfoSetupController {
 
 			@Override
 			public void handle(MouseEvent arg0) {
+				if(songList.getSelectionModel().getSelectedIndex() == -1) {
+					return;
+				}
+				
 				if(!editModeEnabled) {
 					editButton.setVisible(true);
 					editButton.setDisable(false);
@@ -161,6 +177,8 @@ public class SongInfoSetupController {
 		songNameField.setStyle("-fx-text-box-border: transparent; -fx-focus-color: #039ED3; -fx-text-fill: #000; ");
 		//messageLabel.setVisible(false);
 		continueButton.setDisable(true);
+		addButton.setDisable(true);
+		saveButton.setDisable(true);
 		//System.out.println("FIXME: handleTextBox() method called!"); //FIXME
 		
 		if(songNameField.getText().trim().isEmpty()) {
@@ -250,6 +268,12 @@ public class SongInfoSetupController {
 		//System.out.println("FIXME: addButtonHandler() method called!"); //FIXME
 		//Song song = new Song();
 		Song song;
+		
+		/*if(songNameField.getText().isBlank()) {
+			messageLabel.setText("Error: Song name field cannot be left blank!");
+			  songNameField.setStyle("-fx-text-box-border: #ff0000;");
+			  messageLabel.setVisible(false);
+		}*/
 
 		if ((numSongsAdded < gameData.getNumOfSongs())) {
 			numSongsAdded++;
@@ -273,7 +297,8 @@ public class SongInfoSetupController {
 			}
 
 			else {
-				tempSongList.add(song);			
+				tempSongList.add(song);
+				addButton.setDisable(true);
 				messageLabel.setText("Song " + numSongsAdded + " of " + gameData.getNumOfSongs() + " added!");
 				messageLabel.setVisible(true);
 
@@ -389,6 +414,7 @@ public class SongInfoSetupController {
 	private void saveButtonHandler() {
 		//Song selectedSong = songList.getSelectionModel().getSelectedItem();
 		Song tempSong = createSong();
+		tempSong.setNumber(songList.getSelectionModel().getSelectedItem().getNumber());
 		String editedSongName = songNameField.getText();
 		String editedArtistName = artistNameField.getText();
 		int index = songList.getSelectionModel().getSelectedIndex();
