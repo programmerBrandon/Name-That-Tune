@@ -69,7 +69,7 @@ public class ReleaseInfoController {
 		//bugReportLink = new Hyperlink("https://github.com/programmerBrandon/Name-That-Tune/issues");
 	//currentRelease.setText(globalValues.versionNumberText + " [UNSTABLE]");
 		currentRelease.setText(globalValues.getVersionNumber() + " - [UNSTABLE]");
-		releaseDate.setText("Release Date: 1/29/2023");
+		releaseDate.setText("Release Date: 1/29/2024");
 		improvementsList.setText("~NEW FEATURE: Edit mode added that allows the user to edit songs and players on setup screens. \n\n"
 				+ "~NEW FEATURE: Added a scoring history on the scoring screen to allow user to keep track of all points added. \n\n"
 				+ "~NEW FEATURE: Added an undo feature that allows users to undo any scoring action.\n\n"
