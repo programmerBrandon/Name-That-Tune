@@ -52,6 +52,7 @@ public class MainScreenController {
 	//Main Scene 'Menu' buttons to navigate the program.
 	
 	@FXML private Button startButton; 
+	@FXML private Button createSongListBtn;
 	@FXML private Button gameInfoButton;
 	@FXML private Button programInstructionsButton;
 	@FXML private Button releaseInfoButton;
@@ -92,6 +93,23 @@ public class MainScreenController {
 			System.out.println("Failed to load GameSetup.fxml!");
 		}
 	});
+		
+		createSongListBtn.setOnAction(e -> {
+			try {
+				Parent parent = FXMLLoader.load(getClass().getResource("SongListGenerator.fxml"));
+				Scene scene = new Scene(parent, globalValues.getProgramWidth(), globalValues.getProgramHeight());
+				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+				stage.setScene(scene);
+				stage.show();
+			    System.out.println("SongListGenerator.fxml loaded successfully!");
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				messageLabel.setText("Error: Failed to load SongListGenerator.fxml. If this error persists, please notify the developer.");
+				messageLabel.setVisible(true);
+				System.out.println("Failed to load SongListGenerator.fxml!");
+			}
+		});
 		
 	gameInfoButton.setOnAction(e -> {
 		try {

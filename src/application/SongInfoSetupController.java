@@ -2,7 +2,6 @@ package application;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -15,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -31,6 +31,7 @@ public class SongInfoSetupController {
 	//ArrayList<Song> tempSongList = new ArrayList<>();
 	private ObservableList<Song> tempSongList = FXCollections.observableArrayList();
 	private boolean editModeEnabled = false;
+	SongListHelper songListHelper = new SongListHelper();
 	
 	// Begin 'Global' FXML objects. //
 	@FXML private AnchorPane programBody; //Main AnchorPane
@@ -59,16 +60,22 @@ public class SongInfoSetupController {
 	// SongInfoSetup.fxml specific FXML objects //
 	
 	@FXML private ListView<Song> songList;
+	@FXML private Tab addSongsTab;
+	@FXML private Tab editSongsTab;
+	@FXML private Tab importSongListTab;
 	@FXML private Label songInstructions;
 	@FXML private Label editingInstructions;
+	@FXML private Label importingInstructions;
 	@FXML private TextField songNameField; //Textbox for user to enter song name.
 	@FXML private TextField artistNameField; //Textbox for user to enter artist name.
 	@FXML private Button addButton; //Button to add song to 'songList' listview and songList[] (GamaData class).
 	@FXML private Button saveButton;
 	@FXML private Label messageLabel;
+	@FXML private Label orLabel;
 	@FXML private Button continueButton;
 	@FXML private Button editButton;
 	@FXML private Button cancelButton;
+	@FXML private Button importButton;
 	
 	// End of SongInfoSetup.fxml specific objects
 	
@@ -97,6 +104,9 @@ public class SongInfoSetupController {
 				+ "2. Press the edit button at the bottom of the screen.\n"
 				+ "3. Make the changes you want and then press save.\n\n"
 				+ "If you change your mind about editing a song, just click cancel to abort.");
+		//messageLabel.setText("OR");
+		//messageLabel.setStyle("-fx-font-weight: bold;");
+		//messageLabel.setVisible(true);
 		songList.setPlaceholder(new Label("No songs to display"));
 	
 		//Validate input as the user types by calling handleTextBox() method.
@@ -227,8 +237,11 @@ public class SongInfoSetupController {
 	}
 	
 	/** 
+	 * DEPRECATED AS OF VERSION 0.4.0-ALPHA, REMOVE AFTER 1 VERSION IF NO BUGS WITH NEW CODE.
+	 * 
 	 * Create and initialize a new Song object using data from the textfields.
 	 * @return A Song object
+	 * @deprecated
 	 */
 	private Song createSong() {
 		Song song = new Song();
@@ -277,7 +290,9 @@ public class SongInfoSetupController {
 
 		if ((numSongsAdded < gameData.getNumOfSongs())) {
 			numSongsAdded++;
-			song = createSong();
+			importButton.setVisible(false);
+			orLabel.setVisible(false);
+			song = songListHelper.createSong(numSongsAdded, songNameField.getText(), artistNameField.getText());
 			//song.setNumber(numSongsAdded);
 			//song.setName(songNameField.getText());
 			//song.setArtist(artistNameField.getText());
@@ -413,7 +428,8 @@ public class SongInfoSetupController {
 	 */
 	private void saveButtonHandler() {
 		//Song selectedSong = songList.getSelectionModel().getSelectedItem();
-		Song tempSong = createSong();
+		int songNum = songList.getSelectionModel().getSelectedItem().getNumber();
+		Song tempSong = songListHelper.createSong(songNum, songNameField.getText(), artistNameField.getText());
 		tempSong.setNumber(songList.getSelectionModel().getSelectedItem().getNumber());
 		String editedSongName = songNameField.getText();
 		String editedArtistName = artistNameField.getText();
@@ -442,11 +458,15 @@ public class SongInfoSetupController {
 	}
 	
 	/**
+	 * DEPRECATED AS OF VERSION 0.4.0-ALPHA, REMOVE AFTER 1 VERSION IF NO BUGS WITH NEW CODE.
+	 * TRANSITION ANYTHING STILL USING THIS TO NEW METHOD IN SONGLISTHELPER CLASS. //TODO
+	 * 
 	 * Helper method that edits a song object with the data that is passed to it via its parameters.
 	 * @param song Song object to be edited.
 	 * @param songName String to be used as the new song name.
 	 * @param artistName String to be used as the new artist name.
 	 * @return A Song object with the modified data properties.
+	 * @deprecated
 	 */
 	private Song editSong(Song song, String songName, String artistName) {
 		song.setName(songName);

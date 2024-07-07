@@ -20,8 +20,8 @@ public class TieBreakerMode {
 	
 	/**
 	 * Checks index 0 and index 1 of a List of Player objects and checks whether their points are the same or different.
-	 * @param A List of Player Objects
-	 * @returns true if the first 2 players in the list have the same points, false otherwise.
+	 * @param list - A List of Player Objects
+	 * @return true if the first 2 players in the list have the same points, false otherwise.
 	 */
 	public boolean checkForTies(List<Player> list) {
 		ArrayList<Player> playerList = new ArrayList<Player>(list);
