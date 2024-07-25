@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
@@ -22,6 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class SongInfoSetupController {
 	GlobalValues globalValues = new GlobalValues(); //Object to GlobalValues class which contents the global values used in all scenes.
@@ -177,6 +179,58 @@ public class SongInfoSetupController {
 				System.out.println("Failed to load PlayerInfoSetup.fxml!");
 			}
 		});
+		
+		importButton.setOnAction(e -> {
+			ImportData importData = new ImportData();
+			Window window = importButton.getScene().getWindow();
+			File file = importData.showOpenFileDialog(window);
+			importData.importSongListFile(file);
+			//System.out.println("FIXME: numSongsAdded: " + numSongsAdded); //FIXME
+			//System.out.println("FIXME: gameData.getNumOfSongs(): " + gameData.getNumOfSongs()); //FIXME
+			
+			if(importData.getSongList().size() != 0) {
+				for (Song song : importData.getSongList()) {
+					if(tempSongList.size() < globalValues.getMaxSongsSupported()) {
+						tempSongList.add(song);
+					}
+					
+					else {
+						System.out.println("Maximum number of songs reached! No further songs will be imported!");
+						break;
+					}
+				}
+				
+				if(tempSongList.size() != 0) {
+					numSongsAdded = tempSongList.size();
+					//System.out.println("FIXME: numSongsAdded: " + numSongsAdded); //FIXME
+					
+					if(numSongsAdded >= gameData.getNumOfSongs()) {
+						gameData.setNumOfSongs(tempSongList.size());
+						songNameField.clear();
+						artistNameField.clear();
+						songNameField.setDisable(true);
+						artistNameField.setDisable(true);
+						//System.out.println("FIXME: gameData.getNumOfSongs(): " + gameData.getNumOfSongs()); //FIXME
+					}
+					
+					System.out.println("Import Results:");
+					System.out.println(importData.getNumSongsSkipped() + " songs failed to import due to error(s).");
+					System.out.println(numSongsAdded + " songs imported successfully!");
+					/*System.out.print("Import Success Rate: ");
+					System.out.printf("%.2f", numSongsAdded / (numSongsAdded + importData.getNumSongsSkipped()));
+					System.out.println("%");*/
+					System.out.println();
+					messageLabel.setText(numSongsAdded + " songs imported from file. Please verify that song info is correct and then click continue!");
+					messageLabel.setVisible(true);
+				}
+				
+				importButton.setVisible(false);
+				orLabel.setVisible(false);
+				continueButton.setVisible(true);
+				continueButton.setDisable(false);
+			}
+			
+		});
 	}
 	
 	/**
@@ -256,6 +310,20 @@ public class SongInfoSetupController {
 	}
 	
 	/**
+	 * Disables the ability to add new songs via manual entry mode.
+	 */
+	private void disableSongAdding() {
+		songNameField.clear();
+		artistNameField.clear();
+		songNameField.setDisable(true);
+		artistNameField.setDisable(true);
+		addButton.setDisable(true);
+		continueButton.setVisible(true);
+		continueButton.setDisable(false);
+		continueButton.requestFocus();
+	}
+	
+	/**
 	 * Converts the temporary song list into a normal ArrayList and then saves it as the global song list.
 	 * @param tempList An ObservableList containing Song objects.
 	 */
@@ -281,7 +349,7 @@ public class SongInfoSetupController {
 		//System.out.println("FIXME: addButtonHandler() method called!"); //FIXME
 		//Song song = new Song();
 		Song song;
-		
+
 		/*if(songNameField.getText().isBlank()) {
 			messageLabel.setText("Error: Song name field cannot be left blank!");
 			  songNameField.setStyle("-fx-text-box-border: #ff0000;");
@@ -320,12 +388,13 @@ public class SongInfoSetupController {
 
 				if (numSongsAdded == gameData.getNumOfSongs()) {
 					messageLabel.setText("Song " + numSongsAdded + " of " + gameData.getNumOfSongs() + " added! Click 'Continue' below to proceed!");
-					continueButton.setDisable(false);
-					continueButton.setVisible(true);
-					songNameField.setDisable(true);
-					artistNameField.setDisable(true);
-					addButton.setDisable(true);
-					continueButton.requestFocus();
+					/*continueButton.setDisable(false);
+				continueButton.setVisible(true);
+				songNameField.setDisable(true);
+				artistNameField.setDisable(true);
+				addButton.setDisable(true);
+				continueButton.requestFocus();*/
+					disableSongAdding();
 
 
 				}

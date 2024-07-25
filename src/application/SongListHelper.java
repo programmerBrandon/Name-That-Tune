@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -55,7 +57,7 @@ public class SongListHelper {
 				//System.out.println("FIXME: tempList.get(" + i + "): " + tempList.get(i).toString());
 				if(tempList.get(i).equals(song)) {
 					
-					System.out.println("FIXME: Duplicate entry detected!");
+					System.out.println("Duplicate song entry detected!");
 					return true;
 				}
 				else {
@@ -65,4 +67,32 @@ public class SongListHelper {
 		
 			return false;
 	}
+	
+	
+	/**
+	 * Accepts an ArrayList of type Song and a Song object as arguments.
+	 * Iterates through the argument ArrayList and checks to see if the list contains
+	 * a song matching the argument song object (compared by song name and artist).
+	 * @param tempList
+	 * @param song
+	 * @return true if a duplicate song (case insensitive) is found in the list, false otherwise.
+	 */
+	public boolean duplicateChecker(ArrayList<Song> tempList, Song song) {
+		//System.out.println("FIXME: duplicateChecker() called!");
+	
+		for(int i = 0; i < tempList.size(); i++) {
+			//System.out.println("FIXME: tempList.get(" + i + "): " + tempList.get(i).toString());
+			if(tempList.get(i).equals(song)) {
+				
+				System.out.println("Duplicate song entry detected!");
+				return true;
+			}
+			else {
+				continue;
+			}
+	}
+	
+		return false;
+}
+	
 }

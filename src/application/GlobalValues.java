@@ -12,7 +12,9 @@ public class GlobalValues {
 	
 	private final int PROGRAM_WIDTH = 550; 
 	private final int PROGRAM_HEIGHT = 550; 
-	private final String VERSION = "Version: 0.3.1-alpha";
+	private final int MAX_SONGS_SUPPORTED = 10;
+	private final int MAX_PLAYERS_SUPPORTED = 25;
+	private final String VERSION = "Version: 0.4.0-alpha";
 	//private final String COPYRIGHT = "©2023 Brandon Green";
 	private final String COPYRIGHT = "©" + date.getYear() + " Brandon Green";
 	private final String PROGRAM_NAME = "Name That Tune";
@@ -27,6 +29,15 @@ public class GlobalValues {
 	public int getProgramHeight() {
 		return PROGRAM_HEIGHT;
 	}
+	
+	public int getMaxSongsSupported() {
+		return MAX_SONGS_SUPPORTED;
+	}
+	
+	public int getMaxPlayersSupported() {
+		return MAX_PLAYERS_SUPPORTED;
+	}
+
 
 	public String getVersionNumber() {
 		return VERSION;

@@ -16,6 +16,7 @@ public class GameData {
 	private static ArrayList<String> sortedPlayerList = new ArrayList<String>();
 	private static ArrayList<Song> songList = new ArrayList<>();
 	private static ArrayList<Player> playerList = new ArrayList<>();
+	private static ArrayList<String> scoringHistory = new ArrayList<>();
 
 	public GameData() {}
 
@@ -80,6 +81,7 @@ public class GameData {
 	public static Title getTitle() {
 		return title;
 	}
+	
 
 	//DEPRECIATED AS OF VERSION 0.4.0-ALPHA, REMOVE AFTER 1 VERSION IF NO BUGS WITH NEW CODE.
 	public static void setGameTitle(String gameTitle) {
@@ -88,6 +90,14 @@ public class GameData {
 	
 	public static void setTitle(Title title) {
 		GameData.title = title;
+	}
+	
+	public static void setScoringHistory(ArrayList<String> scoringHistory) {
+		GameData.scoringHistory = scoringHistory;
+	}
+	
+	public ArrayList<String> getScoringHistory() {
+		return GameData.scoringHistory;
 	}
 	
 	/**
