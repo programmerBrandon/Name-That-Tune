@@ -224,11 +224,16 @@ public class ResultsController {
 			}
 			
 			GameData.setSortedPlayerList(tempSortedPlayerList);
-			for(int i = 0; i < tempSortedPlayerList.size(); i++) {
-				System.out.println("FIXME: tempSortedPlayerList(" + i + "): " + tempSortedPlayerList.get(i)); //FIXME
-			}
 			
 			initializeResultsList();
+			
+			//Debugging statements
+			/*
+			for(int i = 0; i < tempSortedPlayerList.size(); i++) {
+			 
+				System.out.println("FIXME: tempSortedPlayerList(" + i + "): " + tempSortedPlayerList.get(i)); //FIXME
+			}
+			*/
 		}
 		
 		/**
@@ -241,7 +246,7 @@ public class ResultsController {
 		 */
 		private ArrayList<String> tieBreakerOffGenerator(int position) {
 			ArrayList<String> tempSortedPlayerList = new ArrayList<String>();
-			System.out.println("FIXME: checkForTies(): " + tieBreakerMode.checkForTies(playerList)); //FIXME
+			//System.out.println("FIXME: checkForTies(): " + tieBreakerMode.checkForTies(playerList)); //FIXME
 			
 			//If no tie was detected and tiebreaker mode was not used (a clean win), add (Winner) next to the winning player.
 			if(!tieBreakerMode.checkForTies(playerList)) {
@@ -261,7 +266,7 @@ public class ResultsController {
 
 					tempSortedPlayerList.add(position + ". " + playerList.get(i).toStringAltFormat());
 				}
-				System.out.println("FIXME: tempSortedPlayerList: " + tempSortedPlayerList); //FIXME
+				//System.out.println("FIXME: tempSortedPlayerList: " + tempSortedPlayerList); //FIXME
 				
 			} 
 			

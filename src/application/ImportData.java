@@ -92,7 +92,7 @@ public class ImportData {
 	 */
 	public void importSongListFile(File file) {
 		this.file = file;
-		System.out.println("importSongListFile() called!"); //FIXME
+		//System.out.println("importSongListFile() called!"); //FIXME
 		try {
 			//String line;
 			BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -131,7 +131,10 @@ public class ImportData {
 	public ArrayList<Song> importSongList(BufferedReader reader) {
 		ArrayList<Song> tempList = new ArrayList<>();
 		boolean addToList = false;
-		System.out.println("FIXME: importSongList() called!");
+		boolean tieBreakerAdded = false;
+		int numSongsAdded = 0;
+		
+		//System.out.println("FIXME: importSongList() called!");
 		try {
 			String line;
 			while( (line = reader.readLine()) != null) {
@@ -146,11 +149,33 @@ public class ImportData {
 					break;
 				}
 				
+				if(line.contains("(Tiebreaker)") && addToList) {
+					TieBreakerMode tieBreakerMode = new TieBreakerMode();
+					//System.out.println("FIXME: line: " + line); //FIXME
+					if(songFormatValidator(line)) {
+						TieBreakerMode.setTieBreakerSong(importSong(line));
+						tieBreakerAdded = true;
+					}
+					
+					else {
+						numSongsSkipped++;
+						System.out.println("Tiebreaker song has been skipped due to error(s) being detected.");
+
+					}
+					//break;
+					continue;
+				}
+				
 				if(addToList) {
 					//System.out.println("FIXME: line: " + line); //FIXME
 					//songList.add(importSong(line));
 					if(songFormatValidator(line) && !songListHelper.duplicateChecker(tempList, importSong(line))) {
 						tempList.add(importSong(line));
+						numSongsAdded++;
+						
+						if(tieBreakerAdded) {
+							tempList.get(tempList.size() - 1).setNumber(numSongsAdded);
+						}
 					}
 					else {
 						numSongsSkipped++;
@@ -183,14 +208,32 @@ public class ImportData {
 		String songName = "";
 		int indexOfBy = songString.indexOf("By:");
 		String artistName = "";
+		int indexOfTiebreaker = songString.indexOf("(Tiebreaker)");
 		
+		//If no artist was specified.
 		if(indexOfBy != -1) {
 			songName = songString.substring(indexOfDot + 2, indexOfBy - 1);
-			artistName = songString.substring(indexOfBy + 4);
+			
+			if(indexOfTiebreaker != -1) {
+				artistName = songString.substring(indexOfBy + 4, indexOfTiebreaker - 1);
+				//System.out.println("FIXME: artistName: " + artistName);
+			}
+			
+			else {
+				artistName = songString.substring(indexOfBy + 4);
+			}
+			
 		}
 		
+		
 		else {
-			songName = songString.substring(indexOfDot + 2);
+			if(indexOfTiebreaker != -1) { 
+				songName = songString.substring(indexOfDot + 2, indexOfTiebreaker);
+			}
+			
+			else {
+				songName = songString.substring(indexOfDot + 2);
+			}
 		}
 		
 		
@@ -258,10 +301,10 @@ public class ImportData {
 	}
 	
 	private void testSongList(ArrayList<Song> songList) {
-		System.out.println("FIXME: testSongList() called!"); //FIXME
-		System.out.println("FIXME: songList.size(): " + songList.size()); //FIXME
+		//System.out.println("FIXME: testSongList() called!"); //FIXME
+		//System.out.println("FIXME: songList.size(): " + songList.size()); //FIXME
 		for(int i = 0; i < songList.size(); i++) {
-			System.out.println("FIXME: songList(" + i + "): " + songList.get(i)); //FIXME
+			//System.out.println("FIXME: songList(" + i + "): " + songList.get(i)); //FIXME
 		}
 		System.out.println();
 	}

@@ -22,13 +22,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-
 public class GameSetupController {
 	//Controller class for GameSetup.fxml.
 	GlobalValues globalValues = new GlobalValues(); //Object to GlobalValues class which contents the global values used in all scenes.
 	HeaderButtonsController headerButtonsController = new HeaderButtonsController();
 	GameData gameData = new GameData();
 	final int MAX_PLAYERS = 25; //Maximum number of players supported per game.
+	private Title title = new Title("");
 	
 	// Begin 'Global' FXML objects. //
 	@FXML private AnchorPane programBody; //Main AnchorPane
@@ -61,7 +61,7 @@ public class GameSetupController {
 	@FXML private TextField textBoxNumOfPlayers;
 	@FXML private Slider tieBreakerSlider;
 	@FXML private Label tieBreakerStatus;
-	@FXML private Label warningLabel;
+	@FXML private Label messageLabel;
 	@FXML private Button continueButton;
 	// End of GameSetup.fxml specific objects //
 	
@@ -85,6 +85,7 @@ public class GameSetupController {
 			);
 		continueButton.setVisible(false);
 		continueButton.setDisable(false);
+		
 	
 		// Add the choices to the ChoiceBox numOfSongsSelector 
 		numOfSongsSelector.setValue(1);
@@ -113,6 +114,9 @@ public class GameSetupController {
 	
 		//Validate input as the user types by calling handleTextBoxText() method.
 		textBoxNumOfPlayers.setOnKeyTyped(event -> {
+			if(textBoxNumOfPlayers.getText().length() > 2) {
+				removeTextFieldOverflow();
+			}
 			handlePlayerTextBoxText();
 		});
 		
@@ -131,9 +135,10 @@ public class GameSetupController {
 	
 		
 		continueButton.setOnAction(e -> {
-
+			title.saveTitle();
+			
 			try {
-				GameData.setGameTitle(titleTextField.getText());
+				//GameData.setGameTitle(titleTextField.getText());
 				Parent songInfoSetup = FXMLLoader.load(getClass().getResource("SongInfoSetup.fxml"));
 				Scene songInfoSetupScene = new Scene(songInfoSetup, globalValues.getProgramWidth(), globalValues.getProgramHeight());
 				songInfoSetupScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -148,27 +153,43 @@ public class GameSetupController {
 		});
 	}
 	
-	private void handleTitleTextField() {
+	public void handleTitleTextField() {
+		title = new Title(titleTextField.getText());
 		titleTextField.setStyle("-fx-text-box-border: transparent; -fx-focus-color: #039ED3; -fx-text-fill: #000; ");
-		warningLabel.setVisible(false);
+		messageLabel.setVisible(false);
 		//continueButton.setDisable(false);
-		Pattern invalidCharsPattern = Pattern.compile("[<>:/|?\"\\\\*.]");
-		Matcher matcher = invalidCharsPattern.matcher(titleTextField.getText());
+		//Pattern invalidCharsPattern = Pattern.compile("[<>:/|?\"\\\\*.]");
+		//Matcher matcher = invalidCharsPattern.matcher(titleTextField.getText());
 		
-		if(matcher.find()) {
+		if(title.validateTitle()) {
 			titleTextField.setStyle("-fx-text-box-border: #ff0000; -fx-focus-color: ff0000; -fx-text-fill: #ff0000;");
-			warningLabel.setText("Error: Invalid character entered! Title cannot contain the following characters: < > : \" / \\ . | ? *");
-			warningLabel.setVisible(true);
+			messageLabel.setText("Error: Invalid character entered! Title cannot contain the following characters: < > : \" / \\ . | ? *");
+			messageLabel.setVisible(true);
 			continueButton.setDisable(true);
 			return;
 		}
 		
 		else {
 			titleTextField.setStyle("-fx-text-box-border: transparent; -fx-focus-color: #039ED3; -fx-text-fill: #000; ");
-			warningLabel.setVisible(false);
+			messageLabel.setVisible(false);
 			continueButton.setDisable(false);
 			return;
 		}
+	}
+	
+	/**
+	 * DEPRECATED AS OF VERSION 0.4.0-ALPHA, REMOVE AFTER 1 VERSION IF NO BUGS WITH NEW CODE.
+	 * 
+	 * A helper method that verifies the title passed to it does not contain any illegal characters.
+	 * @param title - The title to validate.
+	 * @return true if title contains illegal characters, false otherwise.
+	 * @deprecated
+	 */
+	public boolean validateTitle(String title) {
+		Pattern invalidCharsPattern = Pattern.compile("[<>:/|?\"\\\\*.]");
+		Matcher matcher = invalidCharsPattern.matcher(title);
+		
+		return matcher.find();
 	}
 	
 	public void choiceBoxNumSongsPush() {
@@ -185,10 +206,16 @@ public class GameSetupController {
 	 */
 	public void handlePlayerTextBoxText() {
 		textBoxNumOfPlayers.setStyle("-fx-text-box-border: transparent; -fx-focus-color: #039ED3; -fx-text-fill: #000; ");
-		warningLabel.setVisible(false);
+		messageLabel.setVisible(false);
 		continueButton.setVisible(false);
 		//continueButton.setDisable(true);
 		String textBoxInput; // Variable to temporarily hold input value so it can be checked for validity
+		
+		textBoxNumOfPlayers.setOnKeyPressed( event -> {
+			  if(event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.TAB) {
+					  	continueButton.requestFocus();
+					}				  
+				});
 		
 		//Checking the input validation to ensure user enters a valid number.
 		try {
@@ -204,10 +231,10 @@ public class GameSetupController {
 			
 			
 			//Checks if the number of players entered by user exceeds MAX_PLAYERS limit. Gives error message to user if it does.
-			if(inputToInt > MAX_PLAYERS) { 
+			if(inputToInt > globalValues.getMaxPlayersSupported()) { 
 				textBoxNumOfPlayers.setStyle("-fx-text-box-border: #ff0000; -fx-focus-color: ff0000; -fx-text-fill: #ff0000;");
-				warningLabel.setText("Error: The maximum number of players allowed is " + MAX_PLAYERS + ". Please try again!");
-				warningLabel.setVisible(true);
+				messageLabel.setText("Error: The maximum number of players allowed is " + MAX_PLAYERS + ". Please try again!");
+				messageLabel.setVisible(true);
 				//continueButton.setDisable(true);
 				continueButton.setVisible(false);
 				return;
@@ -215,8 +242,8 @@ public class GameSetupController {
 			
 			if(inputToInt < 0) {
 				textBoxNumOfPlayers.setStyle("-fx-text-box-border: #ff0000; -fx-focus-color: ff0000; -fx-text-fill: #ff0000;");
-				warningLabel.setText("Error: Number entered cannot be negative. Please try again!");
-				warningLabel.setVisible(true);
+				messageLabel.setText("Error: Number entered cannot be negative. Please try again!");
+				messageLabel.setVisible(true);
 				//continueButton.setDisable(true);
 				continueButton.setVisible(false);
 				return;
@@ -224,8 +251,8 @@ public class GameSetupController {
 			
 			if(inputToInt == 0) {
 				textBoxNumOfPlayers.setStyle("-fx-text-box-border: #ff0000; -fx-focus-color: ff0000; -fx-text-fill: #ff0000;");
-				warningLabel.setText("Error: Number entered cannot be 0. Please try again!");
-				warningLabel.setVisible(true);
+				messageLabel.setText("Error: Number entered cannot be 0. Please try again!");
+				messageLabel.setVisible(true);
 				//continueButton.setDisable(true);
 				continueButton.setVisible(false);
 				return;
@@ -236,22 +263,25 @@ public class GameSetupController {
 			//will be hidden if it was visible. The number entered by the user is then saved in the numOfPlayers variable in class GameData.
 			else {
 				textBoxNumOfPlayers.setStyle("-fx-text-box-border: transparent; -fx-focus-color: #039ED3; -fx-text-fill: #000; ");
-				warningLabel.setVisible(false);
+				messageLabel.setVisible(false);
 				//continueButton.setDisable(false);
 				continueButton.setVisible(true);
 				gameData.setNumOfPlayers(inputToInt);
+				if(textBoxNumOfPlayers.getText().length() == 2) {
+					continueButton.requestFocus();
+				}
 				//System.out.println("FIXME: numOfPlayers: " + gameData.getNumOfPlayers());
-				continueButton.requestFocus();
+				//continueButton.requestFocus();
 				return;
 			}
 		} 
 		
-		//Handles all errors caused by invalid user input except for no input/blank textbox and MAX_PLAYERS limit being exceeded. 
+		//Handles all errors caused by invalid user input except for no input/blank TextField and maximum players limit being exceeded. 
 		catch(NumberFormatException e) {
 			if(!textBoxNumOfPlayers.getText().trim().isEmpty()) {
 				textBoxNumOfPlayers.setStyle("-fx-text-box-border: #ff0000; -fx-focus-color: ff0000; -fx-text-fill: #ff0000;");
-				warningLabel.setText("Error: Invalid character entered! Please enter a number!");
-				warningLabel.setVisible(true);
+				messageLabel.setText("Error: Invalid character entered! Please enter a number!");
+				messageLabel.setVisible(true);
 				//continueButton.setDisable(true);
 				continueButton.setVisible(false);
 		 }
@@ -262,15 +292,25 @@ public class GameSetupController {
 				  continueButton.setDisable(false);
 				  continueButton.requestFocus();
 				  
-				  //Check if textbox is blank/no input entered by user. 
+				  //Check if TextField is blank/no input entered by user. 
 				  if(textBoxNumOfPlayers.getText().trim().isEmpty()) {
-					  warningLabel.setText("Error: Number of players field cannot be left blank!");
+					  messageLabel.setText("Error: Number of players field cannot be left blank!");
 					  textBoxNumOfPlayers.setStyle("-fx-text-box-border: #ff0000;");
-					  warningLabel.setVisible(true);
+					  messageLabel.setVisible(true);
 					  continueButton.setDisable(true);
 					  }
 				  }
 				});
+	}
+	
+	/**
+	 * Removes any extra characters if user attempts to type more than 2 characters in the number of players TextField.
+	 */
+	private void removeTextFieldOverflow() {
+		String tempString = textBoxNumOfPlayers.getText().substring(0, 2);
+		//System.out.println("FIXME: removeTextFieldOverflow() tempString: " + tempString); //FIXME
+		textBoxNumOfPlayers.setText(tempString);
+		textBoxNumOfPlayers.end();
 	}
 	
 	/**

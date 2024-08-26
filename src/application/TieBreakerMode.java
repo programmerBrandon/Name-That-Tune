@@ -61,4 +61,8 @@ public class TieBreakerMode {
 	public static void setTieBreakerSong(Song tieBreakerSong) {
 		TieBreakerMode.tieBreakerSong = tieBreakerSong;
 	}
+	
+	public static void clearTieBreakerSong() {
+		TieBreakerMode.tieBreakerSong = new Song();
+	}
 }

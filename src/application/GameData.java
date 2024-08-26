@@ -17,6 +17,7 @@ public class GameData {
 	private static ArrayList<Song> songList = new ArrayList<>();
 	private static ArrayList<Player> playerList = new ArrayList<>();
 	private static ArrayList<String> scoringHistory = new ArrayList<>();
+	private static Song tieBreakerSong = new Song();
 
 	public GameData() {}
 
@@ -98,6 +99,27 @@ public class GameData {
 	
 	public ArrayList<String> getScoringHistory() {
 		return GameData.scoringHistory;
+	}
+	
+	public static void setTieBreakerSong(Song tiebreakerSong) {
+		GameData.tieBreakerSong = tiebreakerSong;
+	}
+	
+	public Song getTieBreakerSong() {
+		return tieBreakerSong;
+	}
+	
+	public void clearStaticVariables() {
+		setTitle(new Title());
+		setNumOfPlayers(1);
+		setNumOfSongs(0);
+		setTieBreakerMode(1);
+		setSortedPlayerList(new ArrayList<>());
+		setSongList(new ArrayList<>());
+		setPlayerList(new ArrayList<>());
+		setScoringHistory(new ArrayList<>());
+		TieBreakerMode.clearTieBreakerSong();
+		System.out.println("Static variables have been reset.");
 	}
 	
 	/**

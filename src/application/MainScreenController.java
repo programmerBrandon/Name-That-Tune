@@ -19,6 +19,7 @@ public class MainScreenController {
 	GlobalValues globalValues = new GlobalValues(); //Object to GlobalValues class which contents the global values used in all scenes.
 	HeaderButtonsController headerButtonsController = new HeaderButtonsController();
 	Main mainClass = new Main();
+	GameData gameData = new GameData();
 	
 	// Begin 'Global' FXML objects. //
 	@FXML private AnchorPane programBody; //Main AnchorPane
@@ -76,6 +77,7 @@ public class MainScreenController {
 			+ "program works, press the 'Start' button to begin.");
 		//homeButtonHeader.setOnAction(headerButtonsController);
 		infoButtonHeader.setOnAction(headerButtonsController);
+		gameData.clearStaticVariables();
 	
 		startButton.setOnAction(e -> {
 		try {

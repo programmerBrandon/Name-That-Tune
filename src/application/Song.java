@@ -9,11 +9,27 @@ public class Song {
 	private int number;
 	private String name;
 	private String artist;
+	private boolean isTiebreaker;
 	
 	public Song() {
 		number = 0;
 		name = "";
 		artist = "";
+		isTiebreaker = false;
+	}
+	
+	public Song(int number, String name, String artist) {
+		this.number = number;
+		this.name = name;
+		this.artist = artist;
+		isTiebreaker = false;
+	}
+	
+	public Song(int number, String name, String artist, boolean isTiebreaker) {
+		this.number = number;
+		this.name = name;
+		this.artist = artist;
+		this.isTiebreaker = isTiebreaker;
 	}
 	
 	public void setNumber(int number){
@@ -38,6 +54,14 @@ public class Song {
 	
 	public String getArtist() {
 		return artist;
+	}
+	
+	public void setAsTieBreaker(boolean isTiebreaker) {
+		this.isTiebreaker = isTiebreaker;
+	}
+	
+	public boolean getIsTieBreaker() {
+		return isTiebreaker;
 	}
 	
 	/**
@@ -67,6 +91,14 @@ public class Song {
 		else {
 			return name + " By: " + artist;
 		}
+	}
+	
+	/**
+	 * Checks if a song has default properties. If it does, the song is considered blank.
+	 * @return true if the song is blank, false otherwise.
+	 */
+	public boolean isBlank() {
+		return number == 0 && name.isBlank() && artist.isBlank();
 	}
 	
 	/**

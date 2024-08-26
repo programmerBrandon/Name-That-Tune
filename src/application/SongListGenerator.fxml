@@ -131,7 +131,7 @@
             <Font name="Arial" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="editButton" disable="true" layoutX="331.0" layoutY="481.0" mnemonicParsing="false" text="Edit" visible="false">
+      <Button fx:id="editButton" layoutX="331.0" layoutY="481.0" mnemonicParsing="false" text="Edit" visible="false">
          <font>
             <Font name="Arial" size="12.0" />
          </font>
@@ -149,6 +149,11 @@
          </font>
       </Button>
       <Button fx:id="mainMenuButton" disable="true" layoutX="143.0" layoutY="481.0" mnemonicParsing="false" text="Main Menu" visible="false">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="setTieBreakerBtn" disable="true" layoutX="105.0" layoutY="481.0" mnemonicParsing="false" text="Set As Tiebreaker" visible="false">
          <font>
             <Font name="Arial" size="12.0" />
          </font>

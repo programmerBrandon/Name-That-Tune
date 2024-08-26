@@ -26,6 +26,7 @@ public class TieBreakerWinnerSelectionController {
 	SongInfoSetupController songInfoSetupController = new SongInfoSetupController();
 	private ArrayList<Player> tiedPlayerList = tieBreakerMode.getTiedPlayerList();
 	private int playerIndex = -1;
+	
 
 	// Begin 'Global' FXML objects. //
 	@FXML private AnchorPane programBody; //Main AnchorPane
@@ -75,8 +76,7 @@ public class TieBreakerWinnerSelectionController {
 		generateResultsButton.setDisable(true);
 		generateResultsButton.setVisible(false);
 		selectWinnerListView.setPlaceholder(new Label("No players to display"));
-		ArrayList<Song> songList = gameData.getSongList();
-
+		
 		
 		instructionsLabel.setText("Play 5 to 15 seconds of the tiebreaker song and then select a winner from the list of players"
 		 		+ " below and click the 'Select Winner' button to choose a winner.");
@@ -99,7 +99,7 @@ public class TieBreakerWinnerSelectionController {
 			}	
 		});
 		
-		tieBreakerSongLabel.setText(TieBreakerMode.getTieBreakerSong().toString());
+		tieBreakerSongLabel.setText(TieBreakerMode.getTieBreakerSong().toStringNoNumber());
 		//tieBreakerMode.setWinner(1); //FIXME
 		
 		/*selectWinnerButton.setOnAction((event) -> {
@@ -110,7 +110,24 @@ public class TieBreakerWinnerSelectionController {
 			selectWinnerButtonHandler();
 		});
 		
-		generateResultsButton.setOnAction(event -> { 
+		generateResultsButton.setOnAction(event -> {
+			//Fix the tiebreaker song number if it does not match the size of the song list.
+			ArrayList<Song> tempList = gameData.getSongList();
+			
+			if(tempList.get(tempList.size() - 1).getNumber() != tempList.size()) {
+				int lastSongNum = tempList.get(tempList.size() - 2).getNumber();
+				Song tempSong = tempList.get(tempList.size() - 1);
+				tempSong.setNumber(++lastSongNum);
+				tempList.set(tempList.size() - 1, tempSong);
+				//tempList.set(tempList.size() - 1).get(tempList.size() - 1).setNumber(lastSongNum++);
+				gameData.setSongList(tempList);
+				
+				//System.out.println("FIXME: tempList:" + tempList.toString()); //FIXME
+				//System.out.println("FIXME: lastSongNum: " + lastSongNum); //FIXME
+				//System.out.println("FIXME: tempList.get(tempList.size() - 1): " + tempList.get(tempList.size() - 1)); //FIXME
+				//System.out.println("FIXME: tempSong: " + tempSong); //FIXME
+			}
+			
 			loadResultsScene(event);
 		});
 	}

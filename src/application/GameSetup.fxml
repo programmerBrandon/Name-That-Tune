@@ -125,7 +125,7 @@
                         <Font name="Arial" size="15.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="textBoxNumOfPlayers" prefHeight="25.0" prefWidth="35.0">
+                  <TextField fx:id="textBoxNumOfPlayers" prefColumnCount="2" prefHeight="23.0" prefWidth="32.0">
                      <font>
                         <Font name="Arial" size="12.0" />
                      </font>

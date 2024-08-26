@@ -1,12 +1,9 @@
 package application;
 
-import java.io.IOException;
 import java.util.ArrayList;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.collections.ListChangeListener.Change;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -71,6 +68,7 @@ public class SongListGeneratorController {
 	@FXML private Button generateButton;
 	@FXML private Button mainMenuButton;
 	@FXML private Button clearButton;
+	@FXML private Button setTieBreakerBtn;
 	// End of SongListGenerator.fxml specific objects. //
 	
 	// Footer items //
@@ -158,10 +156,13 @@ public class SongListGeneratorController {
 						return;
 					}
 					
+					setTieBreakerBtn.setDisable(false);
+					setTieBreakerBtn.setVisible(true);
+					
 					if(!editModeEnabled) {
 						clearButton.setVisible(false);
 						editButton.setVisible(true);
-						editButton.setDisable(false);
+						//editButton.setDisable(false);
 					
 						//continueButton.setVisible(true);
 					}
@@ -184,6 +185,8 @@ public class SongListGeneratorController {
 				mainMenuButton.setDisable(false);
 				clearButton.setVisible(true);
 				editButton.setVisible(false);
+				setTieBreakerBtn.setVisible(false);
+				setTieBreakerBtn.setDisable(true);
 			});
 			
 			clearButton.setOnAction(e -> {
@@ -204,8 +207,15 @@ public class SongListGeneratorController {
 					System.out.println("Failed to load MainScene.fxml!");
 				}
 			});
+			
+			setTieBreakerBtn.setOnAction(e -> {
+				setTieBreakerBtnHandler();
+			});
 		}
 		
+		/**
+		 * Validates the text in title TextField to ensure it does not contain any illegal characters.
+		 */
 		public void handleTitleTextField() {
 			title = new Title(titleTextField.getText());
 			titleTextField.setStyle("-fx-text-box-border: transparent; -fx-focus-color: #039ED3; -fx-text-fill: #000; ");
@@ -221,6 +231,9 @@ public class SongListGeneratorController {
 				generateButton.setDisable(true);
 				songNameField.setDisable(true);
 				artistNameField.setDisable(true);
+				editButton.setDisable(true);
+				addButton.setVisible(false);
+				//addButton.setDisable(true);
 				//continueButton.setDisable(true);
 				return;
 			}
@@ -231,6 +244,8 @@ public class SongListGeneratorController {
 				generateButton.setDisable(false);
 				songNameField.setDisable(false);
 				artistNameField.setDisable(false);
+				editButton.setDisable(false);
+				addButton.setVisible(true);
 				//continueButton.setDisable(false);
 				return;
 			}
@@ -364,7 +379,8 @@ public class SongListGeneratorController {
 					songNameField.clear();
 					artistNameField.clear();
 					songNameField.requestFocus();
-
+					editButton.setVisible(false);
+					setTieBreakerBtn.setVisible(false);
 				}
 				/*
 				 //DEBUGGING STATEMENNTS 
@@ -390,7 +406,7 @@ public class SongListGeneratorController {
 		private void editButtonHandler() {
 			if(songList.getSelectionModel().getSelectedItem() == null) {
 				editModeEnabled = false;
-				editButton.setDisable(true);
+				editButton.setVisible(false);
 			}
 			
 			else {
@@ -404,13 +420,16 @@ public class SongListGeneratorController {
 				
 				saveButton.setDisable(false);
 				saveButton.setVisible(true);
-				editButton.setDisable(true);
+				//editButton.setDisable(true);
 				editButton.setVisible(false);
 				generateButton.setVisible(false);
 				//clearButton.setVisible(false);
 				cancelButton.setDisable(false);
 				cancelButton.setVisible(true);
 				mainMenuButton.setDisable(true);
+				mainMenuButton.setVisible(false);
+				setTieBreakerBtn.setVisible(false);
+				
 				
 				songNameField.requestFocus();
 				messageLabel.setText("*Now editing song " + songList.getSelectionModel().getSelectedItem().getNumber() + " *");
@@ -431,7 +450,7 @@ public class SongListGeneratorController {
 			cancelButton.setDisable(true);
 			addButton.setVisible(true);
 			generateButton.setVisible(true);
-			generateButton.setDisable(false);
+			//generateButton.setDisable(false);
 			
 			if(numSongsAdded < 10) {
 				if(editSaved) {
@@ -482,14 +501,7 @@ public class SongListGeneratorController {
 			//String editedSongName = songNameField.getText();
 			//String editedArtistName = artistNameField.getText();
 			int index = songList.getSelectionModel().getSelectedIndex();
-			
-			
-			//tempSongList.set(index, editSong(selectedSong, editedSongName, editedArtistName));
-			//Song editedSong = editSong(tempSong, editedSongName, editedArtistName);
-			//System.out.println("FIXME: editedSong.getName(): " + editedSong.getName()); //FIXME
-			//System.out.println("FIXME: editedSong.getArtist(): " + editedSong.getArtist()); //FIXME
-			//System.out.println("FIXME: editedSong: " + editedSong.toString()); //FIXME
-			
+
 			if(!songListHelper.duplicateChecker(tempSongList, tempSong)) {
 				tempSongList.set(index, tempSong);
 				songList.getSelectionModel().clearSelection();
@@ -502,9 +514,29 @@ public class SongListGeneratorController {
 				songNameField.requestFocus();
 				
 			}
-			//return;
 		}
 		
+		/**
+		 * 
+		 */
+		private void setTieBreakerBtnHandler() {
+			if(songList.getSelectionModel().getSelectedItem() == null) {
+				return;
+			}
+			
+			else {
+				Song selectedSong = songList.getSelectionModel().getSelectedItem();
+				TieBreakerMode.setTieBreakerSong(selectedSong);
+				//selectedSong.setAsTieBreaker(true);
+				
+				messageLabel.setText("Song " + TieBreakerMode.getTieBreakerSong().getNumber() + " set as tiebreaker song!");
+				//System.out.println("FIXME: getIsTieBreaker(): " + selectedSong.getIsTieBreaker()); //FIXME 
+			}
+		}
+		
+		/**
+		 * Clears all TextFields and sets all buttons back to their default settings.
+		 */
 		private void clear() {
 			tempSongList.clear();
 			titleTextField.clear();
@@ -520,6 +552,10 @@ public class SongListGeneratorController {
 			messageLabel.setText("All Data cleared!");
 		}
 		
+		/**
+		 * 
+		 * @param tempList
+		 */
 		private void saveSongList(ObservableList<Song> tempList) {
 			ArrayList<Song> tempSongListCopy = new ArrayList<>(tempList);
 			
