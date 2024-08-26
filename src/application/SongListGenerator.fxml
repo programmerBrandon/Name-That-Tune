@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -15,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="programBody" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SongInfoSetupController">
+<AnchorPane fx:id="programBody" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SongListGeneratorController">
    <children>
       <BorderPane fx:id="header" prefHeight="38.0" prefWidth="550.0" style="-fx-background-color: #63666A;">
          <left>
@@ -88,8 +87,8 @@
             </Label>
          </right></BorderPane>
       <ImageView fitHeight="26.0" fitWidth="53.0" layoutX="474.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
-      <ListView fx:id="songList" layoutX="100.0" layoutY="56.0" prefHeight="159.0" prefWidth="351.0" />
-      <HBox layoutX="10.0" layoutY="369.0" prefHeight="61.0" prefWidth="454.0" spacing="10.0">
+      <ListView fx:id="songList" layoutX="100.0" layoutY="88.0" prefHeight="140.0" prefWidth="351.0" />
+      <HBox layoutX="22.0" layoutY="393.0" prefHeight="53.0" prefWidth="454.0" spacing="10.0">
          <children>
             <Label prefHeight="17.0" prefWidth="92.0" text="Enter Song Info: " textFill="WHITE">
                <font>
@@ -99,7 +98,7 @@
                   <Insets top="20.0" />
                </HBox.margin>
             </Label>
-            <TextField fx:id="songNameField" prefHeight="23.0" prefWidth="153.0" promptText="Song Name">
+            <TextField fx:id="songNameField" prefHeight="24.0" prefWidth="155.0" promptText="Song Name">
                <HBox.margin>
                   <Insets top="18.0" />
                </HBox.margin>
@@ -115,43 +114,53 @@
                   <Insets top="20.0" />
                </HBox.margin>
             </Label>
-            <TextField fx:id="artistNameField" promptText="Artist Name (Optional)">
+            <TextField fx:id="artistNameField" prefHeight="24.0" prefWidth="151.0" promptText="Artist Name (Optional)">
                <HBox.margin>
                   <Insets top="18.0" />
                </HBox.margin>
             </TextField>
          </children>
       </HBox>
-      <Label fx:id="messageLabel" alignment="CENTER" layoutX="10.0" layoutY="436.0" prefHeight="35.0" prefWidth="531.0" text="messageLabel" textFill="WHITE" visible="false" wrapText="true">
+      <Label fx:id="messageLabel" alignment="CENTER" layoutX="11.0" layoutY="440.0" prefHeight="35.0" prefWidth="531.0" text="Label" textFill="WHITE" visible="false" wrapText="true">
          <font>
             <Font name="Arial" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="orLabel" layoutX="261.0" layoutY="430.0" prefWidth="31.0" text="OR" textAlignment="JUSTIFY" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Button fx:id="continueButton" disable="true" layoutX="243.0" layoutY="481.0" mnemonicParsing="false" text="Continue" visible="false">
+      <Button fx:id="generateButton" disable="true" layoutX="231.0" layoutY="481.0" mnemonicParsing="false" text="Generate File">
          <font>
             <Font name="Arial" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="editButton" disable="true" layoutX="320.0" layoutY="481.0" mnemonicParsing="false" text="Edit" visible="false">
+      <Button fx:id="editButton" layoutX="331.0" layoutY="481.0" mnemonicParsing="false" text="Edit" visible="false">
          <font>
             <Font name="Arial" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="saveButton" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="464.0" layoutY="387.0" mnemonicParsing="false" text="Save" textAlignment="CENTER" visible="false" />
-      <Button fx:id="addButton" disable="true" layoutX="466.0" layoutY="387.0" mnemonicParsing="false" text="Add" />
+      <Button fx:id="saveButton" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="480.0" layoutY="410.0" mnemonicParsing="false" text="Save" textAlignment="CENTER" visible="false" />
+      <Button fx:id="addButton" disable="true" layoutX="480.0" layoutY="410.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="41.0" text="Add" />
       <Button fx:id="cancelButton" disable="true" layoutX="249.0" layoutY="481.0" mnemonicParsing="false" text="Cancel" visible="false">
          <font>
             <Font name="Arial" size="12.0" />
          </font>
       </Button>
-      <TabPane layoutX="10.0" layoutY="222.0" prefHeight="159.0" prefWidth="531.0" tabClosingPolicy="UNAVAILABLE">
+      <Button fx:id="clearButton" layoutX="331.0" layoutY="481.0" mnemonicParsing="false" text="Clear" visible="false">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="mainMenuButton" disable="true" layoutX="143.0" layoutY="481.0" mnemonicParsing="false" text="Main Menu" visible="false">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="setTieBreakerBtn" disable="true" layoutX="105.0" layoutY="481.0" mnemonicParsing="false" text="Set As Tiebreaker" visible="false">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Button>
+      <TabPane layoutX="10.0" layoutY="234.0" prefHeight="159.0" prefWidth="531.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab fx:id="addSongsTab" text="Adding Songs">
+          <Tab text="Adding Songs">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="50.0" prefWidth="200.0">
                      <children>
@@ -164,7 +173,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab fx:id="editSongsTab" text="Editing Songs">
+          <Tab text="Editing Songs">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -177,25 +186,26 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab fx:id="importSongListTab" text="Importing A Song List">
+            <Tab text="About This Feature">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ScrollPane layoutX="-3.0" prefHeight="130.0" prefWidth="531.0">
-                           <content>
-                              <Label fx:id="importInstructions" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="212.0" prefWidth="516.0" text="importingInstructions" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                 <font>
-                                    <Font size="13.0" />
-                                 </font>
-                              </Label>
-                           </content>
-                        </ScrollPane>
+                        <Label fx:id="aboutFeature" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="128.0" prefWidth="531.0" text="aboutFeature" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
         </tabs>
       </TabPane>
-      <Button fx:id="importButton" layoutX="224.0" layoutY="480.0" mnemonicParsing="false" text="Import From File" />
+      <TextField id="title-textfield" fx:id="titleTextField" layoutX="187.0" layoutY="52.0" prefHeight="25.0" prefWidth="190.0" promptText="Enter A Song List Title (Optional)" />
+      <Label fx:id="titleLabel" alignment="BASELINE_LEFT" contentDisplay="CENTER" graphicTextGap="1.0" layoutX="142.0" layoutY="52.0" prefHeight="25.0" prefWidth="39.0" styleClass="gamesetup-title-label" text="Title:" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
       </children>
 </AnchorPane>

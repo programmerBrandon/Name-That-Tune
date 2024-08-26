@@ -19,6 +19,7 @@ public class MainScreenController {
 	GlobalValues globalValues = new GlobalValues(); //Object to GlobalValues class which contents the global values used in all scenes.
 	HeaderButtonsController headerButtonsController = new HeaderButtonsController();
 	Main mainClass = new Main();
+	GameData gameData = new GameData();
 	
 	// Begin 'Global' FXML objects. //
 	@FXML private AnchorPane programBody; //Main AnchorPane
@@ -52,6 +53,7 @@ public class MainScreenController {
 	//Main Scene 'Menu' buttons to navigate the program.
 	
 	@FXML private Button startButton; 
+	@FXML private Button createSongListBtn;
 	@FXML private Button gameInfoButton;
 	@FXML private Button programInstructionsButton;
 	@FXML private Button releaseInfoButton;
@@ -75,6 +77,7 @@ public class MainScreenController {
 			+ "program works, press the 'Start' button to begin.");
 		//homeButtonHeader.setOnAction(headerButtonsController);
 		infoButtonHeader.setOnAction(headerButtonsController);
+		gameData.clearStaticVariables();
 	
 		startButton.setOnAction(e -> {
 		try {
@@ -92,6 +95,23 @@ public class MainScreenController {
 			System.out.println("Failed to load GameSetup.fxml!");
 		}
 	});
+		
+		createSongListBtn.setOnAction(e -> {
+			try {
+				Parent parent = FXMLLoader.load(getClass().getResource("SongListGenerator.fxml"));
+				Scene scene = new Scene(parent, globalValues.getProgramWidth(), globalValues.getProgramHeight());
+				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+				stage.setScene(scene);
+				stage.show();
+			    System.out.println("SongListGenerator.fxml loaded successfully!");
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				messageLabel.setText("Error: Failed to load SongListGenerator.fxml. If this error persists, please notify the developer.");
+				messageLabel.setVisible(true);
+				System.out.println("Failed to load SongListGenerator.fxml!");
+			}
+		});
 		
 	gameInfoButton.setOnAction(e -> {
 		try {

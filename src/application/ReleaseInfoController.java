@@ -69,12 +69,11 @@ public class ReleaseInfoController {
 		//bugReportLink = new Hyperlink("https://github.com/programmerBrandon/Name-That-Tune/issues");
 	//currentRelease.setText(globalValues.versionNumberText + " [UNSTABLE]");
 		currentRelease.setText(globalValues.getVersionNumber() + " - [UNSTABLE]");
-		releaseDate.setText("Release Date: 1/29/2024");
-		improvementsList.setText("~NEW FEATURE: Edit mode added that allows the user to edit songs and players on setup screens. \n\n"
-				+ "~NEW FEATURE: Added a scoring history on the scoring screen to allow user to keep track of all points added. \n\n"
-				+ "~NEW FEATURE: Added an undo feature that allows users to undo any scoring action.\n\n"
-				+ "~Minor Improvements: Added tabs on the player, song and scoring setup screens to allow for better navigation of instructions. \n\n"
-				+ "~Simplified the instructions for player, song and scoring setup screens.");
+		releaseDate.setText("Release Date: 8/25/24");
+		improvementsList.setText("~NEW FEATURE: Song List Generator - Allows user to generate and save a song list to a text file for later use. \n\n"
+				+ "~NEW FEATURE: Song List Importing - Allows the user to import a previously saved song list from a text file during game setup. \n\n"
+				+ "~Minor Improvement: When a user saves game results, the scoring history for that game will now be saved to the text file as well. \n\n"
+				+ "~Various bug fixes.");
 		/*issuesList.setText("-This is still an early stage prototype, as such many features still don't work.\n"
 				+ "-'Tiebreaker Mode' & 'Save Results' features are still in development and do not work. 'Tiebreaker Mode' is expected "
 				+ "to be ready in Alpha 2.0. \n"
@@ -90,7 +89,7 @@ public class ReleaseInfoController {
 		try {
 			desktop = Desktop.getDesktop();
 		} catch(Exception e) {
-			System.out.println("FIXME: Desktop class is not supported!");
+			System.out.println("Error: Desktop class is not supported!");
 			e.printStackTrace();
 		}
 		
@@ -123,7 +122,7 @@ public class ReleaseInfoController {
 					//desktop.open(file);
 					messageLabel.setText("Release Notes Opened Successfully!");
 					messageLabel.setVisible(true);
-					System.out.println("FIXME: 'Release Notes.txt' opened!");
+					//System.out.println("FIXME: 'Release Notes.txt' opened!");
 				} catch (Exception e1) {
 					messageLabel.setText("Error: Could not open 'Release Notes.txt'!");
 					messageLabel.setVisible(true);
@@ -144,7 +143,7 @@ public class ReleaseInfoController {
 					desktop.browse(new URI("https://github.com/programmerBrandon/Name-That-Tune/issues"));
 					messageLabel.setText("Bug Report link opened successfully in web browser!");
 					messageLabel.setVisible(true);
-					System.out.println("FIXME: 'https://github.com/programmerBrandon/Name-That-Tune/issues' opened in the default web browser!");
+					//System.out.println("FIXME: 'https://github.com/programmerBrandon/Name-That-Tune/issues' opened in the default web browser!");
 				} catch (Exception e1) {
 					messageLabel.setText("Error: Could not open 'https://github.com/programmerBrandon/Name-That-Tune/issues");
 					messageLabel.setVisible(true);
@@ -165,7 +164,7 @@ public class ReleaseInfoController {
 					desktop.browse(new URI("https://github.com/programmerBrandon/Name-That-Tune"));
 					messageLabel.setText("Githup Repo link opened successfully in web browser!");
 					messageLabel.setVisible(true);
-					System.out.println("FIXME: 'https://github.com/programmerBrandon/Name-That-Tune' opened in the default web browser!");
+					//System.out.println("FIXME: 'https://github.com/programmerBrandon/Name-That-Tune' opened in the default web browser!");
 				} catch (Exception e1) {
 					messageLabel.setText("Error: Could not open 'https://github.com/programmerBrandon/Name-That-Tune' ");
 					messageLabel.setVisible(true);

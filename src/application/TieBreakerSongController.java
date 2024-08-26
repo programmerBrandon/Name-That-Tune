@@ -142,7 +142,7 @@ public class TieBreakerSongController {
 		song.setNumber(gameData.getNumOfSongs() + 1);
 		song.setName(songField.getText());
 		song.setArtist(artistField.getText());
-		System.out.println("FiXME: song: " + song.toString());
+		//System.out.println("FiXME: song: " + song.toString());
 		ArrayList<Song>  tempList =  new ArrayList<Song>(gameData.getSongList());
 		ObservableList<Song> tempSongList = FXCollections.observableArrayList(tempList);
 		
@@ -164,10 +164,10 @@ public class TieBreakerSongController {
 		else {
 			tempSongList.add(song);
 			TieBreakerMode.setTieBreakerSong(song);
-			System.out.println("FIXME: getTieBreakerSong: " + TieBreakerMode.getTieBreakerSong());
+			//System.out.println("FIXME: getTieBreakerSong: " + TieBreakerMode.getTieBreakerSong());
 			ArrayList<Song> tempSongListCopy = new ArrayList<>(tempSongList);
 			gameData.setSongList(tempSongListCopy); //Add song to permanent song list
-			System.out.println("FIXME: Song List: " + gameData.getSongList());
+			//System.out.println("FIXME: Song List: " + gameData.getSongList());
 			addButton.setDisable(true);
 			songField.setDisable(true);
 			artistField.setDisable(true);

@@ -1,13 +1,9 @@
 package application;
 
-import java.io.File;
-//import java.awt.Window;
-import java.io.IOException;
+
+import java.security.AlgorithmParameterGenerator;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,9 +15,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.Window;
+import javafx.stage.Window; 
 
 public class ResultsController {
 		GlobalValues globalValues = new GlobalValues(); //Object to GlobalValues class which contents the global values used in all scenes.
@@ -30,7 +25,7 @@ public class ResultsController {
 		TieBreakerMode tieBreakerMode = new TieBreakerMode();
 		Date date = new Date();
 		//private ObservableList<String> playerList = FXCollections.observableArrayList();
-		ArrayList<Player> playerList = gameData.getPlayerList();
+		ArrayList<Player> playerList = GameData.getPlayerList();
 		
 		
 		// Begin 'Global' FXML objects. //
@@ -79,28 +74,43 @@ public class ResultsController {
 			initializeTitle();
 			
 			saveResultsButton.setOnAction(e -> {
-				FileChooser fileChooser = new FileChooser();
+				Save save = new Save();
+				Window window = saveResultsButton.getScene().getWindow();
+				save.openSaveDialog(window);
+				/*FileChooser fileChooser = new FileChooser();
+				fileChooser.setInitialFileName("Name That Tune - " + date.getDateUSFormat() + ".txt");
 				FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Text Document (*.txt)", "*.txt");
 				fileChooser.getExtensionFilters().add(filter);
 				//fileChooser.getExtensionFilters(new FileNameExtensionFilter("TXT files (*.txt)", "*.txt"));
 				try {
-					javafx.stage.Window window = saveResultsButton.getScene().getWindow();
+					Window window = saveResultsButton.getScene().getWindow();
 					File file = fileChooser.showSaveDialog(window);
-					Save save = new Save();
-					save.createFile(file);
-					//System.out.println(fileChooser.showSaveDialog(window));
-					//fileChooser.showSaveDialog(window);
-					/*Parent parent = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
-					Scene scene = new Scene(parent, globalValues.getProgramWidth(), globalValues.getProgramHeight());
-					scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-					Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-					stage.setScene(scene);
-					stage.show();*/
-					//System.out.println("MainScene.fxml loaded successfully!");
+					System.out.println("FIXME: file: " + file);
+					
+					//String fileName = file.toString();
+					
+					if(file == null) {
+						System.out.println("Could not save game because file is null!");
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setContentText("Error: Could not save results because no valid file was selected or the dialog box was closed without pressing save.");
+						alert.show();
+					}
+					
+					if(!file.toString().endsWith(".txt")) {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setContentText("Error: Could not save results because file extension is invalid. Please make sure to only save as .txt");
+						alert.show();
+					}
+					
+					else {
+						Save save = new Save();
+						save.createFile(file);
+					}
+										
 				} catch (Exception e1) {
 					e1.printStackTrace();
-					System.out.println("Failed to load MainScene.fxml!");
-				}
+					//System.out.println("Failed to load MainScene.fxml!");
+				}*/
 			});
 			
 			returnHomeButton.setOnAction(e -> {
@@ -122,14 +132,29 @@ public class ResultsController {
 			resultsGenerator();
 		}
 		
+		/**
+		 * Sets the gameTitle label to either "Name That Tune - TITLE" if user specified a custom title,
+		 * or "Name That Tune - DATE" if title is blank. Date will be in USA format.
+		 */
 		private void initializeTitle() {
-			if(GameData.getGameTitle().equals("")) {
+			if(GameData.getTitle().isEmpty()) {
+				gameTitle.setText(GameData.getTitle().toAltString());
+			} 
+			
+			else {
+				gameTitle.setText(GameData.getTitle().toString());
+			}
+			/*
+			 * DEPRECIATED AS OF VERSION 0.4.0-ALPHA, REMOVE AFTER 1 VERSION IF NO BUGS WITH NEW CODE.
+			if(GameData.isTitleEmpty()) {
+				
 				gameTitle.setText("Name That Tune - " + date.getDateUSFormat());
 			}
 			
 			else {
 				gameTitle.setText("Name That Tune - " + GameData.getGameTitle());
 			}
+			*/
 		}
 		
 		
@@ -160,7 +185,7 @@ public class ResultsController {
 		 * Iterates through the sortedPlayerList and adds each element to the ListView.
 		 */
 		private void initializeResultsList() {
-			ArrayList<String> sortedPlayerList = gameData.getSortedPlayerList();
+			ArrayList<String> sortedPlayerList = GameData.getSortedPlayerList();
 			
 			for(int i = 0; i < sortedPlayerList.size(); i++) {
 				resultsList.getItems().add(sortedPlayerList.get(i));
@@ -198,12 +223,17 @@ public class ResultsController {
 				
 			}
 			
-			gameData.setSortedPlayerList(tempSortedPlayerList);
-			for(int i = 0; i < tempSortedPlayerList.size(); i++) {
-				System.out.println("FIXME: tempSortedPlayerList(" + i + "): " + tempSortedPlayerList.get(i)); //FIXME
-			}
+			GameData.setSortedPlayerList(tempSortedPlayerList);
 			
 			initializeResultsList();
+			
+			//Debugging statements
+			/*
+			for(int i = 0; i < tempSortedPlayerList.size(); i++) {
+			 
+				System.out.println("FIXME: tempSortedPlayerList(" + i + "): " + tempSortedPlayerList.get(i)); //FIXME
+			}
+			*/
 		}
 		
 		/**
@@ -216,7 +246,7 @@ public class ResultsController {
 		 */
 		private ArrayList<String> tieBreakerOffGenerator(int position) {
 			ArrayList<String> tempSortedPlayerList = new ArrayList<String>();
-			System.out.println("FIXME: checkForTies(): " + tieBreakerMode.checkForTies(playerList)); //FIXME
+			//System.out.println("FIXME: checkForTies(): " + tieBreakerMode.checkForTies(playerList)); //FIXME
 			
 			//If no tie was detected and tiebreaker mode was not used (a clean win), add (Winner) next to the winning player.
 			if(!tieBreakerMode.checkForTies(playerList)) {
@@ -236,7 +266,7 @@ public class ResultsController {
 
 					tempSortedPlayerList.add(position + ". " + playerList.get(i).toStringAltFormat());
 				}
-				System.out.println("FIXME: tempSortedPlayerList: " + tempSortedPlayerList); //FIXME
+				//System.out.println("FIXME: tempSortedPlayerList: " + tempSortedPlayerList); //FIXME
 				
 			} 
 			

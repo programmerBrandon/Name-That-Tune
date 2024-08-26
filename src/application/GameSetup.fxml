@@ -92,11 +92,6 @@
             <Font name="Arial Bold" size="40.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutY="191.0" prefHeight="71.0" prefWidth="550.0" text="Coming Soon!" textAlignment="JUSTIFY" textFill="RED" visible="false">
-         <font>
-            <Font name="Arial Bold" size="62.0" />
-         </font>
-      </Label>
       <VBox alignment="CENTER" layoutX="12.0" layoutY="197.0" prefHeight="257.0" prefWidth="527.0" spacing="27.0">
          <children>
             <HBox alignment="CENTER" fillHeight="false" layoutX="10.0" layoutY="60.0" prefHeight="35.0" prefWidth="465.0" spacing="5.0">
@@ -130,7 +125,7 @@
                         <Font name="Arial" size="15.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="textBoxNumOfPlayers" prefHeight="25.0" prefWidth="35.0">
+                  <TextField fx:id="textBoxNumOfPlayers" prefColumnCount="2" prefHeight="23.0" prefWidth="32.0">
                      <font>
                         <Font name="Arial" size="12.0" />
                      </font>
@@ -160,7 +155,7 @@
                   </VBox>
                </children>
             </HBox>
-            <Label fx:id="warningLabel" alignment="CENTER" prefHeight="25.0" prefWidth="527.0" text="Warning Label" textFill="WHITE" visible="false">
+            <Label fx:id="messageLabel" alignment="CENTER" prefHeight="25.0" prefWidth="527.0" text="Message Label" textFill="WHITE" visible="false">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>

@@ -3,6 +3,8 @@ package application;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.stage.Window;
@@ -25,9 +27,20 @@ public class Save {
 	}
 	
 	/**
+	 * A method to initialize the process of saving to a file. This method will call the other
+	 * methods in this class depending on the mode passed to it.
+	 * @param window The current window.
+	 * @param mode The save mode to use. 0 for normal game save, 1 for song list save.
+	 */
+	public void initializeSave(Window window, int mode) {
+		
+	}
+	
+	/**
 	 * A method that will open a FileChooser save dialog box so the user can select a directory
 	 * to save the file, and if desired give it a custom file name.
-	 * @param window - The current window	 
+	 * @param window - The current window.
+	 * @param mode - The save mode to use. 0 for normal save, 1 for song list only save.	 
 	 */
 	public void openSaveDialog(Window window) {
 		FileChooser fileChooser = new FileChooser();
@@ -39,7 +52,7 @@ public class Save {
 		checkForErrors(file);
 		
 		/*
-		 //Used for debugging and testing purposes.s
+		 //Used for debugging and testing purposes.
 		if(file != null) {
 			//System.out.println("FIXME: file: " + file.getName());
 			//System.out.println("FIXME: file path: " + file.getPath());
@@ -53,7 +66,7 @@ public class Save {
 	 * @throws IOException - If an I/O error occurred
 	 */
 	public void createFile(File file) throws IOException {
-		//System.out.println("createFile() called!");
+		System.out.println("createFile() called!"); //FIXME
 		/*if(file.createNewFile()) {
 			System.out.println("File created successfully!");
 			writeResultsToFile(file);
@@ -66,7 +79,12 @@ public class Save {
 		}*/
 		
 		file.createNewFile();
-		writeResultsToFile(file);
+		if(GameData.getTitle().getPrefix().equalsIgnoreCase("Song List")) {
+			 writeSongListToFile(file);
+		}
+		else {
+			writeResultsToFile(file);
+		}
 	}
 	
 	/**
@@ -76,9 +94,13 @@ public class Save {
 	private void writeResultsToFile(File file) {
 		FileWriter writer;
 		try {
+			//Attempts to create a new FileWriter object in append mode.
 			writer = new FileWriter(file, true);
 			
-			if(!GameData.getGameTitle().equals("")) {
+			writer.write("Title: " + GameData.getTitle().toString() + "\n");
+			/*
+			  if(!GameData.isTitleEmpty()) {
+			 
 				
 				writer.write("Title: Name That Tune - " + GameData.getGameTitle() + "\n");
 			}
@@ -86,8 +108,9 @@ public class Save {
 			else {
 				writer.write("Title: Name That Tune - " + date.getDateUSFormat() + "\n");
 			}
+			*/
 			
-			writer.write("\nSong List: \n");
+			/*writer.write("\nSong List: \n");
 			
 			for(int i = 0; i < gameData.getSongList().size(); i++) {
 				if(gameData.getSongList().get(i).equals(TieBreakerMode.getTieBreakerSong())) {
@@ -96,7 +119,9 @@ public class Save {
 				else {
 					writer.write(gameData.getSongList().get(i).toString() + "\n");
 				}
-			}
+			}*/
+			
+			writeSongList(writer);
 			
 			writer.write("\n\nResults:\n");
 			
@@ -104,15 +129,14 @@ public class Save {
 				writer.write(GameData.getSortedPlayerList().get(i) + "\n");
 			}
 			
+			writeScoringHistory(writer);
+			
 			writer.write("\n\nWarning: Modifying this file may result in not being able to load results from this file in the future.\n");
 			writer.write("\nFile Generated: " + date.getDateUSFormat() + "\n");
 			
 			writer.close();
 			
 			alert("Game results have been successfully saved to file!", AlertType.INFORMATION);
-			//alert.setAlertType(AlertType.INFORMATION);
-			//alert.setContentText("Game results have been successfully saved to file!");
-			//alert.show();
 			System.out.println("Game results have been successfully saved to file!");
 			
 		} catch (IOException e) {
@@ -120,8 +144,92 @@ public class Save {
 			alert("An error occurred while writing to the file. Please try again later!", AlertType.ERROR);
 		}
 		
-		//System.out.println("writeResultsToFile() called!");
+		System.out.println("writeResultsToFile() called!");
 		
+	}
+	
+	
+	/**
+	 * Method that writes song list data to a file.
+	 * @param file The file to write the data to.
+	 */
+	public void writeSongListToFile(File file) {
+		//System.out.println("FIXME: WriteSongListToFile() called!");
+		FileWriter writer;
+		try {
+			//Attempts to create a new FileWriter object in append mode.
+			writer = new FileWriter(file, true);
+			writer.write("Title: " + GameData.getTitle().toString() + "\n");
+			
+			writeSongList(writer);
+			writer.write("\n\nWarning: Modifying this file may result in not being able to load song list from this file in the future.\n");
+			writer.write("\nFile Generated: " + date.getDateUSFormat() + "\n");
+			
+			writer.close();
+			alert("Game results have been successfully saved to file!", AlertType.INFORMATION);
+		} catch (IOException e) {
+			e.printStackTrace();
+			alert("An error occurred while writing to the file. Please try again later!", AlertType.ERROR);
+		}
+	}
+	
+	/**
+	 * Helper method that iterates through the song list and writes it to a file.
+	 * @param writer
+	 */
+	private void writeSongList(Writer writer) {
+		//System.out.println("FIXME: file: " + file.getAbsolutePath());
+		try {
+			//Attempts to create a new FileWriter object in append mode.
+			//Writer writer = new FileWriter(file, true);
+			writer.write("\nSong List: \n");
+			
+			for(int i = 0; i < gameData.getSongList().size(); i++) {
+				if(gameData.getSongList().get(i).equals(TieBreakerMode.getTieBreakerSong())) {
+					writer.write(gameData.getSongList().get(i).toString() + " (Tiebreaker)\n");
+					//System.out.println("FIXME: Tiebreaker Song: " + gameData.getSongList().get(i).toString() + " (Tiebreaker)\n"); //FIXME
+					
+				}
+				else {
+					writer.write(gameData.getSongList().get(i).toString() + "\n");
+					//System.out.println("FIXME: Song" + i + ": " + gameData.getSongList().get(i).toString() + "\n"); //FIXME
+				}
+			}
+			
+			//writer.close();
+		} catch (IOException e) {
+			System.out.println("ERROR: Unable to write song list to file!");
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * Writes the scoring action history to the text file when game results are saved.
+	 * @param writer
+	 */
+	private void writeScoringHistory(Writer writer) {
+		ArrayList<String> tempList = gameData.getScoringHistory(); 
+		
+		try {
+			writer.write("\nScoring History:\n");
+			
+			for(int i=0; i < tempList.size(); i++) {
+				if(i == tempList.size() - 1) {
+					writer.write(tempList.get(i));
+				}
+				
+				else {
+					writer.write(tempList.get(i) + "\n");
+				}
+			}
+		} catch (Exception e) {
+			
+			System.out.println("ERROR: Unable to write scoring history to file!");
+			e.printStackTrace();
+		}
+		
+		//TODO
 	}
 	
 	/**
@@ -138,16 +246,33 @@ public class Save {
 	/**
 	 * Creates a default file name containing the game title (if specified) 
 	 * or the current date in US format if no game title was specified by the user.
+	 * @param mode Used to change the beginning of the file name based on the part of the program calling it. 0 for normal, 1 for song list.
 	 * @return A String containing the default file name.
 	 */
 	public String defaultFileName() {
-		if(GameData.getGameTitle().equals("")) {
-			return "Name That Tune - " + date.getDateUSFormatDashes() + ".txt";
+		/*String titlePreFix = "";
+		
+		//If method is called from results page of a game.
+		if(mode == 0) {
+			titlePreFix = "Name That Tune";
+		}
+		
+		//If method is called from the Song List Generator.
+		if(mode == 1) {
+			titlePreFix = "Song List";
+		}
+		
+		if(GameData.isTitleEmpty()) {
+			//return "Name That Tune - " + date.getDateUSFormatDashes() + ".txt";
+			return titlePreFix + " - " + date.getDateUSFormatDashes() + ".txt";
 		}
 		
 		else {
-			return "Name That Tune - " + GameData.getGameTitle() + ".txt";
-		}
+			//return "Name That Tune - " + GameData.getGameTitle() + ".txt";
+			return titlePreFix + " - " + GameData.getGameTitle() + ".txt";
+		}*/
+		
+		return GameData.getTitle().toString() + ".txt";
 	}
 	
 	/**
@@ -159,6 +284,7 @@ public class Save {
 	public void checkForErrors(File file) {
 		if(file == null) {
 			System.out.println("Could not save game because file is null!");
+			alert("Error: Save has been cancelled! If you didn't cancel the save, please try again!", AlertType.ERROR);
 			//alert("Error: Could not save results because no valid file was selected or the dialog box was closed without pressing save.", AlertType.ERROR);
 			//Alert alert = new Alert(AlertType.ERROR);
 			//alert.setContentText("Error: Could not save results because no valid file was selected or the dialog box was closed without pressing save.");
@@ -191,7 +317,7 @@ public class Save {
 			//System.out.println("FIXME: File Name Length (including path): " + file.toString().length());
 			try {
 			createFile(file);
-			//System.out.println("FIXME: No Errors Detected With file."); //FIXME
+			System.out.println("FIXME: No Errors Detected With file.");
 			} catch(Exception e) {
 				e.printStackTrace();
 				System.out.println("File could not be created due to an error.");

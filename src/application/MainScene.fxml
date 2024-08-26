@@ -84,9 +84,9 @@
                </font>
             </Label>
          </right></BorderPane>
-      <VBox alignment="CENTER" layoutX="2.0" layoutY="167.0" prefHeight="305.0" prefWidth="550.0" spacing="10.0">
+      <VBox alignment="CENTER" layoutX="1.0" layoutY="153.0" prefHeight="320.0" prefWidth="550.0" spacing="8.0">
          <children>
-            <Button fx:id="startButton" accessibleText="Start" contentDisplay="TEXT_ONLY" defaultButton="true" graphicTextGap="1.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="88.0" prefWidth="346.0" styleClass="start-button" text="Start" textFill="WHITE">
+            <Button fx:id="startButton" accessibleText="Start" contentDisplay="TEXT_ONLY" defaultButton="true" graphicTextGap="1.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="346.0" styleClass="start-button" text="Start" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -97,7 +97,15 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="gameInfoButton" accessibleText="Game Information" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="346.0" styleClass="blue-menu-buttons" text="Game Information" textFill="WHITE">
+            <Button fx:id="createSongListBtn" accessibleText="Game Information" graphicTextGap="0.0" layoutX="112.0" layoutY="100.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="346.0" styleClass="blue-menu-buttons" text="Create Song List" textFill="WHITE">
+               <font>
+                  <Font name="Arial" size="24.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="gameInfoButton" accessibleText="Game Information" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="346.0" styleClass="blue-menu-buttons" text="Game Information" textFill="WHITE">
                <font>
                   <Font name="Arial" size="24.0" />
                </font>
@@ -149,7 +157,7 @@
         </items>
       </SplitMenuButton>
       <ImageView fitHeight="26.0" fitWidth="53.0" layoutX="474.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
-      <Label id="message-label" fx:id="messageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="487.0" prefHeight="17.0" prefWidth="541.0" text="Message Here" textAlignment="CENTER" textFill="WHITE" visible="false">
+      <Label id="message-label" fx:id="messageLabel1" alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" layoutY="480.0" prefHeight="35.0" prefWidth="541.0" text="Message Here" textFill="WHITE" visible="false">
          <font>
             <Font size="14.0" />
          </font>

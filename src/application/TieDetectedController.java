@@ -1,8 +1,6 @@
 package application;
 
 import java.util.ArrayList;
-import java.util.Collections;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,7 +17,6 @@ import javafx.stage.Stage;
 public class TieDetectedController {
 	GlobalValues globalValues = new GlobalValues(); //Object to GlobalValues class which contents the global values used in all scenes.
 	HeaderButtonsController headerButtonsController = new HeaderButtonsController();
-	Main mainClass = new Main();
 	GameData gameData = new GameData();
 	TieBreakerMode tieBreakerMode = new TieBreakerMode();
 
@@ -74,10 +71,21 @@ public class TieDetectedController {
 		questionLabel.setText("Do you want to break the tie?");
 		
 		setTiedPlayersList();
+		//System.out.println("Tiebreaker song: " + TieBreakerMode.getTieBreakerSong());
+		//System.out.println("FIXME: getTieBreakerSong().isBlank(): " + TieBreakerMode.getTieBreakerSong().isBlank());
 		
 		//When 'Yes' Button is clicked or pressed Tie Breaker Song Scene is loaded.
 		yesButton.setOnAction(e -> {
-			loadTieBreakerSongScene(e);
+			if(!TieBreakerMode.getTieBreakerSong().isBlank()) {
+				ArrayList<Song> songList = gameData.getSongList();
+				songList.add(TieBreakerMode.getTieBreakerSong());
+				gameData.setSongList(songList);
+				loadTieBreakerWinnerScene(e);
+			}
+			
+			else {
+				loadTieBreakerSongScene(e);
+			}
 		});
 		
 		//When 'No' Button is clicked or pressed Results Scene is loaded.
@@ -92,7 +100,7 @@ public class TieDetectedController {
 	 * This method also sets the tiedPlayers ArrayList in the TieBreakerMode class
 	 */
 	private void setTiedPlayersList() {
-		ArrayList<Player> playerList = gameData.getPlayerList();
+		ArrayList<Player> playerList = GameData.getPlayerList();
 		ArrayList<Player> tiedPlayerList = new ArrayList<>();
 		
 		tiedPlayerList.add(playerList.get(0));
@@ -109,17 +117,21 @@ public class TieDetectedController {
 			}
 		}
 		
-		tieBreakerMode.setTiedPlayerList(tiedPlayerList);
-		System.out.println("FIXME: tiedPlayerList: " + tieBreakerMode.getTiedPlayerList());
+		TieBreakerMode.setTiedPlayerList(tiedPlayerList);
+		
+		//Debugging statements
+		/*
+		System.out.println("FIXME: tiedPlayerList: " + TieBreakerMode.getTiedPlayerList());
 		
 		for(Player player : tiedPlayerList) {
 			System.out.println("FIXME: " + player);
 		}
+		*/
 		
 	}
 	
 	/**
-	 * When 'Yes' button is clicked, Tie Breaker Song Scene is loaded.
+	 * When 'Yes' button is clicked, Tie Breaker Song Scene is loaded (unless a tie breaker song was imported from a song list).
 	 */
 	private void loadTieBreakerSongScene(javafx.event.ActionEvent e) {
 		try {
@@ -134,6 +146,25 @@ public class TieDetectedController {
 			e1.printStackTrace();
 			messageLabel.setText("Error: Failed to load TieBreakerSongScreen.fxml. If this error persists, please notify the developer.");
 			System.out.println("Failed to load TieBreakerSongScreen.fxml!");
+		}
+	}
+	
+	/**
+	 * When 'Yes' button is clicked and a Tiebreaker song has been imported from a song list, we skip straight to the Tiebreaker winner scene.
+	 */
+	private void loadTieBreakerWinnerScene(javafx.event.ActionEvent e) {
+		try {
+			Parent parent = FXMLLoader.load(getClass().getResource("TieBreakerWinnerSelection.fxml"));
+			Scene scene = new Scene(parent, globalValues.getProgramWidth(), globalValues.getProgramHeight());
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+			stage.setScene(scene);
+			stage.show();
+			System.out.println("TieBreakerWinnerSelection.fxml loaded successfully!");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			messageLabel.setText("Error: Failed to load TieBreakerWinnerSelection.fxml. If this error persists, please notify the developer.");
+			System.out.println("Failed to load TieBreakerWinnerSelection.fxml!");
 		}
 	}
 	

@@ -34,6 +34,7 @@ public class SetPlayerScoresController {
 	ArrayList<Song> songList = gameData.getSongList();
 	ArrayList<Player> playerList = GameData.getPlayerList();
 	private ObservableList<String> observableHistoryList = FXCollections.observableArrayList();
+	//ArrayList<String> historyList = gameData.getScoringHistory();
 	//private ObservableValue<? extends ObservableList<String>> historyList = new ArrayList<String>();
 	String playerSelected = "";
 	String playerSelectedParsed = "";
@@ -144,12 +145,12 @@ public class SetPlayerScoresController {
 		
 		//Song only button event handler.
 		songOnlyButton.setOnAction((event) -> {
-			onePointButtonHandler();
+			onePointButtonHandler(0);
 		});
 		
 		//Artist only button event handler.
 		artistOnlyButton.setOnAction((event) -> {
-			onePointButtonHandler();
+			onePointButtonHandler(1);
 		});
 		
 		//Both button even handler.
@@ -191,6 +192,8 @@ public class SetPlayerScoresController {
 		//When finish button is pressed, check if tiebreaker mode is enabled and if so check for ties and send user to
 		//the appropriate scene based on the checks.
 		finishButton.setOnAction(e -> {
+			saveScoringHistory();
+			
 			if(gameData.getTieBreakerMode() == 1 && playerList.size() > 1) {
 				Collections.sort(playerList, Collections.reverseOrder());
 				TieBreakerMode tieBreakerMode = new TieBreakerMode();
@@ -278,10 +281,12 @@ public class SetPlayerScoresController {
 		}
 	}
 	
-	//Called when songOnly or artistOnly button is pressed or clicked, this method will add 1 to the selected player's total points
-	//and updates the points in the Hashmap playerList using the setPlayersList method in the GameData class. It will then update the 
-	//observable list in order to update the current points in the ListView 'playerList'.
-	private void onePointButtonHandler() {
+	/**
+	 * Handler for 'Song Only' and 'Artist Only' buttons. The method adds a point to the selected player's total and
+	 * also adds an entry to the scoring history log.
+	 * @param caller Tells the method which button called it. 0 for 'Song Only' OR 1 for 'Artist Only'.
+	 */
+	private void onePointButtonHandler(int caller) {
 		playerList.get(playerIndex).setPoints(playerList.get(playerIndex).getPoints() + 1);
 		//System.out.println("FIXME: " + playerList.get(playerIndex).toString()); //FIXME
 		
@@ -297,7 +302,15 @@ public class SetPlayerScoresController {
 		bothButton.setDisable(true);
 		finishButton.setDisable(false);
 		messageLabel.setText("1 point has been added to " + playerSelectedParsed + "'s total points!");
-		observableHistoryList.add("1 point added to player " + playerSelectedParsed + "'s points for song " + songList.get(songIndex).toStringNoNumber());
+		//If method was called by 'Song Only' button, notate 'song only' at the end of the scoring history log entry.
+		if(caller == 0) {
+			observableHistoryList.add("1 point added to " + playerSelectedParsed + "'s points for song " + songList.get(songIndex).toStringNoNumber() + " [Song Only]");
+		}
+		//Else method was called by 'Artist Only' button, notate 'artist song only' at the end of the scoring history log entry.
+		else {
+			observableHistoryList.add("1 point added to " + playerSelectedParsed + "'s points for song " + songList.get(songIndex).toStringNoNumber()  + " [Artist Only]");
+		}
+		//observableHistoryList.add("1 point added to " + playerSelectedParsed + "'s points for song " + songList.get(songIndex).toStringNoNumber());
 		messageLabel.setVisible(true);
 		messageLabel.requestFocus();
 		playerSelectedLabel.setText("Player Selected: N/A");
@@ -320,7 +333,7 @@ public class SetPlayerScoresController {
 		bothButton.setDisable(true);
 		finishButton.setDisable(false);
 		messageLabel.setText("2 points have been added to " + playerSelectedParsed + "'s total points!");
-		observableHistoryList.add("2 points added to player " + playerSelectedParsed + "'s points for song " + songList.get(songIndex).toStringNoNumber());
+		observableHistoryList.add("2 points added to " + playerSelectedParsed + "'s points for song " + songList.get(songIndex).toStringNoNumber());
 		messageLabel.setVisible(true);
 		messageLabel.requestFocus();
 		playerSelectedLabel.setText("Player Selected: N/A");
@@ -335,7 +348,7 @@ public class SetPlayerScoresController {
 		String selectedItem = historyListView.getSelectionModel().getSelectedItem();
 		int pointsToRemove = Integer.parseInt(selectedItem.substring(0, 1));
 		//System.out.println("FIXME: pointsToRemove: " + pointsToRemove); //FIXME
-		int playerNameBeginIndex = selectedItem.indexOf("to player ") + 10;
+		int playerNameBeginIndex = selectedItem.indexOf("added to ") + 9;
 		//int playerNameBeginIndex = selectedItem.indexOf("to ") + 3;
 		int playerNameEndIndex = selectedItem.indexOf("'s points");
 		String player = selectedItem.substring(playerNameBeginIndex, playerNameEndIndex);
@@ -363,11 +376,25 @@ public class SetPlayerScoresController {
 		else {
 			playerList.get(playerListIndex).setPoints(playerList.get(playerListIndex).getPoints() - pointsToRemove);
 			observablePlayerList.set(playerListIndex, playerList.get(playerListIndex).toString());
-			//playerListView.getItems().setAll(observablePlayerList);
 			observableHistoryList.remove(historyListView.getSelectionModel().getSelectedIndex());
 			return true;
 		}
 		
+	}
+	
+	/**
+	 * Converts scoring history list to an ArrayList of type String and saves it to GameData.
+	 */
+	private void saveScoringHistory() {
+		ArrayList<String> tempList = new ArrayList<String>();
+		
+		for(int i = 0; i < observableHistoryList.size(); i++) {
+			tempList.add(i, observableHistoryList.get(i));
+			//System.out.println("FIXME: tempList(" + i + "): " + observableHistoryList.get(i));
+		}
+		
+		GameData.setScoringHistory(tempList);
+		//System.out.println("FIXME: gameData.getScoringHistory():" + gameData.getScoringHistory());
 	}
 	
 	/**
